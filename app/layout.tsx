@@ -2,6 +2,17 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+import Footer from "@/components/sections/Footer";
+import GoTop from "@/components/buttons/GoTop";
+import Navbar from "@/components/sections/Navbar";
+
+import { Toaster } from "@/components/ui/sonner";
+
+import GtagScripts from "@/components/GoogleTagsSrcipt";
+import CookieBanner from "@/components/CookieBanner";
+import GoogleConsentUpdater from "@/components/GoogleConsentUpdater";
+import { ConsentProvider } from "@/hooks/useConsent";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,7 +38,16 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ConsentProvider>
+          <Navbar />
+          {children}
+          <CookieBanner />
+          <GoogleConsentUpdater />
+          <GtagScripts />
+          <Footer />
+          <Toaster />
+          <GoTop />
+        </ConsentProvider>
       </body>
     </html>
   );

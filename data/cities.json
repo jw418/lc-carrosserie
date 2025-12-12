@@ -1,0 +1,75 @@
+[
+  {
+    "id": "marseille",
+    "name": "Marseille",
+    "department": "Bouches-du-Rhône",
+    "postalCodes": [
+      "13001",
+      "13002",
+      "13003",
+      "13004",
+      "13005",
+      "13006",
+      "13007",
+      "13008",
+      "13009",
+      "13010",
+      "13011",
+      "13012",
+      "13013",
+      "13014"
+    ],
+    "coordinates": { "lat": 43.2965, "lng": 5.3698 },
+    "population": 861635,
+    "info": "Ville portuaire majeure du sud de la France, capitale régionale et centre économique et culturel de la Provence.",
+    "html": {
+      "h1": "Marseille",
+      "section1": {
+        "h2": "Présentation",
+        "text": "Marseille est une ville portuaire dynamique connue pour son Vieux-Port, sa diversité culturelle et son climat méditerranéen."
+      },
+      "section2": {
+        "h3": "Services disponibles",
+        "text": "",
+        "list": [
+          "Carrosserie et réparation",
+          "Peinture automobile",
+          "Diagnostics et mécanique"
+        ]
+      },
+      "section3": {
+        "h3": "Contact",
+        "text": "Contactez notre atelier pour un devis rapide et personnalisé."
+      }
+    }
+  },
+  {
+    "id": "aix-en-provence",
+    "name": "Aix-en-Provence",
+    "department": "Bouches-du-Rhône",
+    "postalCodes": ["13080", "13100"],
+    "coordinates": { "lat": 43.5297, "lng": 5.4474 },
+    "population": 145000,
+    "info": "Ville universitaire et historique au nord de Marseille, réputée pour son patrimoine architectural et sa qualité de vie.",
+    "html": {
+      "h1": "Aix-en-Provence",
+      "section1": {
+        "h2": "Présentation",
+        "text": "Aix-en-Provence est célèbre pour ses ruelles, ses fontaines et son marché provençal."
+      },
+      "section2": {
+        "h3": "Ateliers et prestations",
+        "text": "",
+        "list": [
+          "Réparation carrosserie",
+          "Retouches peinture",
+          "Entretien et révision"
+        ]
+      },
+      "section3": {
+        "h3": "Prise de rendez-vous",
+        "text": "Prise de rendez-vous en ligne et devis gratuits."
+      }
+    }
+  }
+]
