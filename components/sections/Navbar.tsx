@@ -1,227 +1,254 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, Phone, X } from "lucide-react";
+import { Menu, Phone, ArrowUpRight } from "lucide-react";
 
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import { siteConfig } from "@/data/site.config";
 
 const SERVICES_LINKS = [
-  { href: "/services/carrosserie-generale", label: "Carrosserie générale" },
-  { href: "/services", label: "Tous les services (redir.)" },
+  {
+    href: "/services/carrosserie-generale",
+    label: "Carrosserie Générale",
+    desc: "Réparation choc et peinture haute précision.",
+  },
+  {
+    href: "/assurance",
+    label: "Gestion Assurance",
+    desc: "Libre choix du réparateur et zéro avance.",
+  },
 ];
 
 const ZONES_LINKS = [
   { href: "/aix-en-provence", label: "Aix-en-Provence" },
   { href: "/marseille", label: "Marseille" },
+  { href: "/eguilles", label: "Éguilles (Atelier)" },
 ];
 
 const MAIN_LINKS = [
   { href: "/", label: "Accueil" },
-  { href: "/a-propos", label: "À propos" },
+  { href: "/a-propos", label: "L'Atelier" },
   { href: "/contact", label: "Contact" },
 ];
 
-const LEGAL_LINKS = [
-  { href: "/politique-confidentialite", label: "Politique de confidentialité" },
-  { href: "/mentions-legales", label: "Mentions légales" },
-];
-
-const formatPhoneLink = (phone: string) => phone.replace(/\s+/g, "");
-
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const phoneLink = `tel:${formatPhoneLink(siteConfig.phone)}`;
+  const phoneLink = `tel:${siteConfig.phone.replace(/\s+/g, "")}`;
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-gray-100 bg-white/90 backdrop-blur supports-[backdrop-filter]:backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/img/logo.png"
-            alt="LC Carrosserie"
-            width={44}
-            height={44}
-            className="h-11 w-auto"
-            priority
-          />
-          <span className="hidden text-lg font-semibold tracking-tight text-gray-900 sm:block">
-            LC Carrosserie
-          </span>
+    <header className="fixed top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 h-20">
+        {/* LOGO */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative h-10 w-10 overflow-hidden rounded-sm border border-zinc-200 bg-zinc-50 flex items-center justify-center group-hover:border-orange-600 transition-colors">
+            <Image
+              src="/img/logo.png"
+              alt="LC"
+              width={32}
+              height={32}
+              className="object-contain"
+              priority
+            />
+          </div>
+          <div className="flex flex-col leading-none">
+            <span className="font-heading text-lg font-black tracking-tighter text-zinc-950 uppercase">
+              LC Carrosserie
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-widest text-zinc-500">
+              Expertise Éguilles
+            </span>
+          </div>
         </Link>
 
-        {/* Desktop navigation */}
-        <div className="hidden items-center gap-4 lg:flex">
+        {/* DESKTOP NAVIGATION */}
+        <nav className="hidden lg:flex items-center gap-2">
           <NavigationMenu>
-            <NavigationMenuList className="gap-1">
+            <NavigationMenuList>
+              {/* LIENS SIMPLES CORRIGÉS */}
               {MAIN_LINKS.map((link) => (
                 <NavigationMenuItem key={link.href}>
                   <NavigationMenuLink
-                    href={link.href}
-                    className="px-4 py-2 text-sm font-medium text-gray-800 hover:text-gray-900"
+                    asChild
+                    className={cn(
+                      navigationMenuTriggerStyle(),
+                      "font-mono text-[11px] uppercase tracking-wider bg-transparent hover:bg-zinc-100 cursor-pointer"
+                    )}
                   >
-                    {link.label}
+                    <Link href={link.href}>{link.label}</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               ))}
 
+              {/* DROPDOWN SERVICES */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="px-4 py-2 text-sm font-medium text-gray-800">
-                  Services
+                <NavigationMenuTrigger className="font-mono text-[11px] uppercase tracking-wider bg-transparent">
+                  Prestations
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="min-w-[240px] rounded-xl border border-gray-100 bg-white p-3 shadow-lg">
-                  <div className="flex flex-col gap-2">
-                    {SERVICES_LINKS.map((item) => (
-                      <NavigationMenuLink
-                        key={item.href}
-                        href={item.href}
-                        className="rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] bg-white border border-zinc-200">
+                    {SERVICES_LINKS.map((service) => (
+                      <ListItem
+                        key={service.href}
+                        title={service.label}
+                        href={service.href}
                       >
-                        {item.label}
-                      </NavigationMenuLink>
+                        {service.desc}
+                      </ListItem>
                     ))}
-                  </div>
+                  </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
+              {/* DROPDOWN ZONES */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="px-4 py-2 text-sm font-medium text-gray-800">
+                <NavigationMenuTrigger className="font-mono text-[11px] uppercase tracking-wider bg-transparent">
                   Zones
                 </NavigationMenuTrigger>
-                <NavigationMenuContent className="min-w-[240px] rounded-xl border border-gray-100 bg-white p-3 shadow-lg">
-                  <div className="flex flex-col gap-2">
-                    {ZONES_LINKS.map((item) => (
-                      <NavigationMenuLink
-                        key={item.href}
-                        href={item.href}
-                        className="rounded-lg px-3 py-2 text-sm font-semibold text-gray-900 hover:bg-gray-50"
-                      >
-                        {item.label}
-                      </NavigationMenuLink>
+                <NavigationMenuContent>
+                  <ul className="grid w-[200px] gap-2 p-3 bg-white">
+                    {ZONES_LINKS.map((zone) => (
+                      <ListItem
+                        key={zone.href}
+                        title={zone.label}
+                        href={zone.href}
+                      />
                     ))}
-                  </div>
+                  </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
-            <NavigationMenuIndicator />
           </NavigationMenu>
 
-          <div className="flex items-center gap-3 pl-2">
-            {LEGAL_LINKS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-xs font-medium text-gray-500 transition hover:text-gray-700"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
+          <div className="h-6 w-px bg-zinc-200 mx-4" />
 
+          {/* CTA PHONE */}
           <a
             href={phoneLink}
-            className="inline-flex items-center rounded-full bg-black px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
+            className="group flex items-center gap-3 bg-zinc-950 px-5 py-2.5 text-white transition-all hover:bg-orange-600"
           >
-            <Phone className="mr-2 h-4 w-4" />
-            {siteConfig.phone}
+            <Phone className="h-3.5 w-3.5 text-orange-500 group-hover:text-white" />
+            <span className="font-mono text-[11px] font-bold uppercase tracking-widest">
+              {siteConfig.phone}
+            </span>
           </a>
-        </div>
+        </nav>
 
-        {/* Mobile toggle */}
-        <button
-          className="inline-flex items-center justify-center rounded-md p-2 text-gray-800 lg:hidden"
-          aria-label="Ouvrir le menu"
-          onClick={() => setIsMenuOpen((prev) => !prev)}
-        >
-          {isMenuOpen ? <X /> : <Menu />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {isMenuOpen && (
-        <div className="border-t border-gray-100 bg-white shadow-lg lg:hidden">
-          <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-5">
-            {MAIN_LINKS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-base font-semibold text-gray-900"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                Services
-              </p>
-              <div className="mt-2 flex flex-col gap-2">
-                {SERVICES_LINKS.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-sm font-medium text-gray-900"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
-                Zones desservies
-              </p>
-              <div className="mt-2 flex flex-col gap-2">
-                {ZONES_LINKS.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="text-sm font-medium text-gray-900"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3 text-xs font-medium text-gray-600">
-              {LEGAL_LINKS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="underline"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-
-            <a
-              href={phoneLink}
-              className="mt-2 inline-flex items-center justify-center rounded-full bg-black px-5 py-3 text-sm font-semibold text-white shadow-md"
-              onClick={() => setIsMenuOpen(false)}
+        {/* MOBILE MENU (SHEET) */}
+        <div className="lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="p-2 text-zinc-950" aria-label="Menu">
+                <Menu className="h-6 w-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-full sm:max-w-md border-zinc-200 p-0"
             >
-              <Phone className="mr-2 h-4 w-4" />
-              Appeler {siteConfig.phone}
-            </a>
-          </div>
+              <SheetHeader className="p-6 border-b border-zinc-100 text-left">
+                <SheetTitle className="font-heading text-2xl font-black uppercase tracking-tighter">
+                  Navigation
+                </SheetTitle>
+              </SheetHeader>
+
+              <div className="flex flex-col p-6 h-full bg-white">
+                <div className="space-y-6">
+                  <div className="flex flex-col gap-4">
+                    {MAIN_LINKS.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="font-heading text-4xl font-black uppercase tracking-tighter text-zinc-950 hover:text-orange-600 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <hr className="border-zinc-100" />
+
+                  <div className="space-y-4">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-zinc-400">
+                      Services
+                    </p>
+                    {SERVICES_LINKS.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className="flex items-center justify-between font-mono text-sm font-bold uppercase group"
+                      >
+                        {s.label}
+                        <ArrowUpRight className="h-4 w-4 text-zinc-300 group-hover:text-orange-600" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-auto pb-10">
+                  <a
+                    href={phoneLink}
+                    className="flex w-full items-center justify-center gap-4 bg-zinc-950 py-6 text-white"
+                  >
+                    <Phone className="h-4 w-4 text-orange-500" />
+                    <span className="font-mono text-xs font-black uppercase tracking-widest">
+                      Appeler l'atelier
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-      )}
+      </div>
     </header>
   );
 }
+
+// COMPOSANT LISTITEM CORRIGÉ
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, href, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <Link
+          href={href || "#"}
+          ref={ref as any}
+          className={cn(
+            "block select-none space-y-1 rounded-sm p-3 leading-none no-underline outline-none transition-colors hover:bg-zinc-50 focus:bg-zinc-50",
+            className
+          )}
+          {...props}
+        >
+          <div className="font-mono text-[11px] font-bold uppercase tracking-tight text-zinc-950">
+            {title}
+          </div>
+          {children && (
+            <p className="line-clamp-2 font-sans text-[11px] leading-snug text-zinc-500">
+              {children}
+            </p>
+          )}
+        </Link>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";

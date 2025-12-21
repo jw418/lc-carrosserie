@@ -77,7 +77,7 @@ export default function RootLayout({
             <GtagScripts />
             <Footer />
             <Toaster />
-            <GoTop />
+            {/* <GoTop /> */}
             <FloatingCall />
           </div>
         </ConsentProvider>

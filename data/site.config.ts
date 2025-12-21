@@ -1,26 +1,44 @@
 export const siteConfig = {
   name: "LC Carrosserie",
   tradeName: "LC Carrosserie",
-  legalName: "LC Carrosserie SAS",
+  legalName: "L.C CARROSSERIE SAS",
   baseline: "Atelier de carrosserie et peinture automobile",
   websiteUrl: "https://www.lc-carrosserie.fr",
+  secondAddress: "1459 avenue Victor Hugo, 13122 Ventabren",
+  secondStreetAddress: "1459 avenue Victor Hugo",
+  secondZipCode: "13122",
+  secondCity: "Ventabren",
+  secondState: "France",
+  description:
+    "Atelier de carrosserie et peinture automobile à Éguilles. Réparations toutes assurances, aucune avance de travaux, véhicule de prêt et franchise offerte.",
   full_address: "655 Chem. des Jalassieres, 13510 Eguilles",
   streetAddress: "655 Chem. des Jalassieres",
   zipCode: "13510",
   city: "Eguilles",
   state: "France",
-
-  phone: "+33 4 00 00 00 00",
-  email: "contact@lc-carrosserie.fr",
+  siren: "930707054",
+  siret: "93070705400019",
+  tvaNumber: "FR36930707054",
+  rcsNumber: "930 707 054 R.C.S. Salon-de-provence",
+  companyType: "SAS, société par actions simplifiée",
+  owner: "Cerezo Ludovic",
+  publisher: "Cerezo Ludovic",
+  phone: "+33 6 12 71 09 45",
+  phoneFr: "06 12 71 09 45",
+  email: "lccarrosserie13@gmail.com",
   privacyEmail: "dpo@lc-carrosserie.fr",
   openingHours: {
     weekdays: "Lundi - Vendredi : 9h00 - 18h00",
     weekend: "Samedi : sur rendez-vous",
   },
   social: {
-    instagram: "https://instagram.com/lc-carrosserie",
+    instagram: "https://www.instagram.com/lccarrosserie/",
     facebook: "https://facebook.com/lc-carrosserie",
+    leboncoin: "https://leboncoin.fr/lc-carrosserie",
+    google: "https://share.google/zH02U5Zcs90rSb23W",
   },
+  googleReviewsUrl:
+    "https://www.google.com/maps/place/LC+Carrosserie/@43.5266780,5.3532083,17z/data=!4m7!3m6!1s0x12c9cae2f1f3f4b7:0x8f3f5e4c4e4c4e4c!8m2!3d43.5266780!4d5.3553970!9m1!1b1",
 };
 
 export type SiteConfig = typeof siteConfig;
