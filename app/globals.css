@@ -41,75 +41,127 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  /* Tes nouvelles polices pour la DA */
+  --font-heading: "Archivo", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Inter", sans-serif;
+
+  /* Tes réglages de précision (Senior Style) */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-widest: 0.25em;
+
+  /* Tes couleurs Zinc et Orange si tu veux les personnaliser */
+  --color-accent: var(--orange-600);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.13 0.028 261.692);
+  /* RADIUS : Un peu plus carré pour un look plus "mécanique/précision" */
+  --radius: 0.5rem;
+
+  /* MODE CLAIR : "Clinique & Propre" */
+  /* Fond très légèrement bleuté pour éviter le blanc hôpital */
+  --background: oklch(0.985 0.005 240);
+  /* Texte gris très foncé (Anthracite) */
+  --foreground: oklch(0.14 0.03 250);
+
+  /* Cards : Blanc pur */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0.028 261.692);
+  --card-foreground: oklch(0.14 0.03 250);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.13 0.028 261.692);
-  --primary: oklch(0.21 0.034 264.665);
-  --primary-foreground: oklch(0.985 0.002 247.839);
-  --secondary: oklch(0.967 0.003 264.542);
-  --secondary-foreground: oklch(0.21 0.034 264.665);
-  --muted: oklch(0.967 0.003 264.542);
-  --muted-foreground: oklch(0.551 0.027 264.364);
-  --accent: oklch(0.967 0.003 264.542);
-  --accent-foreground: oklch(0.21 0.034 264.665);
+  --popover-foreground: oklch(0.14 0.03 250);
+
+  /* PRIMARY : Le Rouge Orangé (Vermillon) - Vif et dynamique */
+  --primary: oklch(0.58 0.18 35);
+  --primary-foreground: oklch(0.98 0 0); /* Blanc sur l'orange */
+
+  /* SECONDARY : Un gris acier bleuté très clair */
+  --secondary: oklch(0.95 0.02 240);
+  --secondary-foreground: oklch(0.25 0.04 250);
+
+  /* MUTED : Pour les textes secondaires */
+  --muted: oklch(0.95 0.02 240);
+  --muted-foreground: oklch(0.5 0.04 250);
+
+  /* ACCENT : Au survol */
+  --accent: oklch(0.94 0.03 240);
+  --accent-foreground: oklch(0.25 0.04 250);
+
+  /* Destructive & Borders */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.928 0.006 264.531);
-  --input: oklch(0.928 0.006 264.531);
-  --ring: oklch(0.707 0.022 261.325);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.002 247.839);
-  --sidebar-foreground: oklch(0.13 0.028 261.692);
-  --sidebar-primary: oklch(0.21 0.034 264.665);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-accent: oklch(0.967 0.003 264.542);
-  --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
-  --sidebar-border: oklch(0.928 0.006 264.531);
-  --sidebar-ring: oklch(0.707 0.022 261.325);
+  --border: oklch(0.9 0.02 240);
+  --input: oklch(0.9 0.02 240);
+  --ring: oklch(0.58 0.18 35); /* Focus ring orange */
+
+  /* Chart Colors (Adaptées à la palette) */
+  --chart-1: oklch(0.58 0.18 35); /* Orange */
+  --chart-2: oklch(0.4 0.1 250); /* Bleu profond */
+  --chart-3: oklch(0.7 0.1 250); /* Bleu clair */
+  --chart-4: oklch(0.65 0.15 50); /* Jaune or */
+  --chart-5: oklch(0.5 0.05 250); /* Gris bleu */
+
+  /* Sidebar Light */
+  --sidebar: oklch(0.98 0.01 240);
+  --sidebar-foreground: oklch(0.14 0.03 250);
+  --sidebar-primary: oklch(0.58 0.18 35);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.95 0.02 240);
+  --sidebar-accent-foreground: oklch(0.25 0.04 250);
+  --sidebar-border: oklch(0.9 0.02 240);
+  --sidebar-ring: oklch(0.58 0.18 35);
 }
 
 .dark {
-  --background: oklch(0.13 0.028 261.692);
-  --foreground: oklch(0.985 0.002 247.839);
-  --card: oklch(0.21 0.034 264.665);
-  --card-foreground: oklch(0.985 0.002 247.839);
-  --popover: oklch(0.21 0.034 264.665);
-  --popover-foreground: oklch(0.985 0.002 247.839);
-  --primary: oklch(0.928 0.006 264.531);
-  --primary-foreground: oklch(0.21 0.034 264.665);
-  --secondary: oklch(0.278 0.033 256.848);
-  --secondary-foreground: oklch(0.985 0.002 247.839);
-  --muted: oklch(0.278 0.033 256.848);
-  --muted-foreground: oklch(0.707 0.022 261.325);
-  --accent: oklch(0.278 0.033 256.848);
-  --accent-foreground: oklch(0.985 0.002 247.839);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.21 0.034 264.665);
-  --sidebar-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-accent: oklch(0.278 0.033 256.848);
-  --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* MODE SOMBRE : "L'Atelier Premium" (Inspiration Image) */
+
+  /* Fond : Bleu Acier Profond (Plus lumineux que le noir, plus riche que le gris) */
+  --background: oklch(0.18 0.04 250);
+  /* Texte : Blanc cassé (plus doux pour les yeux) */
+  --foreground: oklch(0.96 0.01 240);
+
+  /* Cards : Un ton légèrement plus clair que le fond pour détacher les éléments */
+  --card: oklch(0.22 0.04 250);
+  --card-foreground: oklch(0.96 0.01 240);
+  --popover: oklch(0.22 0.04 250);
+  --popover-foreground: oklch(0.96 0.01 240);
+
+  /* PRIMARY : Le Rouge Orangé éclate sur le fond bleu sombre */
+  --primary: oklch(0.62 0.18 35); /* Un peu plus lumineux en dark mode */
+  --primary-foreground: oklch(1 0 0);
+
+  /* SECONDARY : Gris acier moyen */
+  --secondary: oklch(0.3 0.05 250);
+  --secondary-foreground: oklch(0.96 0.01 240);
+
+  /* MUTED */
+  --muted: oklch(0.3 0.05 250);
+  --muted-foreground: oklch(0.7 0.04 250); /* Gris clair bleuté */
+
+  /* ACCENT */
+  --accent: oklch(0.28 0.05 250);
+  --accent-foreground: oklch(0.98 0 0);
+
+  /* Destructive & Borders */
+  --destructive: oklch(0.5 0.2 25);
+  --border: oklch(0.3 0.05 250); /* Bordures subtiles bleutées */
+  --input: oklch(0.3 0.05 250);
+  --ring: oklch(0.62 0.18 35);
+
+  /* Chart Colors Dark */
+  --chart-1: oklch(0.62 0.18 35);
+  --chart-2: oklch(0.5 0.12 250);
+  --chart-3: oklch(0.4 0.1 220);
+  --chart-4: oklch(0.7 0.15 40);
+  --chart-5: oklch(0.8 0.05 250);
+
+  /* Sidebar Dark */
+  --sidebar: oklch(0.16 0.04 250); /* Un poil plus sombre que le background */
+  --sidebar-foreground: oklch(0.96 0.01 240);
+  --sidebar-primary: oklch(0.62 0.18 35);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.25 0.04 250);
+  --sidebar-accent-foreground: oklch(0.96 0.01 240);
+  --sidebar-border: oklch(0.3 0.05 250);
+  --sidebar-ring: oklch(0.62 0.18 35);
 }
 
 @layer base {
