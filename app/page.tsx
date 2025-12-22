@@ -159,7 +159,7 @@ const SERVICES = [
     description:
       "Préparation soignée, peinture constructeur et vernis pour un rendu uniforme et une finition impeccable.",
     image: "/img/peinture.jpg",
-    href: "/services/peinture",
+    href: "/services/carrosserie-generale",
     showBtn: true,
   },
   {
@@ -168,14 +168,14 @@ const SERVICES = [
       "Remise en état ciblée pour éviter les pénalités de restitution et présenter un véhicule impeccable.",
     image: "/img/restitution.jpg",
     href: "/services/loa-lld",
-    showBtn: true,
+    showBtn: false,
   },
   {
     title: "Réparation de jantes",
     description:
       "Correction des impacts de trottoirs et rénovation complète pour redonner l'aspect du neuf à vos roues.",
     image: "/img/jantes.jpg",
-    href: "/services/jantes",
+    href: "",
     showBtn: false,
   },
   {
@@ -370,7 +370,7 @@ export default function LCCarrosserieHome() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: idx * 0.1 }}
                     viewport={{ once: true }}
-                    className="bg-white group"
+                    className="bg-white group flex flex-col h-full"
                   >
                     <div className="relative aspect-[16/10] overflow-hidden">
                       <img
@@ -381,7 +381,7 @@ export default function LCCarrosserieHome() {
                       <div className="absolute inset-0 bg-zinc-950/20 group-hover:bg-zinc-950/0 transition-colors duration-500" />
                     </div>
 
-                    <div className="p-8 flex flex-col h-full min-h-[280px]">
+                    <div className="p-8 flex flex-col flex-1 min-h-[280px]">
                       <div className="flex items-start justify-between mb-4">
                         <h3 className="font-heading text-2xl font-black tracking-tight text-zinc-950 uppercase leading-none">
                           {service.title}
@@ -392,14 +392,14 @@ export default function LCCarrosserieHome() {
                         />
                       </div>
 
-                      <p className="font-sans text-zinc-500 text-sm leading-relaxed mb-8 flex-grow">
+                      <p className="font-sans text-zinc-500 text-sm leading-relaxed mb-8 flex-1">
                         {service.description}
                       </p>
 
                       {service.showBtn && (
                         <Link
                           href={service.href}
-                          className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors group/btn"
+                          className="mt-auto inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors group/btn"
                         >
                           Plus d'infos
                           <ArrowUpRight
