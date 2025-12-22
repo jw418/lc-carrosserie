@@ -68,7 +68,9 @@ export async function generateMetadata({
   params,
 }: CityPageProps): Promise<Metadata> {
   const slug = await resolveSlug(params);
-  const city = slug ? (cities as City[]).find((item) => item.id === slug) : undefined;
+  const city = slug
+    ? (cities as City[]).find((item) => item.id === slug)
+    : undefined;
 
   if (!city) {
     return {
@@ -86,7 +88,9 @@ export async function generateMetadata({
 
 export default async function CityPage({ params }: CityPageProps) {
   const slug = await resolveSlug(params);
-  const city = slug ? (cities as City[]).find((item) => item.id === slug) : undefined;
+  const city = slug
+    ? (cities as City[]).find((item) => item.id === slug)
+    : undefined;
 
   if (!city) {
     return notFound();
@@ -100,80 +104,6 @@ export default async function CityPage({ params }: CityPageProps) {
 
   return (
     <div className="bg-white text-gray-900">
-      <section className="border-b bg-gradient-to-b from-zinc-50 to-white">
-        <div className="mx-auto max-w-5xl px-6 py-16 space-y-6">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600">
-            <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-              Carrosserie à {city.name}
-            </span>
-            {hero?.googleRating && (
-              <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-800 shadow-sm ring-1 ring-gray-200">
-                <span className="flex text-amber-500">
-                  {[...Array(5)].map((_, index) => (
-                    <Star
-                      key={index}
-                      className="h-4 w-4 fill-current"
-                      strokeWidth={1.5}
-                    />
-                  ))}
-                </span>
-                {hero.googleRating.note}
-                <span className="text-gray-500">
-                  • {hero.googleRating.count}
-                </span>
-              </span>
-            )}
-          </div>
-
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-              {hero?.title ||
-                `Carrosserie ${city.name} - réparations toutes assurances`}
-            </h1>
-            <p className="text-lg leading-relaxed text-gray-700">
-              {hero?.chapo ||
-                "Prise en charge clé en main, gestion du dossier assurance et restitution sans déplacement inutile."}
-            </p>
-          </div>
-
-          {hero?.labels && (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {hero.labels.map((label) => (
-                <div
-                  key={label}
-                  className="flex items-start gap-2 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-                >
-                  <CheckCircle2 className="mt-1 h-5 w-5 text-emerald-600" />
-                  <span className="text-sm font-semibold text-gray-800">
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a
-              href={phoneLink}
-              className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
-            >
-              <Phone className="mr-2 h-4 w-4" />
-              Appeler l&apos;atelier
-            </a>
-            <a
-              href="#contact-form"
-              className="inline-flex items-center justify-center rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-900 transition hover:bg-gray-50"
-            >
-              <ArrowRight className="mr-2 h-4 w-4" />
-              Envoyer des photos
-            </a>
-            <span className="text-sm text-gray-600">
-              Intervention à Marseille et restitution possible sur place.
-            </span>
-          </div>
-        </div>
-      </section>
-
       <main className="mx-auto max-w-5xl px-6 py-16 space-y-16">
         <section className="space-y-6">
           <div className="space-y-2">

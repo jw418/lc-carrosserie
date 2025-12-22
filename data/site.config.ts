@@ -4,6 +4,7 @@ export const siteConfig = {
   legalName: "L.C CARROSSERIE SAS",
   baseline: "Atelier de carrosserie et peinture automobile",
   websiteUrl: "https://www.lc-carrosserie.fr",
+  mapLink: "https://share.google/zH02U5Zcs90rSb23W",
   secondAddress: "1459 avenue Victor Hugo, 13122 Ventabren",
   secondStreetAddress: "1459 avenue Victor Hugo",
   secondZipCode: "13122",
@@ -27,6 +28,9 @@ export const siteConfig = {
   phoneFr: "06 12 71 09 45",
   email: "lccarrosserie13@gmail.com",
   privacyEmail: "dpo@lc-carrosserie.fr",
+  hostName: "OVHcloud",
+  hostWebsite: "https://www.ovhcloud.com",
+  hostAddress: "2 rue Kellermann, 59100 Roubaix, France",
   openingHours: {
     weekdays: "Lundi - Vendredi : 9h00 - 18h00",
     weekend: "Samedi : sur rendez-vous",

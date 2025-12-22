@@ -9,9 +9,12 @@ const PolitiqueConfidentialite: React.FC = () => {
     tradeName,
     websiteUrl,
     full_address,
+    streetAddress,
+    zipCode,
+    city,
     email,
     privacyEmail,
-    phone,
+    phoneFr,
   } = siteConfig;
 
   const privacyContact = privacyEmail || email;
@@ -30,8 +33,8 @@ const PolitiqueConfidentialite: React.FC = () => {
       </p>
       <p className="mt-2">
         Responsable du traitement : <strong>{legalName}</strong>, situe au{" "}
-        {full_address}. Vous pouvez nous joindre au <strong>{phone}</strong> ou
-        par e-mail a{" "}
+        {full_address}. Vous pouvez nous joindre au{" "}
+        <strong>{phoneFr || email}</strong> ou par e-mail a{" "}
         <a href={`mailto:${email}`} className="underline text-coolRoof">
           {email}
         </a>
@@ -82,7 +85,7 @@ const PolitiqueConfidentialite: React.FC = () => {
         >
           {privacyContact}
         </a>{" "}
-        ou par courrier a {legalName}, {full_address}.
+        ou par courrier a {legalName}, {streetAddress}, {zipCode} {city}.
       </p>
 
       <h2 className="mt-6 mb-2 text-2xl font-semibold">Partage des donnees</h2>

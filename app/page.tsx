@@ -13,36 +13,23 @@ import {
   Clock,
   ShieldCheck,
   Menu,
+  Truck,
+  CarFront,
 } from "lucide-react";
 
 import { ArrowUpRight, Check } from "lucide-react";
+import Link from "next/link";
+import { siteConfig } from "@/data/site.config";
 
 // --- CONFIGURATION & DATA ---
 
 const CONTACT_INFO = {
-  phone: "04 42 XX XX XX",
-  address: "ZA La Palun, 13510 Éguilles",
-  mapLink: "https://goo.gl/maps/placeholder",
-  hours: "Lun - Ven : 8h00 - 18h00 | Sam : 9h00 - 12h00",
+  phone: siteConfig.phone,
+  phoneDisplay: siteConfig.phoneFr ?? siteConfig.phone,
+  address: siteConfig.full_address,
+  mapLink: siteConfig.mapLink,
+  hours: `${siteConfig.openingHours.weekdays} | ${siteConfig.openingHours.weekend}`,
 };
-
-const SERVICES = [
-  {
-    title: "Peinture & Colorimétrie",
-    desc: "Laboratoire de peinture haute technologie. Préparation spectrale, teintes constructeurs exactes et vernis anti-rayures.",
-    icon: PaintBucket,
-  },
-  {
-    title: "Débosselage de précision",
-    desc: "Intervention technique sur tôle froissée. Redressage, planage et DSP (Débosselage Sans Peinture) pour les impacts de grêle.",
-    icon: Car,
-  },
-  {
-    title: "Remise en état Leasing",
-    desc: "Diagnostic pré-restitution pour LOA/LLD. Correction ciblée des défauts pour éviter les pénalités de fin de contrat.",
-    icon: FileCheck,
-  },
-];
 
 const PROCESS_STEPS = [
   {
@@ -158,6 +145,56 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
+const SERVICES = [
+  {
+    title: "Réparation tôlerie",
+    description:
+      "Redressage, réparation d’éléments et remise en forme pour retrouver un véhicule propre et aligné.",
+    image: "/img/tolerie.jpg", // Remplace par tes vrais chemins
+    href: "/services/carrosserie-generale",
+    showBtn: true,
+  },
+  {
+    title: "Peinture carrosserie",
+    description:
+      "Préparation soignée, peinture constructeur et vernis pour un rendu uniforme et une finition impeccable.",
+    image: "/img/peinture.jpg",
+    href: "/services/peinture",
+    showBtn: true,
+  },
+  {
+    title: "Fin de location LOA / LLD",
+    description:
+      "Remise en état ciblée pour éviter les pénalités de restitution et présenter un véhicule impeccable.",
+    image: "/img/restitution.jpg",
+    href: "/services/loa-lld",
+    showBtn: true,
+  },
+  {
+    title: "Réparation de jantes",
+    description:
+      "Correction des impacts de trottoirs et rénovation complète pour redonner l'aspect du neuf à vos roues.",
+    image: "/img/jantes.jpg",
+    href: "/services/jantes",
+    showBtn: false,
+  },
+  {
+    title: "Covering & Esthétique",
+    description:
+      "Personnalisation partielle ou totale et protection de carrosserie pour un style unique.",
+    image: "/img/covering.jpg",
+    href: "/services/covering",
+    showBtn: false,
+  },
+  {
+    title: "Accompagnement Sinistre",
+    description:
+      "Gestion complète de votre dossier assurance, expertise et aide aux démarches administratives.",
+    image: "/img/sinistre.jpg",
+    href: "/assurance",
+    showBtn: true,
+  },
+];
 const Badge: React.FC<{ children?: React.ReactNode }> = ({ children }) => (
   <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
     <CheckCircle2 className="w-3 h-3 mr-2" />
@@ -181,7 +218,7 @@ export default function LCCarrosserieHome() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
       {/* HERO SECTION */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center bg-zinc-50 pt-32 pb-20 overflow-hidden font-sans">
+      <section className="relative isolate min-h-[90vh] flex flex-col justify-center bg-zinc-50 pt-32 pb-20 overflow-hidden font-sans">
         {/* Background Architectural : Lignes de structure */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full border-x border-zinc-200/60 max-w-7xl" />
@@ -189,15 +226,15 @@ export default function LCCarrosserieHome() {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-start">
             {/* COLONNE GAUCHE : TEXTE EDITORIAL */}
             <motion.div
-              className="lg:col-span-7"
+              className="lg:col-span-7 relative z-20" // Augmentation du z-index pour rester au dessus
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              {/* Social Proof avec Font Mono pour le côté précis */}
+              {/* Social Proof */}
               <div className="flex items-center gap-6 mb-10">
                 <div className="flex items-center gap-2">
                   <div className="flex text-orange-600">
@@ -208,7 +245,7 @@ export default function LCCarrosserieHome() {
                   <span className="font-mono text-[11px] font-bold tracking-tighter text-zinc-900 uppercase">
                     4.9/5{" "}
                     <span className="text-zinc-400 font-medium ml-1">
-                      sur Google (120+ avis)
+                      sur Google (80+ avis)
                     </span>
                   </span>
                 </div>
@@ -224,15 +261,15 @@ export default function LCCarrosserieHome() {
                 </div>
               </div>
 
-              {/* Titre avec Font Heading (Archivo) */}
-              <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-zinc-950 leading-[0.85] mb-8 uppercase">
+              {/* Titre avec gestion de la cassure de mot pour éviter l'overflow */}
+              <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-zinc-950 leading-[0.85] mb-8 uppercase break-words">
                 LC CARROSSERIE, <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-800 to-orange-600">
                   RESTAURATION & PEINTURE.
                 </span>
               </h1>
 
-              {/* Texte avec Font Sans (Inter) en light */}
+              {/* Texte */}
               <p className="font-sans text-lg md:text-xl text-zinc-600 mb-10 max-w-2xl leading-relaxed font-light">
                 Votre voiture a subi un choc, un accrochage ou des rayures de
                 vandalisme ? Notre atelier de carrosserie installé à Éguilles
@@ -243,40 +280,39 @@ export default function LCCarrosserieHome() {
                 marseillaise.
               </p>
 
-              {/* CTA & Actions avec Font Mono pour les boutons */}
+              {/* CTA */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-16">
                 <button className="font-mono bg-zinc-950 text-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-3 group">
                   Prendre Rendez-vous
                   <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </button>
                 <a
-                  href="tel:0442XXXXXX"
+                  href={`tel:${CONTACT_INFO.phone}`}
                   className="font-mono border border-zinc-200 bg-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 transition-all flex items-center justify-center gap-3 text-zinc-900"
                 >
                   <Phone className="w-4 h-4 text-orange-600" />
-                  04 42 XX XX XX
+                  {CONTACT_INFO.phoneDisplay}
                 </a>
               </div>
             </motion.div>
 
-            {/* COLONNE DROITE : IMAGE PORTRAIT & SERVICES TECHNIQUES */}
+            {/* COLONNE DROITE : IMAGE & SERVICES */}
             <motion.div
-              className="lg:col-span-5 flex flex-col gap-10"
+              className="lg:col-span-5 relative z-10 mt-10 lg:mt-0 flex flex-col gap-10"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              {/* Image Portrait avec bordure fine style "Gallery" */}
-              <div className="relative aspect-[4/5] bg-zinc-200 overflow-hidden">
+              <div className="relative aspect-[4/5] bg-zinc-200 overflow-hidden shadow-2xl lg:shadow-none">
                 <img
-                  src="/img/unnamed.jpg"
+                  src="/img/hero.png"
                   alt="Expert LC Carrosserie avec voiture Alpine orange"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-1000"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 border-[10px] border-white/5" />
               </div>
 
-              {/* Micro-copy Checklist - Style technique Font Mono */}
+              {/* Checklist */}
               <div className="pt-8 border-t border-zinc-200">
                 <span className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 mb-6 block">
                   Expertise & Services
@@ -305,28 +341,79 @@ export default function LCCarrosserieHome() {
             subtitle="Nous ne sommes pas un simple garage. Nous sommes un atelier technique dédié à la restauration esthétique et structurelle de votre véhicule."
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {SERVICES.map((service, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="group relative bg-card border border-border p-8 rounded-xl shadow-xs hover:shadow-xl hover:border-primary/50 transition-all duration-300"
-              >
-                <div className="mb-6 inline-flex items-center justify-center w-12 h-12 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                  <service.icon className="w-6 h-6" />
+          <section className="bg-white py-24 md:py-32 font-sans">
+            <div className="max-w-7xl mx-auto px-6 md:px-12">
+              {/* HEADER SECTION */}
+              <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
+                <div className="max-w-2xl">
+                  <span className="font-mono text-[10px] font-black uppercase tracking-[0.4em] text-orange-600 mb-6 block">
+                    Nos Expertises
+                  </span>
+                  <h2 className="font-heading text-5xl md:text-7xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
+                    Services <br />
+                    <span className="text-zinc-400">Haute Précision.</span>
+                  </h2>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-foreground">
-                  {service.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {service.desc}
+                <p className="font-sans text-zinc-500 max-w-sm text-sm leading-relaxed mb-2">
+                  De la petite rayure à la restructuration lourde, notre atelier
+                  déploie un savoir-faire artisanal couplé aux technologies de
+                  pointe.
                 </p>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+
+              {/* GRILLE DE SERVICES */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-200 border border-zinc-200">
+                {SERVICES.map((service, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    viewport={{ once: true }}
+                    className="bg-white group"
+                  >
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-zinc-950/20 group-hover:bg-zinc-950/0 transition-colors duration-500" />
+                    </div>
+
+                    <div className="p-8 flex flex-col h-full min-h-[280px]">
+                      <div className="flex items-start justify-between mb-4">
+                        <h3 className="font-heading text-2xl font-black tracking-tight text-zinc-950 uppercase leading-none">
+                          {service.title}
+                        </h3>
+                        <CheckCircle2
+                          size={18}
+                          className="text-zinc-200 group-hover:text-orange-600 transition-colors"
+                        />
+                      </div>
+
+                      <p className="font-sans text-zinc-500 text-sm leading-relaxed mb-8 flex-grow">
+                        {service.description}
+                      </p>
+
+                      {service.showBtn && (
+                        <Link
+                          href={service.href}
+                          className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors group/btn"
+                        >
+                          Plus d'infos
+                          <ArrowUpRight
+                            size={14}
+                            className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform"
+                          />
+                        </Link>
+                      )}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
 
           {/* INSURANCE HIGHLIGHT BOX */}
           <motion.div
@@ -355,10 +442,9 @@ export default function LCCarrosserieHome() {
 
                 <ul className="space-y-3 mb-8">
                   {[
-                    "0€ d'avance de frais (Cession de créance)",
-                    "Franchise offerte (selon dossier)",
-                    "Véhicule de prêt catégorie équivalente",
-                    "Nettoyage complet offert",
+                    "0€ d'avance de frais)",
+                    "Franchise offerte",
+                    "Véhicule de prêt",
                   ].map((item, i) => (
                     <li
                       key={i}
@@ -370,7 +456,21 @@ export default function LCCarrosserieHome() {
                   ))}
                 </ul>
 
-                <Button variant="primary">Déclarer un sinistre</Button>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <Link href="/contact#contact-form">
+                    <Button variant="primary">Déclarer un sinistre</Button>
+                  </Link>
+                  <Link
+                    href="/assurance"
+                    className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors group/btn"
+                  >
+                    Plus d'infos
+                    <ArrowUpRight
+                      size={14}
+                      className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform"
+                    />
+                  </Link>
+                </div>
               </div>
               <div className="bg-secondary md:w-1/3 p-8 flex flex-col justify-center items-center text-center border-l border-border">
                 <div className="text-5xl md:text-6xl font-black text-foreground mb-2">
@@ -419,6 +519,115 @@ export default function LCCarrosserieHome() {
         </div>
       </section>
 
+      <section className="relative bg-zinc-50 py-24 md:py-32 overflow-hidden font-sans">
+        {/* Background Decoratif discret */}
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-100/50 -skew-x-12 translate-x-1/2 z-0" />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            {/* COLONNE GAUCHE : TEXTE PRINCIPAL */}
+            <div className="lg:col-span-6">
+              <span className="font-mono text-[10px] font-black uppercase tracking-[0.4em] text-zinc-400 mb-6 block">
+                Proximité & Mobilité
+              </span>
+              <h2 className="font-heading text-4xl md:text-6xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9] mb-8">
+                Un atelier à Eguilles, <br />
+                <span className="text-orange-600">
+                  au service du pays d'Aix et de Marseille.
+                </span>
+              </h2>
+              <p className="text-zinc-600 text-lg font-light leading-relaxed mb-10">
+                Notre carrosserie est située à Éguilles, tout près
+                d’Aix-en-Provence. Nous accompagnons les automobilistes du pays
+                d’Aix et de la métropole marseillaise, avec une organisation
+                pensée pour simplifier votre prise en charge, notamment en cas
+                de sinistre.
+              </p>
+
+              {/* BADGE SERVICE À DOMICILE */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="inline-flex flex-col sm:flex-row items-start sm:items-center gap-4 p-6 bg-white border border-zinc-200 shadow-sm"
+              >
+                <div className="flex -space-x-2">
+                  <div className="h-10 w-10 rounded-full bg-zinc-950 flex items-center justify-center text-white border-2 border-white">
+                    <Truck size={18} />
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-orange-600 flex items-center justify-center text-white border-2 border-white">
+                    <CarFront size={18} />
+                  </div>
+                </div>
+                <div>
+                  <p className="font-mono text-[11px] font-black uppercase tracking-widest text-zinc-950">
+                    Service Premium à domicile
+                  </p>
+                  <p className="text-xs text-zinc-500 font-light">
+                    Enlèvement du véhicule + véhicule de prêt à votre porte.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* COLONNE DROITE : CARTES LOCALES */}
+            <div className="lg:col-span-6 grid grid-cols-1 gap-6">
+              {/* CARTE AIX */}
+              <div className="group bg-white p-8 border border-zinc-200 hover:border-orange-600/30 transition-all duration-500">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-sm bg-zinc-50 flex items-center justify-center border border-zinc-100 text-zinc-400 group-hover:text-orange-600 transition-colors">
+                    <MapPin size={16} />
+                  </div>
+                  <h3 className="font-heading text-2xl font-black uppercase tracking-tight text-zinc-950">
+                    Carrosserie pour Aix-en-Provence
+                  </h3>
+                </div>
+                <p className="text-sm text-zinc-500 font-light leading-relaxed mb-8">
+                  Depuis Aix-en-Provence, vous pouvez nous confier votre
+                  véhicule pour une réparation de carrosserie et une gestion de
+                  dossier assurance simplifiée. Véhicule de prêt possible.
+                </p>
+                <Link
+                  href="/aix-en-provence/carrosserie"
+                  className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-950 group-hover:text-orange-600 transition-colors"
+                >
+                  Découvrir l'offre Aix-en-Provence{" "}
+                  <ArrowRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+
+              {/* CARTE MARSEILLE */}
+              <div className="group bg-white p-8 border border-zinc-200 hover:border-orange-600/30 transition-all duration-500">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="h-8 w-8 rounded-sm bg-zinc-50 flex items-center justify-center border border-zinc-100 text-zinc-400 group-hover:text-orange-600 transition-colors">
+                    <MapPin size={16} />
+                  </div>
+                  <h3 className="font-heading text-2xl font-black uppercase tracking-tight text-zinc-950">
+                    Carrosserie pour Marseille
+                  </h3>
+                </div>
+                <p className="text-sm text-zinc-500 font-light leading-relaxed mb-8">
+                  Vous venez de Marseille ou des environs ? Nous vous proposons
+                  une prise en charge claire, un suivi de dossier, et une
+                  restitution contrôlée, avec une organisation flexible.
+                </p>
+                <Link
+                  href="/marseille/carrosserie"
+                  className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-950 group-hover:text-orange-600 transition-colors"
+                >
+                  Découvrir l'offre Marseille{" "}
+                  <ArrowRight
+                    size={14}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       {/* REVIEWS SECTION */}
       <section className="py-24 bg-card border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -577,7 +786,7 @@ export default function LCCarrosserieHome() {
                       href={`tel:${CONTACT_INFO.phone}`}
                       className="text-xl font-bold text-foreground hover:text-primary transition-colors"
                     >
-                      {CONTACT_INFO.phone}
+                      {CONTACT_INFO.phoneDisplay}
                     </a>
                   </div>
                 </div>
