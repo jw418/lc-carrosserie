@@ -72,7 +72,7 @@ export default function AboutPage() {
             </motion.div>
             <div className="aspect-video bg-zinc-200 border border-zinc-300 relative overflow-hidden group">
               <img
-                src="/img/atelier-equipe.jpg"
+                src="/img/AxelleEtLudovic.jpg"
                 alt="Atelier LC Carrosserie"
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
               />
@@ -91,43 +91,64 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200">
               {/* LUDOVIC */}
-              <motion.div className="bg-white p-10 space-y-6" {...fadeIn}>
-                <div className="space-y-2">
-                  <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight">
-                    Ludovic
-                  </h3>
-                  <p className="font-mono text-[10px] font-bold text-orange-600 uppercase tracking-widest">
-                    Direction & Stratégie
+              <motion.div
+                className="bg-white grid grid-cols-[140px_1fr] gap-6"
+                {...fadeIn}
+              >
+                <div className="h-full">
+                  <img
+                    src="/img/Ludovic.jpg"
+                    alt="Portrait de Ludovic"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="p-10 space-y-6">
+                  <div className="space-y-2">
+                    <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight">
+                      Ludovic
+                    </h3>
+                    <p className="font-mono text-[10px] font-bold text-orange-600 uppercase tracking-widest">
+                      Direction & Strategie
+                    </p>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-relaxed font-light">
+                    Ludovic est celui qui pilote l'entreprise avec rigueur,
+                    constance et une vision claire du developpement. Il veille
+                    quotidiennement a ce que chaque intervention reponde a nos
+                    standards de qualite eleves.
                   </p>
                 </div>
-                <p className="text-sm text-zinc-500 leading-relaxed font-light">
-                  Ludovic est celui qui pilote l'entreprise avec rigueur,
-                  constance et une vision claire du développement. Il veille
-                  quotidiennement à ce que chaque intervention réponde à nos
-                  standards de qualité élevés.
-                </p>
               </motion.div>
 
               {/* AXELLE */}
               <motion.div
-                className="bg-white p-10 space-y-6"
+                className="bg-white grid grid-cols-[140px_1fr] gap-6"
                 {...fadeIn}
                 transition={{ delay: 0.2 }}
               >
-                <div className="space-y-2">
-                  <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight">
-                    Axelle
-                  </h3>
-                  <p className="font-mono text-[10px] font-bold text-orange-600 uppercase tracking-widest">
-                    Relation Client & Expertise Service
+                <div className="h-full">
+                  <img
+                    src="/img/Axelle.jpg"
+                    alt="Portrait de Axelle"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="p-10 space-y-6">
+                  <div className="space-y-2">
+                    <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight">
+                      Axelle
+                    </h3>
+                    <p className="font-mono text-[10px] font-bold text-orange-600 uppercase tracking-widest">
+                      Relation Client & Expertise Service
+                    </p>
+                  </div>
+                  <p className="text-sm text-zinc-500 leading-relaxed font-light">
+                    Axelle, c'est la touche de delicatesse et d'attention que
+                    nos clients remarquent immediatement. Elle accompagne,
+                    rassure et explique - elle transforme une situation percue
+                    comme contraignante en une experience fluide.
                   </p>
                 </div>
-                <p className="text-sm text-zinc-500 leading-relaxed font-light">
-                  Axelle, c'est la touche de délicatesse et d'attention que nos
-                  clients remarquent immédiatement. Elle accompagne, rassure et
-                  explique — elle transforme une situation perçue comme
-                  contraignante en une expérience fluide.
-                </p>
               </motion.div>
             </div>
           </div>

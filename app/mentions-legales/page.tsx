@@ -1,14 +1,53 @@
 import type { Metadata } from "next";
 
 import { siteConfig } from "@/data/site.config";
+import { buildBusinessJsonLd, buildWebPageJsonLd, toJsonLd } from "@/lib/seo";
+
+const title = "Mentions legales | LC Carrosserie";
+const description =
+  "Informations legales de LC Carrosserie : editeur, hebergeur, contact et coordonnees.";
+const pageUrl = `${siteConfig.websiteUrl}/mentions-legales`;
 
 export const metadata: Metadata = {
-  title: "Mentions légales | LC Carrosserie",
-  description:
-    "Informations légales de LC Carrosserie : éditeur, hébergeur, contact, SIREN/SIRET et coordonnées.",
+  title,
+  description,
+  alternates: {
+    canonical: pageUrl,
+  },
+  openGraph: {
+    title,
+    description,
+    url: pageUrl,
+    siteName: siteConfig.name,
+    locale: "fr_FR",
+    type: "article",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [siteConfig.ogImage],
+  },
 };
 
 export default function MentionsLegalesPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildBusinessJsonLd(),
+      buildWebPageJsonLd({
+        title,
+        description,
+        url: pageUrl,
+      }),
+    ],
+  };
   const {
     legalName,
     tradeName,
@@ -33,6 +72,10 @@ export default function MentionsLegalesPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-12 space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
+      />
       <header className="space-y-2">
         <p className="text-sm font-medium text-gray-500">Informations légales</p>
         <h1 className="text-3xl font-bold text-gray-900">Mentions légales</h1>

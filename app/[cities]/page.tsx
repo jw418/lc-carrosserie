@@ -14,6 +14,12 @@ import {
 import cities from "@/data/cities.json";
 import { siteConfig } from "@/data/site.config";
 import { ContactForm } from "@/components/ContactForm";
+import {
+  buildBusinessJsonLd,
+  buildFaqJsonLd,
+  buildWebPageJsonLd,
+  toJsonLd,
+} from "@/lib/seo";
 
 // Types inchangés...
 type CityPageParams = Promise<{ cities?: string }> | { cities?: string };
@@ -25,6 +31,55 @@ const formatPhoneForTel = (phone: string) => phone.replace(/\s+/g, "");
 async function resolveSlug(params: CityPageParams) {
   const awaited = await params;
   return (awaited?.cities || "").toString().toLowerCase();
+}
+
+export async function generateMetadata({
+  params,
+}: CityPageProps): Promise<Metadata> {
+  const slug = await resolveSlug(params);
+  const city = slug
+    ? (cities as City[]).find((item) => item.id === slug)
+    : undefined;
+
+  if (!city) {
+    return {
+      title: `Zone d'intervention | ${siteConfig.name}`,
+      description:
+        "Carrosserie et peinture auto. Contactez-nous pour verifier la prise en charge dans votre ville.",
+    };
+  }
+
+  const title = `Carrosserie ${city.name} | ${siteConfig.name}`;
+  const description = `Carrosserie et peinture auto a ${city.name}. Atelier a Eguilles, gestion assurance et vehicule de pret.`;
+  const pageUrl = `${siteConfig.websiteUrl}/${city.id}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: pageUrl,
+    },
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      siteName: siteConfig.name,
+      locale: "fr_FR",
+      type: "article",
+      images: [
+        {
+          url: siteConfig.ogImage,
+          alt: siteConfig.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [siteConfig.ogImage],
+    },
+  };
 }
 
 export default async function CityPage({ params }: CityPageProps) {
@@ -57,9 +112,47 @@ export default async function CityPage({ params }: CityPageProps) {
           },
         ]
       : [];
+  const pageTitle = `Carrosserie ${city.name} | ${siteConfig.name}`;
+  const pageDescription = `Carrosserie et peinture auto a ${city.name}. Atelier a Eguilles, gestion assurance et vehicule de pret.`;
+  const pageUrl = `${siteConfig.websiteUrl}/${city.id}`;
+  const faqItems =
+    content?.faq?.map((item) => ({
+      question: item.question,
+      answer: item.answer,
+    })) ?? [];
+  const jsonLdGraph: Record<string, unknown>[] = [
+    buildBusinessJsonLd(),
+    buildWebPageJsonLd({
+      title: pageTitle,
+      description: pageDescription,
+      url: pageUrl,
+    }),
+    {
+      "@type": "Service",
+      "@id": `${pageUrl}#service`,
+      name: `Carrosserie a ${city.name}`,
+      description: pageDescription,
+      serviceType: "Auto body repair",
+      provider: { "@id": `${siteConfig.websiteUrl}#business` },
+      areaServed: [city.name, city.department],
+    },
+  ];
+
+  if (faqItems.length) {
+    jsonLdGraph.push(buildFaqJsonLd(faqItems));
+  }
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": jsonLdGraph,
+  };
 
   return (
     <div className="bg-white font-sans antialiased">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
+      />
       {/* SECTION 1 : HERO ÉDITORIAL & INTRO */}
       <section className="relative pt-24 pb-16 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -106,7 +199,11 @@ export default async function CityPage({ params }: CityPageProps) {
               <div className="absolute inset-0 bg-zinc-900/10 group-hover:bg-transparent transition-colors duration-500" />
               {/* Remplacer par src="/img/votre-image.jpg" */}
               <div className="flex items-center justify-center h-full text-zinc-300 font-mono text-xs italic uppercase">
-                Image Expertise Technique
+                <img
+                  src="/img/vertical.png"
+                  alt="Atelier LC Carrosserie"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+                />
               </div>
             </div>
             {/* Badge flottant */}

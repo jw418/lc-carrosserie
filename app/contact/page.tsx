@@ -1,11 +1,73 @@
+import type { Metadata } from "next";
+
 import { ContactForm } from "@/components/ContactForm";
 import { siteConfig } from "@/data/site.config";
+import { buildBusinessJsonLd, buildWebPageJsonLd, toJsonLd } from "@/lib/seo";
+
+const title = "Contact carrosserie | LC Carrosserie";
+const description =
+  "Contactez notre atelier a Eguilles pour un devis carrosserie ou une prise en charge assurance.";
+const pageUrl = `${siteConfig.websiteUrl}/contact`;
+
+export const metadata: Metadata = {
+  title,
+  description,
+  alternates: {
+    canonical: pageUrl,
+  },
+  openGraph: {
+    title,
+    description,
+    url: pageUrl,
+    siteName: siteConfig.name,
+    locale: "fr_FR",
+    type: "website",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [siteConfig.ogImage],
+  },
+};
 
 export default function ContactPage() {
   const { phone, email, full_address, openingHours } = siteConfig;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildBusinessJsonLd(),
+      {
+        ...buildWebPageJsonLd({
+          title,
+          description,
+          url: pageUrl,
+          type: "ContactPage",
+        }),
+        mainEntity: {
+          "@type": "ContactPoint",
+          telephone: phone,
+          email,
+          contactType: "customer service",
+          areaServed: "FR",
+          availableLanguage: ["fr"],
+        },
+      },
+    ],
+  };
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16 space-y-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
+      />
       <header className="space-y-3">
         <p className="text-sm font-medium text-gray-500">Contact</p>
         <h1 className="text-3xl font-semibold text-gray-900">

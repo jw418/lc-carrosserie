@@ -15,13 +15,48 @@ import {
   Menu,
   Truck,
   CarFront,
+  Scale,
+  Sparkles,
 } from "lucide-react";
 
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import { siteConfig } from "@/data/site.config";
+import { Faq } from "@/components/Faq";
+import { GoogleMapEmbed } from "@/components/GoogleMapEmbed";
+import { ImageCarousel } from "@/components/ImageCarousel";
+import { MicroTypeForm } from "@/components/MicroTypeForm";
+import {
+  buildBusinessJsonLd,
+  buildWebPageJsonLd,
+  buildWebSiteJsonLd,
+  toJsonLd,
+} from "@/lib/seo";
 
 // --- CONFIGURATION & DATA ---
+
+const commitments = [
+  {
+    icon: <ShieldCheck className="text-orange-600" size={24} />,
+    title: "Service 100% personnalisé",
+    desc: "Une approche orientée solution pour chaque cas particulier.",
+  },
+  {
+    icon: <Scale className="text-orange-600" size={24} />,
+    title: "Appui juridique",
+    desc: "Partenariats avec des juristes et avocats en cas de litige assurance.",
+  },
+  {
+    icon: <Sparkles className="text-orange-600" size={24} />,
+    title: "Qualité Premium",
+    desc: "Matériaux certifiés et finitions soignées pour chaque véhicule.",
+  },
+  {
+    icon: <Clock className="text-orange-600" size={24} />,
+    title: "Disponibilité totale",
+    desc: "Ouvert 7j/7 avec des horaires étendus pour s'adapter à votre planning.",
+  },
+];
 
 const CONTACT_INFO = {
   phone: siteConfig.phone,
@@ -56,16 +91,19 @@ const REVIEWS = [
     name: "Sophie D.",
     location: "Éguilles",
     text: "Service d'une rare qualité. Véhicule de prêt récent, aucuns frais à avancer et ma voiture est ressortie plus neuve qu'avant le choc.",
+    link: "https://example.com/avis/sophie-d",
   },
   {
     name: "Marc A.",
     location: "Aix-en-Provence",
     text: "Atelier très pro. Ils ont géré l'expert qui voulait minimiser les réparations. Résultat parfait, peinture indiscernable.",
+    link: "https://example.com/avis/marc-a",
   },
   {
     name: "Ludo P.",
     location: "Marseille",
     text: "Enfin un carrossier qui soigne les détails. Accueil classe, atelier propre, et respect des délais annoncé.",
+    link: "https://example.com/avis/ludo-p",
   },
 ];
 
@@ -86,6 +124,51 @@ const FAQS = [
     q: "Avez-vous l'agrément de mon assurance ?",
     r: "Loi Hamon : Vous avez le libre choix du réparateur. Que nous soyons agréés ou non par votre compagnie spécifique, cela ne change rien pour vous : pas d'avance de frais et garantie des travaux.",
   },
+];
+
+const FAQ_ITEMS_HOME = [
+  {
+    question:
+      "Est-ce que je suis oblige de passer par le garage conseille par mon assurance ?",
+    answer:
+      "Non. Apres un sinistre, votre assurance peut proposer un garage partenaire, mais vous restez libre de choisir le reparateur de votre choix. La loi vous laisse le libre choix du reparateur et cela n'a pas d'impact sur vos garanties ni sur la prise en charge du sinistre. Nous pouvons donc gerer la reparation et le dossier assurance, meme si votre assureur vous a oriente vers un autre garage.",
+  },
+  {
+    question: "Est-ce que je vais devoir avancer les frais de reparation ?",
+    answer:
+      "Non. Dans le cadre d'un sinistre pris en charge par votre assurance, vous n'avez pas d'avance de travaux a faire. Nous gerons directement le reglement avec votre assureur et la franchise contractuelle est offerte, de sorte que vous n'ayez rien a payer au moment de recuperer votre vehicule. Nous demandons simplement un cheque de garantie, qui n'est encaisse qu'une fois que vous avez recu l'indemnisation de votre assurance.",
+  },
+  {
+    question: "Combien de temps ma voiture sera-t-elle immobilisee ?",
+    answer:
+      "La duree d'immobilisation depend de plusieurs facteurs : importance des degats, pieces a remplacer (et leur disponibilite), presence ou non d'un dossier assurance, et charge de l'atelier. Sans assurance : pour une petite intervention sans pieces a commander, la reparation peut parfois se faire du lendemain au surlendemain. Pour des travaux plus importants, il faut generalement compter de quelques jours a environ une semaine. Avec assurance : nous intervenons des que l'expert a rendu son rapport et que la prise en charge est validee, puis la duree depend du volume de travaux et des pieces a remplacer. Des le devis, nous vous donnons une date de depot (ou d'enlevement), une estimation de la duree d'immobilisation et les solutions de vehicule de pret possibles pour vous organiser.",
+  },
+  {
+    question: "Comment se passe le devis pour une reparation de carrosserie ?",
+    answer:
+      "Nous commencons par examiner le vehicule pour lister les elements touches, les eventuels remplacements de pieces et l'etendue de la peinture a reprendre. Sur cette base, nous etablissons un devis detaille dans la journee, gratuit et sans engagement. Il mentionne les travaux prevus, le cout estime et la part que l'assurance peut prendre en charge. Une fois que tout est clair pour vous, nous planifions la reparation.",
+  },
+  {
+    question:
+      "Pouvez-vous aussi traiter des petits defauts esthetiques en plus du sinistre ?",
+    answer:
+      "Oui. Tant que le vehicule est a l'atelier, il est souvent interessant de profiter de l'immobilisation pour corriger d'autres points : rayures marquees, jantes frottees, optiques ternis, cuir abime, etc. Nous pouvons integrer ces interventions dans le devis, en distinguant ce qui releve du sinistre pris en charge par l'assurance et ce qui releve d'une remise en etat esthetique complementaire.",
+  },
+];
+
+const REALISATIONS_IMAGES = [
+  "/img/carousels/home/2025-05-06.webp",
+  "/img/carousels/home/2025-07-28.webp",
+  "/img/carousels/home/2025-10-06.webp",
+  "/img/carousels/home/covering.png",
+  "/img/carousels/home/tolerie.png",
+];
+
+const MICROFORM_CHOICES = [
+  { value: "tolerie", label: "Reparation tolerie" },
+  { value: "peinture", label: "Peinture carrosserie" },
+  { value: "jantes", label: "Reparation jantes" },
+  { value: "covering", label: "Covering / esthetique" },
 ];
 
 // --- COMPONENTS ---
@@ -150,23 +233,24 @@ const SERVICES = [
     title: "Réparation tôlerie",
     description:
       "Redressage, réparation d’éléments et remise en forme pour retrouver un véhicule propre et aligné.",
-    image: "/img/tolerie.jpg", // Remplace par tes vrais chemins
+    image: "/img/services/tolerie.png", // Remplace par tes vrais chemins
     href: "/services/carrosserie-generale",
-    showBtn: true,
+    showBtn: false,
   },
   {
     title: "Peinture carrosserie",
     description:
       "Préparation soignée, peinture constructeur et vernis pour un rendu uniforme et une finition impeccable.",
-    image: "/img/peinture.jpg",
+    image: "/img/services/peinture.png",
     href: "/services/carrosserie-generale",
-    showBtn: true,
+    showBtn: false,
   },
   {
     title: "Fin de location LOA / LLD",
     description:
       "Remise en état ciblée pour éviter les pénalités de restitution et présenter un véhicule impeccable.",
-    image: "/img/restitution.jpg",
+    image: "/img/services/restitution.png",
+
     href: "/services/loa-lld",
     showBtn: false,
   },
@@ -174,7 +258,7 @@ const SERVICES = [
     title: "Réparation de jantes",
     description:
       "Correction des impacts de trottoirs et rénovation complète pour redonner l'aspect du neuf à vos roues.",
-    image: "/img/jantes.jpg",
+    image: "/img/services/jantes.png",
     href: "",
     showBtn: false,
   },
@@ -182,16 +266,16 @@ const SERVICES = [
     title: "Covering & Esthétique",
     description:
       "Personnalisation partielle ou totale et protection de carrosserie pour un style unique.",
-    image: "/img/covering.jpg",
+    image: "/img/services/covering.png",
     href: "/services/covering",
     showBtn: false,
   },
   {
-    title: "Accompagnement Sinistre",
+    title: "Voir toutes les prestations",
     description:
-      "Gestion complète de votre dossier assurance, expertise et aide aux démarches administratives.",
-    image: "/img/sinistre.jpg",
-    href: "/assurance",
+      "Découvrez l'ensemble de nos services dédiés à la réparation et à l'esthétique automobile.",
+    image: "/img/services/services.png",
+    href: "/services/carrosserie-generale",
     showBtn: true,
   },
 ];
@@ -215,8 +299,28 @@ const microCopy = [
 ];
 
 export default function LCCarrosserieHome() {
+  const mapQuery = encodeURIComponent(CONTACT_INFO.address);
+  const mapSrc = `https://www.google.com/maps?q=${mapQuery}&output=embed`;
+  const pageUrl = siteConfig.websiteUrl;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildBusinessJsonLd(),
+      buildWebSiteJsonLd(),
+      buildWebPageJsonLd({
+        title: siteConfig.seoTitle,
+        description: siteConfig.seoDescription,
+        url: pageUrl,
+      }),
+    ],
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
+      />
       {/* HERO SECTION */}
       <section className="relative isolate min-h-[90vh] flex flex-col justify-center bg-zinc-50 pt-32 pb-20 overflow-hidden font-sans">
         {/* Background Architectural : Lignes de structure */}
@@ -264,8 +368,8 @@ export default function LCCarrosserieHome() {
               {/* Titre avec gestion de la cassure de mot pour éviter l'overflow */}
               <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-zinc-950 leading-[0.85] mb-8 uppercase break-words">
                 LC CARROSSERIE, <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-zinc-800 to-orange-600">
-                  RESTAURATION & PEINTURE.
+                <span className="text-transparent bg-clip-text font    uppercase bg-gradient-to-r from-zinc-900 via-zinc-800 to-orange-600">
+                  réparation & peinture automobile.
                 </span>
               </h1>
 
@@ -282,16 +386,19 @@ export default function LCCarrosserieHome() {
 
               {/* CTA */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-16">
-                <button className="font-mono bg-zinc-950 text-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-3 group">
-                  Prendre Rendez-vous
-                  <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
                 <a
                   href={`tel:${CONTACT_INFO.phone}`}
-                  className="font-mono border border-zinc-200 bg-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 transition-all flex items-center justify-center gap-3 text-zinc-900"
+                  className="font-mono bg-zinc-950 text-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-3 group"
                 >
                   <Phone className="w-4 h-4 text-orange-600" />
                   {CONTACT_INFO.phoneDisplay}
+                </a>
+                <a
+                  href="/#contact"
+                  className="font-mono border border-zinc-200 bg-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 transition-all flex items-center justify-center gap-3 text-zinc-900"
+                >
+                  Prendre un RDV
+                  <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </a>
               </div>
             </motion.div>
@@ -305,7 +412,7 @@ export default function LCCarrosserieHome() {
             >
               <div className="relative aspect-[4/5] bg-zinc-200 overflow-hidden shadow-2xl lg:shadow-none">
                 <img
-                  src="/img/hero.png"
+                  src="/img/hero-banner-img.png"
                   alt="Expert LC Carrosserie avec voiture Alpine orange"
                   className="w-full h-full object-cover"
                 />
@@ -336,11 +443,6 @@ export default function LCCarrosserieHome() {
       {/* SERVICES SECTION */}
       <section id="services" className="py-24 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionTitle
-            title="Expertise Technique"
-            subtitle="Nous ne sommes pas un simple garage. Nous sommes un atelier technique dédié à la restauration esthétique et structurelle de votre véhicule."
-          />
-
           <section className="bg-white py-24 md:py-32 font-sans">
             <div className="max-w-7xl mx-auto px-6 md:px-12">
               {/* HEADER SECTION */}
@@ -355,9 +457,11 @@ export default function LCCarrosserieHome() {
                   </h2>
                 </div>
                 <p className="font-sans text-zinc-500 max-w-sm text-sm leading-relaxed mb-2">
-                  De la petite rayure à la restructuration lourde, notre atelier
-                  déploie un savoir-faire artisanal couplé aux technologies de
-                  pointe.
+                  Nous intervenons sur tout ce qui touche à la carrosserie de
+                  votre voiture : de la petite rayure de parking aux réparations
+                  importantes après sinistre. Notre objectif est simple : rendre
+                  votre véhicule impeccable, tout en simplifiant au maximum vos
+                  démarches.
                 </p>
               </div>
 
@@ -401,7 +505,7 @@ export default function LCCarrosserieHome() {
                           href={service.href}
                           className="mt-auto inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors group/btn"
                         >
-                          Plus d'infos
+                          Voir tout nos services
                           <ArrowUpRight
                             size={14}
                             className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform"
@@ -648,7 +752,17 @@ export default function LCCarrosserieHome() {
                 </span>
               </div>
             </div>
-            <Button variant="outline">Lire tous les avis</Button>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="outline">Lire tous les avis</Button>
+              <a
+                href="https://example.com/avis"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-200"
+              >
+                Laisser un avis
+              </a>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -681,8 +795,164 @@ export default function LCCarrosserieHome() {
                     </div>
                   </div>
                 </div>
+                <a
+                  href={review.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center text-xs font-semibold text-primary hover:text-primary/80 transition-colors"
+                >
+                  Voir l'avis
+                </a>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+      <section className="py-24 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            {/* --- CÔTÉ GAUCHE : PHILOSOPHIE --- */}
+            <div className="lg:col-span-5 space-y-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200">
+                <span className="w-2 h-2 rounded-full bg-orange-600" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+                  Qui sommes-nous
+                </span>
+              </div>
+
+              <h2 className="font-heading text-4xl md:text-5xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
+                Notre atelier, <br />
+                <span className="text-orange-600">
+                  notre façon de vous accompagner.
+                </span>
+              </h2>
+
+              <div className="space-y-6 font-sans text-lg text-zinc-600 leading-relaxed font-light">
+                <p>
+                  Notre priorité est de vous{" "}
+                  <strong className="font-bold text-zinc-950">
+                    simplifier la vie
+                  </strong>
+                  . Nous faisons au mieux pour que vous ayez le moins de choses
+                  à gérer possible.
+                </p>
+                <p className="p-6 border-l-2 border-orange-600 bg-zinc-50 rounded-r-2xl italic">
+                  Conseil, accompagnement personnalisé et analyse des garanties
+                  de votre contrat d’assurance pour réduire au maximum ce qui
+                  reste à votre charge.
+                </p>
+              </div>
+
+              <Button className="group h-14 px-8 bg-zinc-950 hover:bg-orange-600 rounded-xl transition-all">
+                <Link
+                  href="/a-propos"
+                  className="flex items-center gap-3 font-mono text-xs font-bold uppercase tracking-widest"
+                >
+                  Découvrir l’atelier et notre engagement
+                  <ArrowRight
+                    size={16}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </Link>
+              </Button>
+            </div>
+
+            {/* --- CÔTÉ DROIT : GRILLE D'ENGAGEMENTS --- */}
+            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {commitments.map((item, index) => (
+                <div
+                  key={index}
+                  className="group p-8 rounded-[2rem] border border-zinc-100 bg-zinc-50/50 hover:bg-white hover:shadow-2xl hover:shadow-zinc-200 transition-all duration-300"
+                >
+                  <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm border border-zinc-100 group-hover:scale-110 transition-transform">
+                    {item.icon}
+                  </div>
+                  <h3 className="font-heading text-xl font-black uppercase tracking-tight text-zinc-950 mb-2">
+                    {item.title}
+                  </h3>
+                  <p className="font-sans text-sm text-zinc-500 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+
+              {/* Élément décoratif "Badge de confiance" */}
+              <div className="md:col-span-2 mt-4 p-6 rounded-2xl bg-zinc-950 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="flex items-center gap-4">
+                  <div className="h-1 w-12 bg-orange-600" />
+                  <p className="font-mono text-[10px] uppercase tracking-[0.2em] font-bold">
+                    Expertise Bouches-du-Rhône (13)
+                  </p>
+                </div>
+                <p className="text-zinc-400 text-xs font-light">
+                  Aix-en-Provence • Marseille • Éguilles
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* REALISATIONS */}
+      <section className="relative py-24 bg-white border-y border-zinc-100 overflow-hidden">
+        {/* Texture de fond subtile (optionnelle) */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:40px_40px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20 pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-4">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 border border-orange-100">
+                <Sparkles className="h-3 w-3 text-orange-600" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-orange-700">
+                  Savoir-faire artisanal
+                </span>
+              </div>
+
+              {/* Titre style Archivo */}
+              <h2 className="font-heading text-4xl md:text-6xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
+                Nos <span className="text-zinc-400">réalisations</span>
+              </h2>
+
+              {/* Descriptif style Mono */}
+              <p className="font-mono text-xs uppercase tracking-widest text-zinc-500 max-w-xl">
+                Avant / après, peinture, tôlerie, finitions et travaux
+                esthétiques réalisés dans notre atelier.
+              </p>
+            </div>
+
+            {/* Lien vers réseaux ou galerie complète */}
+            <Link
+              href="https://instagram.com"
+              target="_blank"
+              className="group flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors"
+            >
+              Voir plus sur Instagram
+              <ArrowUpRight
+                size={14}
+                className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+              />
+            </Link>
+          </div>
+
+          {/* Le Carousel - On lui laisse toute la largeur du container parent */}
+          <div className="relative group">
+            <div className="absolute -inset-4 bg-zinc-50/50 rounded-[3rem] -z-10 scale-95 group-hover:scale-100 transition-transform duration-700" />
+            <ImageCarousel
+              items={REALISATIONS_IMAGES.map((src) => ({
+                src,
+                title: "Réalisation atelier",
+              }))}
+            />
+          </div>
+
+          {/* Note de bas de section */}
+          <div className="flex items-center gap-4 pt-4">
+            <div className="h-px flex-1 bg-zinc-100" />
+            <p className="font-sans text-[10px] italic text-zinc-400">
+              Tous les travaux sont garantis et réalisés selon les normes
+              constructeurs.
+            </p>
+            <div className="h-px flex-1 bg-zinc-100" />
           </div>
         </div>
       </section>
@@ -690,120 +960,124 @@ export default function LCCarrosserieHome() {
       {/* LOCATION & FAQ */}
       <section id="contact" className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* FAQ */}
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-foreground">
-                Questions Fréquentes
-              </h2>
-              <div className="space-y-4">
-                {FAQS.map((faq, idx) => (
-                  <details
-                    key={idx}
-                    className="group bg-card rounded-lg border border-border overflow-hidden"
-                  >
-                    <summary className="flex justify-between items-center font-medium cursor-pointer list-none p-5 group-open:bg-secondary/50 transition-colors text-foreground">
-                      {faq.q}
-                      <span className="transition-transform duration-300 group-open:rotate-180 text-muted-foreground">
-                        <svg
-                          fill="none"
-                          height="20"
-                          width="20"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M6 9l6 6 6-6"></path>
-                        </svg>
-                      </span>
-                    </summary>
-                    <p className="text-muted-foreground mt-2 p-5 pt-0 text-sm leading-relaxed">
-                      {faq.r}
-                    </p>
-                  </details>
-                ))}
+          <div className="space-y-16">
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
+              {/* FAQ */}
+              <div>
+                <h2 className="text-3xl font-bold mb-8 text-foreground">
+                  Questions frequentes de nos clients
+                </h2>
+                <Faq items={FAQ_ITEMS_HOME} allowMultiple />
+              </div>
+
+              {/* MICRO TYPEFORM */}
+              <div className="lg:pt-12">
+                <MicroTypeForm
+                  firstStep={{
+                    question: "Avez-vous deja contacte votre assurance ?",
+                    yesLabel: "Oui",
+                  }}
+                  secondStep={{
+                    question: "Quel type d'intervention souhaitez-vous ?",
+                    options: MICROFORM_CHOICES,
+                  }}
+                  contactInfo={{
+                    title: "Contact atelier",
+                    lines: [CONTACT_INFO.address],
+                    phone: CONTACT_INFO.phoneDisplay,
+                  }}
+                />
               </div>
             </div>
 
-            {/* CONTACT CARD */}
-            <div className="bg-card p-8 md:p-10 rounded-2xl shadow-lg border border-border relative overflow-hidden">
-              {/* Decorative accent */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
+            <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-start">
+              {/* CONTACT CARD */}
+              <div className="bg-card p-8 md:p-10 rounded-2xl shadow-lg border border-border relative overflow-hidden">
+                {/* Decorative accent */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-primary" />
 
-              <h2 className="text-2xl font-bold mb-8 text-foreground">
-                Nous trouver à Éguilles
-              </h2>
+                <h2 className="text-2xl font-bold mb-8 text-foreground">
+                  Nous trouver a Eguilles
+                </h2>
 
-              <address className="not-italic space-y-6 mb-10">
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
-                    <MapPin className="w-5 h-5" />
+                <address className="not-italic space-y-6 mb-10">
+                  <div className="flex items-start gap-4">
+                    <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
+                      <MapPin className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <strong className="block text-foreground text-lg mb-1">
+                        Atelier Principal
+                      </strong>
+                      <span className="text-muted-foreground block mb-2">
+                        {CONTACT_INFO.address}
+                      </span>
+                      <a
+                        href={CONTACT_INFO.mapLink}
+                        className="text-sm font-semibold text-primary hover:underline"
+                      >
+                        Voir sur la carte
+                      </a>
+                    </div>
                   </div>
-                  <div>
-                    <strong className="block text-foreground text-lg mb-1">
-                      Atelier Principal
-                    </strong>
-                    <span className="text-muted-foreground block mb-2">
-                      {CONTACT_INFO.address}
-                    </span>
-                    <a
-                      href={CONTACT_INFO.mapLink}
-                      className="text-sm font-semibold text-primary hover:underline"
-                    >
-                      Voir sur la carte →
-                    </a>
+
+                  <div className="flex items-start gap-4">
+                    <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
+                      <Clock className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <strong className="block text-foreground text-lg mb-1">
+                        Horaires Atelier
+                      </strong>
+                      <span className="text-muted-foreground">
+                        {CONTACT_INFO.hours}
+                      </span>
+                    </div>
                   </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
+                      <Phone className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <strong className="block text-foreground text-lg mb-1">
+                        Contact Rapide
+                      </strong>
+                      <span className="text-muted-foreground block mb-2">
+                        Reponse immediate aux heures d'ouverture
+                      </span>
+                      <a
+                        href={`tel:${CONTACT_INFO.phone}`}
+                        className="text-xl font-bold text-foreground hover:text-primary transition-colors"
+                      >
+                        {CONTACT_INFO.phoneDisplay}
+                      </a>
+                    </div>
+                  </div>
+                </address>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <Button
+                    variant="primary"
+                    className="w-full justify-center"
+                    icon={Phone}
+                  >
+                    Appeler l'atelier
+                  </Button>
+                  <Button variant="outline" className="w-full justify-center">
+                    Envoyer une photo (MMS/WhatsApp)
+                  </Button>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
-                    <Clock className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <strong className="block text-foreground text-lg mb-1">
-                      Horaires Atelier
-                    </strong>
-                    <span className="text-muted-foreground">
-                      {CONTACT_INFO.hours}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <strong className="block text-foreground text-lg mb-1">
-                      Contact Rapide
-                    </strong>
-                    <span className="text-muted-foreground block mb-2">
-                      Réponse immédiate aux heures d'ouverture
-                    </span>
-                    <a
-                      href={`tel:${CONTACT_INFO.phone}`}
-                      className="text-xl font-bold text-foreground hover:text-primary transition-colors"
-                    >
-                      {CONTACT_INFO.phoneDisplay}
-                    </a>
-                  </div>
-                </div>
-              </address>
-
-              <div className="grid grid-cols-1 gap-4">
-                <Button
-                  variant="primary"
-                  className="w-full justify-center"
-                  icon={Phone}
-                >
-                  Appeler l'atelier
-                </Button>
-                <Button variant="outline" className="w-full justify-center">
-                  Envoyer une photo (MMS/WhatsApp)
-                </Button>
               </div>
+
+              {/* MAP */}
+              <GoogleMapEmbed
+                mapSrc={mapSrc}
+                mapLink={CONTACT_INFO.mapLink}
+                fallbackAlt="Vue aerienne de l'atelier"
+                className="h-full"
+                height={520}
+              />
             </div>
           </div>
         </div>

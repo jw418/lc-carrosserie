@@ -1,12 +1,47 @@
 import type { Metadata } from "next";
-import { ArrowRight, CheckCircle2, Phone, Sparkles, Star } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  Phone,
+  Sparkles,
+  Star,
+  MapPin,
+} from "lucide-react";
 
 import { siteConfig } from "@/data/site.config";
+import { buildBusinessJsonLd, buildFaqJsonLd, buildWebPageJsonLd, toJsonLd } from "@/lib/seo";
+
+const title = "Carrosserie generale : services, prix et assurance | LC Carrosserie";
+const description =
+  "Services de carrosserie, peinture, devis, prix et delais. Gestion assurance, zero avance de frais et vehicule de pret.";
+const pageUrl = `${siteConfig.websiteUrl}/services/carrosserie-generale`;
 
 export const metadata: Metadata = {
-  title: "Carrosserie générale : services, prix et assurance | LC Carrosserie",
-  description:
-    "Services de carrosserie, déroulé en atelier, prix et délais. Assurance : prise en charge complète, gestion des litiges, sans avance travaux et franchise offerte.",
+  title,
+  description,
+  alternates: {
+    canonical: pageUrl,
+  },
+  openGraph: {
+    title,
+    description,
+    url: pageUrl,
+    siteName: siteConfig.name,
+    locale: "fr_FR",
+    type: "article",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [siteConfig.ogImage],
+  },
 };
 
 const HERO_LABELS = [
@@ -158,9 +193,197 @@ const formatPhoneForTel = (phone: string) => phone.replace(/\s+/g, "");
 
 export default function CarrosserieGeneralePage() {
   const phoneLink = `tel:${formatPhoneForTel(siteConfig.phone)}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildBusinessJsonLd(),
+      buildWebPageJsonLd({
+        title,
+        description,
+        url: pageUrl,
+      }),
+      {
+        "@type": "Service",
+        "@id": `${pageUrl}#service`,
+        name: "Carrosserie et peinture auto",
+        description,
+        serviceType: "Auto body repair",
+        provider: { "@id": `${siteConfig.websiteUrl}#business` },
+        areaServed: ["Eguilles", "Aix-en-Provence", "Marseille"],
+      },
+      buildFaqJsonLd(
+        FAQ.map((item) => ({
+          question: item.q,
+          answer: item.a,
+        }))
+      ),
+    ],
+  };
 
   return (
     <div className="bg-white text-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
+      />
+      <section className="relative isolate flex flex-col justify-center bg-white pt-32 pb-20 overflow-hidden">
+        {/* Background subtil */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full border-x border-zinc-100 max-w-7xl" />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-8 space-y-10">
+              {/* Badge Avis Google */}
+              <div className="inline-flex items-center gap-3 bg-zinc-50 border border-zinc-200 px-4 py-2 rounded-full">
+                <div className="flex text-orange-600">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} fill="currentColor" />
+                  ))}
+                </div>
+                <span className="font-mono text-[11px] font-bold text-zinc-900 uppercase tracking-tighter">
+                  4.9/5{" "}
+                  <span className="text-zinc-400 ml-1">• 120+ Avis Google</span>
+                </span>
+              </div>
+
+              {/* Titre Impact Archivo */}
+              <h1 className="font-heading text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-zinc-950 leading-[0.9] uppercase">
+                Services de carrosserie : <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-400">
+                  Réparation & Assurance.
+                </span>
+              </h1>
+
+              {/* Texte Descriptif Inter */}
+              <p className="font-sans text-lg md:text-xl text-zinc-600 max-w-3xl leading-relaxed font-light">
+                Choc, rayure ou élément à reprendre : on diagnostique, chiffre
+                et répare dans notre atelier à Éguilles. On vous explique ce que
+                votre assurance peut couvrir, on prépare le dossier, puis on
+                planifie l’intervention pour remettre votre véhicule en état
+                rapidement. Intervention dans les Bouches-du-Rhône, autour
+                d’Aix-en-Provence et de Marseille.
+              </p>
+
+              {/* Labels & CTA */}
+              <div className="space-y-8">
+                <div className="flex flex-wrap gap-4">
+                  {HERO_LABELS.map((label) => (
+                    <div
+                      key={label}
+                      className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-900 bg-zinc-50 border border-zinc-200 px-4 py-2 rounded-md"
+                    >
+                      <CheckCircle2 size={14} className="text-orange-600" />
+                      {label}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4 items-center">
+                  <a
+                    href={phoneLink}
+                    className="group font-mono bg-zinc-950 text-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-all duration-300 flex items-center gap-3 shadow-2xl"
+                  >
+                    <Phone size={16} />
+                    Appeler l'Expert
+                    <ArrowRight
+                      size={16}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </a>
+                  <span className="font-sans text-sm text-zinc-400 italic">
+                    Estimation gratuite & rapide sans rendez-vous.
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- SECTION 2 : EXPERTISE & LOCALISATION (STYLE TECHNIQUE) --- */}
+      <section className="bg-zinc-50 border-y border-zinc-200 py-24">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-stretch">
+            {/* Colonne de gauche : Logistique */}
+            <div className="space-y-8 flex flex-col justify-center">
+              <div className="inline-flex items-center gap-2 text-orange-600 font-mono text-[10px] font-black uppercase tracking-[0.3em]">
+                <Sparkles size={14} />
+                Libre choix du réparateur
+              </div>
+              <h2 className="font-heading text-4xl font-black uppercase tracking-tighter text-zinc-950 leading-none">
+                Gestion assurance, véhicule de prêt & restitution.
+              </h2>
+              <p className="font-sans text-zinc-600 leading-relaxed font-light">
+                Nous gérons l'intégralité du processus logistique. Que vous
+                soyez assuré au tiers ou tous risques, notre équipe s'occupe de
+                la relation avec l'expert pour vous garantir une réparation
+                conforme aux normes constructeurs, pendant que vous restez
+                mobile grâce à notre flotte de prêt.
+              </p>
+            </div>
+
+            {/* Colonne de droite : Carte de navigation locale (Design Premium) */}
+            <div className="relative rounded-3xl bg-zinc-950 p-10 text-white overflow-hidden shadow-2xl">
+              {/* Effet visuel technique */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-600/10 blur-[100px] rounded-full" />
+
+              <div className="relative h-full flex flex-col justify-between space-y-12">
+                <div className="space-y-4">
+                  <span className="font-mono text-[10px] text-orange-400 font-bold uppercase tracking-widest">
+                    Zone d'intervention
+                  </span>
+                  <p className="font-heading text-2xl font-black uppercase italic">
+                    À proximité de chez vous <br /> (Aix & Marseille)
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  <a
+                    href="/aix-en-provence/carrosserie"
+                    className="group flex items-center justify-between p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all"
+                  >
+                    <div className="flex items-center gap-4">
+                      <MapPin className="text-orange-500" size={20} />
+                      <span className="font-mono text-xs font-bold uppercase tracking-widest text-zinc-100">
+                        Carrosserie à Aix-en-Provence
+                      </span>
+                    </div>
+                    <ArrowRight
+                      size={18}
+                      className="group-hover:translate-x-2 transition-transform text-zinc-500"
+                    />
+                  </a>
+
+                  <a
+                    href="/marseille/carrosserie"
+                    className="group flex items-center justify-between p-5 bg-white/5 border border-white/10 rounded-2xl hover:bg-white/10 transition-all"
+                  >
+                    <div className="flex items-center gap-4">
+                      <MapPin className="text-orange-500" size={20} />
+                      <span className="font-mono text-xs font-bold uppercase tracking-widest text-zinc-100">
+                        Carrosserie à Marseille
+                      </span>
+                    </div>
+                    <ArrowRight
+                      size={18}
+                      className="group-hover:translate-x-2 transition-transform text-zinc-500"
+                    />
+                  </a>
+                </div>
+
+                <div className="pt-6 border-t border-white/10 flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <p className="font-mono text-[9px] text-zinc-400 uppercase tracking-[0.2em]">
+                    Atelier centralisé à Éguilles (13510)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="relative overflow-hidden border-b bg-gradient-to-b from-zinc-50 to-white">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-gray-200/40 to-transparent blur-3xl" />
@@ -173,7 +396,11 @@ export default function CarrosserieGeneralePage() {
             <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-800 shadow-sm ring-1 ring-gray-200">
               <span className="flex text-amber-500">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-current" strokeWidth={1.2} />
+                  <Star
+                    key={i}
+                    className="h-4 w-4 fill-current"
+                    strokeWidth={1.2}
+                  />
                 ))}
               </span>
               4.9/5
@@ -187,9 +414,12 @@ export default function CarrosserieGeneralePage() {
                 Services de carrosserie : réparation et assurance auto
               </h1>
               <p className="text-lg leading-relaxed text-gray-700">
-                Choc, rayure ou élément à reprendre : on diagnostique, chiffre et répare dans notre atelier à Éguilles.
-                Nous vous expliquons ce que votre assurance peut couvrir, préparons le dossier, puis planifions l’intervention
-                pour remettre votre véhicule en état rapidement. Intervention dans les Bouches-du-Rhône, autour d’Aix-en-Provence et de Marseille.
+                Choc, rayure ou élément à reprendre : on diagnostique, chiffre
+                et répare dans notre atelier à Éguilles. Nous vous expliquons ce
+                que votre assurance peut couvrir, préparons le dossier, puis
+                planifions l’intervention pour remettre votre véhicule en état
+                rapidement. Intervention dans les Bouches-du-Rhône, autour
+                d’Aix-en-Provence et de Marseille.
               </p>
               <div className="flex flex-wrap gap-3">
                 {HERO_LABELS.map((label) => (
@@ -218,7 +448,9 @@ export default function CarrosserieGeneralePage() {
             <div className="relative rounded-3xl border border-gray-100 bg-gradient-to-br from-gray-900 to-gray-700 p-8 text-white shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_35%)]" />
               <div className="relative space-y-4">
-                <p className="text-sm uppercase tracking-wide text-gray-300">Atelier à Éguilles</p>
+                <p className="text-sm uppercase tracking-wide text-gray-300">
+                  Atelier à Éguilles
+                </p>
                 <p className="text-3xl font-bold leading-tight">
                   Gestion assurance, <br />
                   véhicule de prêt, <br />
@@ -230,13 +462,20 @@ export default function CarrosserieGeneralePage() {
                 </div>
                 <div className="rounded-xl bg-white/10 p-4 text-sm leading-relaxed text-gray-100 ring-1 ring-white/10">
                   <p>
-                    Vous êtes à Aix ou à Marseille ? Consultez nos pages locales :
+                    Vous êtes à Aix ou à Marseille ? Consultez nos pages locales
+                    :
                     <br />
-                    <a href="/aix-en-provence/carrosserie" className="font-semibold underline">
+                    <a
+                      href="/aix-en-provence/carrosserie"
+                      className="font-semibold underline"
+                    >
                       Carrosserie à Aix-en-Provence
                     </a>{" "}
                     •{" "}
-                    <a href="/marseille/carrosserie" className="font-semibold underline">
+                    <a
+                      href="/marseille/carrosserie"
+                      className="font-semibold underline"
+                    >
                       Carrosserie à Marseille
                     </a>
                   </p>
@@ -250,10 +489,14 @@ export default function CarrosserieGeneralePage() {
       <main className="mx-auto max-w-6xl px-6 py-16 space-y-16">
         <section className="space-y-6">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Les travaux de carrosserie que nous réalisons</h2>
+            <h2 className="text-3xl font-bold">
+              Les travaux de carrosserie que nous réalisons
+            </h2>
             <p className="text-gray-700">
-              Sinistre assurance ou remise en état esthétique : nous corrigeons les défauts visibles qui dégradent l’apparence
-              ou la valeur de votre voiture (tôle marquée, peinture abîmée, bosses, petits chocs du quotidien).
+              Sinistre assurance ou remise en état esthétique : nous corrigeons
+              les défauts visibles qui dégradent l’apparence ou la valeur de
+              votre voiture (tôle marquée, peinture abîmée, bosses, petits chocs
+              du quotidien).
             </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
@@ -262,7 +505,9 @@ export default function CarrosserieGeneralePage() {
                 key={item.title}
                 className="rounded-2xl border border-gray-100 bg-gradient-to-br from-white to-zinc-50 p-6 shadow-sm"
               >
-                <h3 className="text-xl font-semibold text-gray-900">{item.title}</h3>
+                <h3 className="text-xl font-semibold text-gray-900">
+                  {item.title}
+                </h3>
                 <ul className="mt-3 space-y-2 text-sm leading-relaxed text-gray-700 list-disc list-inside">
                   {item.body.map((line) => (
                     <li key={line}>{line}</li>
@@ -274,9 +519,12 @@ export default function CarrosserieGeneralePage() {
         </section>
 
         <section className="space-y-6">
-          <h2 className="text-3xl font-bold">Comment se déroule une réparation en atelier</h2>
+          <h2 className="text-3xl font-bold">
+            Comment se déroule une réparation en atelier
+          </h2>
           <p className="text-gray-700">
-            Chaque véhicule suit un déroulé précis pour garantir un résultat propre et durable, depuis le diagnostic jusqu’au contrôle final.
+            Chaque véhicule suit un déroulé précis pour garantir un résultat
+            propre et durable, depuis le diagnostic jusqu’au contrôle final.
           </p>
           <div className="grid gap-4 md:grid-cols-2">
             {PROCESS_STEPS.map((step, index) => (
@@ -288,8 +536,12 @@ export default function CarrosserieGeneralePage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div className="relative z-10 space-y-2">
-                  <h3 className="text-lg font-semibold text-gray-900">{step.title}</h3>
-                  <p className="text-sm leading-relaxed text-gray-700">{step.desc}</p>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-gray-700">
+                    {step.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -298,9 +550,12 @@ export default function CarrosserieGeneralePage() {
 
         <section className="space-y-6">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Services complémentaires pour remettre votre véhicule en valeur</h2>
+            <h2 className="text-3xl font-bold">
+              Services complémentaires pour remettre votre véhicule en valeur
+            </h2>
             <p className="text-gray-700">
-              À ajouter pendant une réparation ou sur rendez-vous : sécurité, confort et esthétique.
+              À ajouter pendant une réparation ou sur rendez-vous : sécurité,
+              confort et esthétique.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -309,7 +564,9 @@ export default function CarrosserieGeneralePage() {
                 key={service.title}
                 className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm"
               >
-                <h3 className="text-lg font-semibold text-gray-900">{service.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900">
+                  {service.title}
+                </h3>
                 <ul className="mt-3 space-y-1 text-sm leading-relaxed text-gray-700 list-disc list-inside">
                   {service.points.map((point) => (
                     <li key={point}>{point}</li>
@@ -324,32 +581,51 @@ export default function CarrosserieGeneralePage() {
           <div className="space-y-2">
             <h2 className="text-3xl font-bold">Prix, devis et délais</h2>
             <p className="text-zinc-300">
-              Devis clair, gratuit et sans engagement. Validation avant lancement des travaux.
+              Devis clair, gratuit et sans engagement. Validation avant
+              lancement des travaux.
             </p>
           </div>
           <div className="grid gap-6 lg:grid-cols-2">
             <div className="space-y-3 rounded-2xl bg-zinc-800/60 p-6 ring-1 ring-white/10">
-              <h3 className="text-xl font-semibold">Un devis de carrosserie clair</h3>
+              <h3 className="text-xl font-semibold">
+                Un devis de carrosserie clair
+              </h3>
               <ul className="mt-2 space-y-2 text-sm leading-relaxed text-zinc-200 list-disc list-inside">
-                <li>Éléments concernés : tôlerie, peinture, jantes, optiques, etc.</li>
-                <li>Pièces à réparer ou à remplacer, main-d’œuvre et fournitures.</li>
+                <li>
+                  Éléments concernés : tôlerie, peinture, jantes, optiques, etc.
+                </li>
+                <li>
+                  Pièces à réparer ou à remplacer, main-d’œuvre et fournitures.
+                </li>
                 <li>Part estimée prise en charge par l’assurance.</li>
-                <li>Envoi possible après photos, affiné sur place si besoin.</li>
+                <li>
+                  Envoi possible après photos, affiné sur place si besoin.
+                </li>
               </ul>
               <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2 text-sm font-semibold text-white">
                 Estimation sur photos possible
               </div>
             </div>
             <div className="space-y-3 rounded-2xl bg-zinc-800/60 p-6 ring-1 ring-white/10">
-              <h3 className="text-xl font-semibold">Ce qui influence le prix & les délais</h3>
+              <h3 className="text-xl font-semibold">
+                Ce qui influence le prix & les délais
+              </h3>
               <ul className="mt-2 space-y-2 text-sm leading-relaxed text-zinc-200 list-disc list-inside">
                 <li>Ampleur des dégâts et nombre de pièces touchées.</li>
                 <li>Réparation vs remplacement de certaines pièces.</li>
-                <li>Étendue de la peinture (retouche locale, élément complet, harmonisation).</li>
-                <li>Délais liés à l’assurance, à l’expertise et à la disponibilité des pièces.</li>
+                <li>
+                  Étendue de la peinture (retouche locale, élément complet,
+                  harmonisation).
+                </li>
+                <li>
+                  Délais liés à l’assurance, à l’expertise et à la disponibilité
+                  des pièces.
+                </li>
               </ul>
               <p className="text-sm text-zinc-200">
-                Nous vous donnons dès le devis une date de démarrage, une estimation d’immobilisation et les solutions de véhicule de prêt.
+                Nous vous donnons dès le devis une date de démarrage, une
+                estimation d’immobilisation et les solutions de véhicule de
+                prêt.
               </p>
             </div>
           </div>
@@ -357,9 +633,12 @@ export default function CarrosserieGeneralePage() {
 
         <section className="space-y-6">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Nos réalisations en carrosserie</h2>
+            <h2 className="text-3xl font-bold">
+              Nos réalisations en carrosserie
+            </h2>
             <p className="text-gray-700">
-              Quelques cas typiques : chocs de parking, impacts plus lourds, remises en état avant restitution LOA/LLD.
+              Quelques cas typiques : chocs de parking, impacts plus lourds,
+              remises en état avant restitution LOA/LLD.
             </p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -369,17 +648,25 @@ export default function CarrosserieGeneralePage() {
                 className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm"
               >
                 <div className="p-4 space-y-1">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">{item.title}</p>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                    {item.title}
+                  </p>
                   <p className="text-sm text-gray-700">{item.subtitle}</p>
                 </div>
                 <div className="grid grid-cols-2 divide-x divide-gray-100 border-t border-gray-100">
                   <div className="p-4 text-center text-xs text-gray-600">
                     Avant
-                    <div className="mt-2 h-24 rounded-lg bg-gray-100" aria-label={item.beforeAlt} />
+                    <div
+                      className="mt-2 h-24 rounded-lg bg-gray-100"
+                      aria-label={item.beforeAlt}
+                    />
                   </div>
                   <div className="p-4 text-center text-xs text-gray-600">
                     Après
-                    <div className="mt-2 h-24 rounded-lg bg-gray-100" aria-label={item.afterAlt} />
+                    <div
+                      className="mt-2 h-24 rounded-lg bg-gray-100"
+                      aria-label={item.afterAlt}
+                    />
                   </div>
                 </div>
               </div>
@@ -389,8 +676,12 @@ export default function CarrosserieGeneralePage() {
 
         <section className="space-y-6">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold">Questions fréquentes de nos clients</h2>
-            <p className="text-gray-700">Libre choix du réparateur, avance de frais, délais et devis.</p>
+            <h2 className="text-3xl font-bold">
+              Questions fréquentes de nos clients
+            </h2>
+            <p className="text-gray-700">
+              Libre choix du réparateur, avance de frais, délais et devis.
+            </p>
           </div>
           <div className="space-y-3">
             {FAQ.map((item) => (
@@ -413,10 +704,14 @@ export default function CarrosserieGeneralePage() {
         <section className="rounded-3xl border border-gray-100 bg-gradient-to-br from-white to-zinc-50 p-8 shadow-sm">
           <div className="grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-center">
             <div className="space-y-3">
-              <h2 className="text-3xl font-bold">Parlez-nous de votre réparation</h2>
+              <h2 className="text-3xl font-bold">
+                Parlez-nous de votre réparation
+              </h2>
               <p className="text-gray-700">
-                Expliquez la situation, joignez quelques photos : nous préparons votre dossier, vérifions la prise en charge
-                possible et vous proposons un plan simple (dépôt ou enlèvement, véhicule de prêt, délais).
+                Expliquez la situation, joignez quelques photos : nous préparons
+                votre dossier, vérifions la prise en charge possible et vous
+                proposons un plan simple (dépôt ou enlèvement, véhicule de prêt,
+                délais).
               </p>
               <div className="flex flex-wrap gap-2 text-sm font-semibold text-gray-900">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 ring-1 ring-gray-200">

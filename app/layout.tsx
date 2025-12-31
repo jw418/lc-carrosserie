@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import "./globals.css";
 
 import Footer from "@/components/sections/Footer";
-import GoTop from "@/components/buttons/GoTop";
+
 import Navbar from "@/components/sections/Navbar";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -13,7 +13,7 @@ import CookieBanner from "@/components/CookieBanner";
 import GoogleConsentUpdater from "@/components/GoogleConsentUpdater";
 import { ConsentProvider } from "@/hooks/useConsent";
 import { Inter, JetBrains_Mono, Archivo } from "next/font/google";
-import "./globals.css";
+
 import { siteConfig } from "@/data/site.config";
 import { FloatingCall } from "@/components/buttons/FloatingCall";
 
@@ -39,22 +39,35 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.websiteUrl),
   title: {
-    default: "LC Carrosserie | Carrosserie et peinture auto à Éguilles",
+    default: siteConfig.seoTitle,
     template: "%s | LC Carrosserie",
   },
-  description:
-    "Atelier de carrosserie et peinture automobile à Éguilles. Réparations toutes assurances, aucune avance de travaux, véhicule de prêt et franchise offerte.",
+  description: siteConfig.seoDescription,
   icons: {
     icon: "/favicon.ico",
   },
+  alternates: {
+    canonical: siteConfig.websiteUrl,
+  },
   openGraph: {
-    title: "LC Carrosserie | Carrosserie et peinture auto à Éguilles",
-    description:
-      "Gestion complète de votre réparation carrosserie : diagnostic, dossier assurance, peinture, véhicule de prêt et restitution planifiée.",
+    title: siteConfig.seoTitle,
+    description: siteConfig.seoDescription,
     url: siteConfig.websiteUrl,
     siteName: siteConfig.name,
     locale: "fr_FR",
     type: "website",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.seoTitle,
+    description: siteConfig.seoDescription,
+    images: [siteConfig.ogImage],
   },
 };
 
@@ -65,6 +78,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
+      <head>
+        <meta name="format-detection" content="telephone=no" />
+      </head>
       <body
         className={`${inter.variable} ${archivo.variable} ${jetbrains.variable} font-sans antialiased `}
       >

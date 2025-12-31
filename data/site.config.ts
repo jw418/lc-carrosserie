@@ -2,8 +2,13 @@ export const siteConfig = {
   name: "LC Carrosserie",
   tradeName: "LC Carrosserie",
   legalName: "L.C CARROSSERIE SAS",
+  seoTitle: "LC Carrosserie | Carrosserie et peinture auto a Eguilles",
+  seoDescription:
+    "Atelier de carrosserie et peinture automobile a Eguilles. Reparations toutes assurances, zero avance de frais, vehicule de pret et franchise offerte.",
   baseline: "Atelier de carrosserie et peinture automobile",
   websiteUrl: "https://www.lc-carrosserie.fr",
+  logoUrl: "/img/logo.png",
+  ogImage: "/img/hero.png",
   mapLink: "https://share.google/zH02U5Zcs90rSb23W",
   secondAddress: "1459 avenue Victor Hugo, 13122 Ventabren",
   secondStreetAddress: "1459 avenue Victor Hugo",
@@ -12,6 +17,8 @@ export const siteConfig = {
   secondState: "France",
   description:
     "Atelier de carrosserie et peinture automobile à Éguilles. Réparations toutes assurances, aucune avance de travaux, véhicule de prêt et franchise offerte.",
+  schemaType: "AutoBodyShop",
+  priceRange: "EUR",
   full_address: "655 Chem. des Jalassieres, 13510 Eguilles",
   streetAddress: "655 Chem. des Jalassieres",
   zipCode: "13510",

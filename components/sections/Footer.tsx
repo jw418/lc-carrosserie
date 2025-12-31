@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { siteConfig } from "@/data/site.config";
 import {
@@ -11,6 +9,7 @@ import {
   Clock,
   ExternalLink,
 } from "lucide-react";
+import ManageConsent from "@/components/manageConsent";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -21,7 +20,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-12 mb-20">
           {/* COLONNE 1 : BRAND & SOCIAL (Largeur 4) */}
           <div className="md:col-span-4">
-            <Link href="/" className="inline-block mb-8">
+            <Link href="/" className="inline-flex items-center gap-3 mb-8">
+              {/* <img
+                src="/img/logo.png"
+                alt={`${siteConfig.name} logo`}
+                className="h-11 w-11 object-contain rounded-full border  bg-white"
+              /> */}
               <span className="font-heading text-3xl font-black tracking-tighter text-white uppercase">
                 {siteConfig.name}
                 <span className="text-orange-600">.</span>
@@ -63,9 +67,17 @@ export default function Footer() {
           {/* COLONNE 2 : PRESTATIONS (Largeur 2) */}
           <div className="md:col-span-2">
             <h4 className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-white mb-8">
-              Expertise
+              Liens rapides
             </h4>
             <ul className="space-y-4 text-sm font-light">
+              <li>
+                <Link
+                  href="/"
+                  className="hover:text-orange-500 transition-colors"
+                >
+                  Accueil
+                </Link>
+              </li>
               <li>
                 <Link
                   href="/services/carrosserie-generale"
@@ -90,6 +102,16 @@ export default function Footer() {
                   L'Atelier
                 </Link>
               </li>
+              <li>
+                <a
+                  href="https://leboncoin.fr/lc-carrosserie"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-orange-500 transition-colors"
+                >
+                  Achat / revente LeBonCoin
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -99,14 +121,6 @@ export default function Footer() {
               Zones
             </h4>
             <ul className="space-y-4 text-sm font-light">
-              <li>
-                <Link
-                  href="/eguilles"
-                  className="hover:text-orange-500 transition-colors"
-                >
-                  Éguilles
-                </Link>
-              </li>
               <li>
                 <Link
                   href="/aix-en-provence"
@@ -136,9 +150,14 @@ export default function Footer() {
                 <MapPin size={16} className="text-orange-600 shrink-0 mt-0.5" />
                 <p className="text-xs leading-relaxed font-light">
                   <span className="text-white font-bold block mb-1 uppercase tracking-tight">
-                    {siteConfig.city}
+                    <span>LC Carrosserie - Aix-en-Provence</span>
                   </span>
-                  {siteConfig.full_address}
+                  <span>{siteConfig.streetAddress}</span>
+                  <span className="block">
+                    <span>{siteConfig.zipCode}</span>{" "}
+                    <span>{siteConfig.city}</span>
+                  </span>
+                  <span>{siteConfig.state}</span>
                 </p>
               </div>
 
@@ -154,7 +173,12 @@ export default function Footer() {
 
               <div className="flex gap-4 font-light">
                 <Clock size={16} className="text-zinc-600 shrink-0" />
-                <p className="text-xs">{siteConfig.openingHours.weekdays}</p>
+                <div className="text-xs space-y-1">
+                  <p>{siteConfig.openingHours.weekdays}</p>
+                  <p className="text-zinc-500">
+                    Joignables 7j/7, reponse rapide meme hors horaires.
+                  </p>
+                </div>
               </div>
             </address>
           </div>
@@ -184,13 +208,7 @@ export default function Footer() {
             >
               Confidentialité
             </Link>
-            <a
-              href="https://leboncoin.fr/lc-carrosserie"
-              target="_blank"
-              className="text-zinc-500 flex items-center gap-2 hover:text-white transition-colors"
-            >
-              LeBonCoin <ExternalLink size={10} />
-            </a>
+            <ManageConsent />
           </nav>
         </div>
       </div>
