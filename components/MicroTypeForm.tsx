@@ -94,7 +94,7 @@ export function MicroTypeForm({
   return (
     <div className={cn("relative w-full max-w-4xl mx-auto", className)}>
       {/* Barre de progression discrète */}
-      <div className="absolute -top-12 left-0 w-full flex justify-between px-2">
+      <div className="absolute -top-4 lg:-top-12 left-0 w-full flex justify-between px-2 ">
         {[0, 1, 2].map((i) => (
           <div
             key={i}

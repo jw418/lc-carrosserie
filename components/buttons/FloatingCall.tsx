@@ -89,10 +89,10 @@ export function FloatingCall() {
           {/* Appel Direct */}
           <a
             href={phoneLink}
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-zinc-950 shadow-lg transition-transform hover:scale-110 active:scale-95"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-green-600 shadow-lg transition-transform hover:scale-110 active:scale-95"
             aria-label="Appel téléphonique"
           >
-            <Phone className="h-5 w-5 fill-current" />
+            <Phone className="h-5 w-5 fill-white text-white" />
           </a>
           {/* WhatsApp */}
           <a

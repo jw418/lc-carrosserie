@@ -1,6 +1,4 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
+import { FadeIn } from "@/components/animations/FadeIn";
 import {
   Scale,
   FileText,
@@ -30,13 +28,9 @@ export default function AssurancePage() {
       <section className="relative pt-32 pb-20 border-b border-zinc-200">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 mb-6"
-            >
+            <FadeIn className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 mb-6">
               Expertise & Droit des assurés
-            </motion.div>
+            </FadeIn>
             <h1 className="font-heading text-5xl md:text-7xl font-black tracking-tighter text-zinc-950 leading-[0.9] mb-8 uppercase">
               Prise en charge par <br />
               <span className="text-orange-600 underline decoration-zinc-200 underline-offset-12">

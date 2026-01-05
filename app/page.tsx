@@ -26,6 +26,7 @@ import { Faq } from "@/components/Faq";
 import { GoogleMapEmbed } from "@/components/GoogleMapEmbed";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import { MicroTypeForm } from "@/components/MicroTypeForm";
+import { ReviewsSection } from "@/components/ReviewsSection";
 import {
   buildBusinessJsonLd,
   buildWebPageJsonLd,
@@ -322,7 +323,7 @@ export default function LCCarrosserieHome() {
         dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
       />
       {/* HERO SECTION */}
-      <section className="relative isolate min-h-[90vh] flex flex-col justify-center bg-zinc-50 pt-32 pb-20 overflow-hidden font-sans">
+      <section className="relative isolate min-h-[70vh] flex flex-col justify-center bg-zinc-50 pt-8 pb-6 sm:pt-14 sm:pb-12 lg:pt-32 lg:pb-20 overflow-hidden font-sans">
         {/* Background Architectural : Lignes de structure */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full border-x border-zinc-200/60 max-w-7xl" />
@@ -330,17 +331,24 @@ export default function LCCarrosserieHome() {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-start">
+          <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-start">
             {/* COLONNE GAUCHE : TEXTE EDITORIAL */}
             <motion.div
-              className="lg:col-span-7 relative z-20" // Augmentation du z-index pour rester au dessus
+              className="lg:col-span-7 relative z-20"
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              {/* Social Proof */}
-              <div className="flex items-center gap-6 mb-10">
-                <div className="flex items-center gap-2">
+              {/* Titre */}
+              <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-zinc-950 leading-[0.85] mb-8 uppercase break-words">
+                LC CARROSSERIE, <br />
+                <span className="text-transparent bg-clip-text font uppercase bg-gradient-to-r from-zinc-900 via-zinc-800 to-orange-600">
+                  réparation & peinture automobile.
+                </span>
+              </h1>
+              {/* Social Proof & Status - MIS EN EVIDENCE */}
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6 mb-10">
+                <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full border border-zinc-200 shadow-sm">
                   <div className="flex text-orange-600">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} size={14} fill="currentColor" />
@@ -353,26 +361,19 @@ export default function LCCarrosserieHome() {
                     </span>
                   </span>
                 </div>
+
                 <div className="h-4 w-px bg-zinc-300 hidden sm:block" />
-                <div className="flex items-center gap-2 font-mono">
+
+                <div className="flex items-center gap-2 font-mono bg-zinc-100/80 px-4 py-2 rounded-full border border-transparent transition-colors hover:border-orange-200">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-600"></span>
                   </span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">
-                    Atelier Éguilles
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-900">
+                    Prise en charge immédiate
                   </span>
                 </div>
               </div>
-
-              {/* Titre avec gestion de la cassure de mot pour éviter l'overflow */}
-              <h1 className="font-heading text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-zinc-950 leading-[0.85] mb-8 uppercase break-words">
-                LC CARROSSERIE, <br />
-                <span className="text-transparent bg-clip-text font    uppercase bg-gradient-to-r from-zinc-900 via-zinc-800 to-orange-600">
-                  réparation & peinture automobile.
-                </span>
-              </h1>
-
               {/* Texte */}
               <p className="font-sans text-lg md:text-xl text-zinc-600 mb-10 max-w-2xl leading-relaxed font-light">
                 Votre voiture a subi un choc, un accrochage ou des rayures de
@@ -388,14 +389,14 @@ export default function LCCarrosserieHome() {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-16">
                 <a
                   href={`tel:${CONTACT_INFO.phone}`}
-                  className="font-mono bg-zinc-950 text-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-3 group"
+                  className="font-mono bg-zinc-950 text-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-orange-600 transition-all duration-300 flex items-center justify-center gap-3 group shadow-xl shadow-zinc-900/10"
                 >
                   <Phone className="w-4 h-4 text-orange-600" />
                   {CONTACT_INFO.phoneDisplay}
                 </a>
                 <a
                   href="/#contact"
-                  className="font-mono border border-zinc-200 bg-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 transition-all flex items-center justify-center gap-3 text-zinc-900"
+                  className="font-mono border border-zinc-200 bg-white px-8 py-5 text-xs font-bold uppercase tracking-widest hover:bg-zinc-50 transition-all flex items-center justify-center gap-3 text-zinc-900 shadow-sm"
                 >
                   Prendre un RDV
                   <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -410,7 +411,7 @@ export default function LCCarrosserieHome() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <div className="relative aspect-[4/5] bg-zinc-200 overflow-hidden shadow-2xl lg:shadow-none">
+              <div className=" hidden lg:block relative aspect-4/5 bg-zinc-200 overflow-hidden shadow-2xl lg:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)]">
                 <img
                   src="/img/hero-banner-img.png"
                   alt="Expert LC Carrosserie avec voiture Alpine orange"
@@ -732,82 +733,24 @@ export default function LCCarrosserieHome() {
           </div>
         </div>
       </section>
-      {/* REVIEWS SECTION */}
-      <section className="py-24 bg-card border-y border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-              <h2 className="text-3xl font-bold mb-2 text-foreground">
-                L'avis de nos clients
-              </h2>
-              <div className="flex items-center gap-2 text-yellow-500">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 fill-current" />
-                  ))}
-                </div>
-                <span className="text-foreground font-bold">4.9/5</span>
-                <span className="text-muted-foreground text-sm">
-                  (Google Reviews)
-                </span>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Button variant="outline">Lire tous les avis</Button>
-              <a
-                href="https://example.com/avis"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-200"
-              >
-                Laisser un avis
-              </a>
-            </div>
+      <ReviewsSection
+        title="L'avis de nos clients"
+        rating={{ value: "4.9/5", label: "(Google Reviews)" }}
+        reviews={REVIEWS}
+        actions={
+          <div className="flex flex-wrap gap-3">
+            <Button variant="outline">Lire tous les avis</Button>
+            <a
+              href="https://example.com/avis"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-all duration-200"
+            >
+              Laisser un avis
+            </a>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {REVIEWS.map((review, idx) => (
-              <div
-                key={idx}
-                className="bg-background p-8 rounded-xl border border-border shadow-xs"
-              >
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 fill-primary text-primary"
-                    />
-                  ))}
-                </div>
-                <p className="text-foreground italic mb-6 leading-relaxed">
-                  "{review.text}"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center font-bold text-primary">
-                    {review.name.charAt(0)}
-                  </div>
-                  <div>
-                    <div className="font-bold text-sm text-foreground">
-                      {review.name}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {review.location}
-                    </div>
-                  </div>
-                </div>
-                <a
-                  href={review.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center text-xs font-semibold text-primary hover:text-primary/80 transition-colors"
-                >
-                  Voir l'avis
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        }
+      />
       <section className="py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
@@ -973,6 +916,7 @@ export default function LCCarrosserieHome() {
               {/* MICRO TYPEFORM */}
               <div className="lg:pt-12">
                 <MicroTypeForm
+                  className="mt-2 lg:mt-0"
                   firstStep={{
                     question: "Avez-vous deja contacte votre assurance ?",
                     yesLabel: "Oui",
@@ -990,7 +934,7 @@ export default function LCCarrosserieHome() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-start">
+            <div className="">
               {/* CONTACT CARD */}
               <div className="bg-card p-8 md:p-10 rounded-2xl shadow-lg border border-border relative overflow-hidden">
                 {/* Decorative accent */}
@@ -999,85 +943,91 @@ export default function LCCarrosserieHome() {
                 <h2 className="text-2xl font-bold mb-8 text-foreground">
                   Nous trouver a Eguilles
                 </h2>
+                <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-10 items-start w-full">
+                  <div className="">
+                    <address className="not-italic space-y-6 mb-10">
+                      <div className="flex items-start gap-4">
+                        <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
+                          <MapPin className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <strong className="block text-foreground text-lg mb-1">
+                            Atelier Principal
+                          </strong>
+                          <span className="text-muted-foreground block mb-2">
+                            {CONTACT_INFO.address}
+                          </span>
+                          <a
+                            href={CONTACT_INFO.mapLink}
+                            className="text-sm font-semibold text-primary hover:underline"
+                          >
+                            Voir sur la carte
+                          </a>
+                        </div>
+                      </div>
 
-                <address className="not-italic space-y-6 mb-10">
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
-                      <MapPin className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <strong className="block text-foreground text-lg mb-1">
-                        Atelier Principal
-                      </strong>
-                      <span className="text-muted-foreground block mb-2">
-                        {CONTACT_INFO.address}
-                      </span>
-                      <a
-                        href={CONTACT_INFO.mapLink}
-                        className="text-sm font-semibold text-primary hover:underline"
+                      <div className="flex items-start gap-4">
+                        <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
+                          <Clock className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <strong className="block text-foreground text-lg mb-1">
+                            Horaires Atelier
+                          </strong>
+                          <span className="text-muted-foreground">
+                            {CONTACT_INFO.hours}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-4">
+                        <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
+                          <Phone className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <strong className="block text-foreground text-lg mb-1">
+                            Contact Rapide
+                          </strong>
+                          <span className="text-muted-foreground block mb-2">
+                            Reponse immediate aux heures d'ouverture
+                          </span>
+                          <a
+                            href={`tel:${CONTACT_INFO.phone}`}
+                            className="text-xl font-bold text-foreground hover:text-primary transition-colors"
+                          >
+                            {CONTACT_INFO.phoneDisplay}
+                          </a>
+                        </div>
+                      </div>
+                    </address>
+
+                    <div className="grid grid-cols-1 gap-4">
+                      <Button
+                        variant="primary"
+                        className="w-full justify-center"
+                        icon={Phone}
                       >
-                        Voir sur la carte
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
-                      <Clock className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <strong className="block text-foreground text-lg mb-1">
-                        Horaires Atelier
-                      </strong>
-                      <span className="text-muted-foreground">
-                        {CONTACT_INFO.hours}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1 p-2 bg-secondary rounded-full text-primary">
-                      <Phone className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <strong className="block text-foreground text-lg mb-1">
-                        Contact Rapide
-                      </strong>
-                      <span className="text-muted-foreground block mb-2">
-                        Reponse immediate aux heures d'ouverture
-                      </span>
-                      <a
-                        href={`tel:${CONTACT_INFO.phone}`}
-                        className="text-xl font-bold text-foreground hover:text-primary transition-colors"
+                        Appeler l'atelier
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-center"
                       >
-                        {CONTACT_INFO.phoneDisplay}
-                      </a>
+                        Envoyer une photo (MMS/WhatsApp)
+                      </Button>
                     </div>
                   </div>
-                </address>
+                  {/* MAP */}
 
-                <div className="grid grid-cols-1 gap-4">
-                  <Button
-                    variant="primary"
-                    className="w-full justify-center"
-                    icon={Phone}
-                  >
-                    Appeler l'atelier
-                  </Button>
-                  <Button variant="outline" className="w-full justify-center">
-                    Envoyer une photo (MMS/WhatsApp)
-                  </Button>
+                  <GoogleMapEmbed
+                    mapSrc={mapSrc}
+                    mapLink={CONTACT_INFO.mapLink}
+                    fallbackAlt="Vue aerienne de l'atelier"
+                    className="h-full"
+                    height={520}
+                  />
                 </div>
               </div>
-
-              {/* MAP */}
-              <GoogleMapEmbed
-                mapSrc={mapSrc}
-                mapLink={CONTACT_INFO.mapLink}
-                fallbackAlt="Vue aerienne de l'atelier"
-                className="h-full"
-                height={520}
-              />
             </div>
           </div>
         </div>

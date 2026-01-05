@@ -20,6 +20,7 @@ import {
   buildWebPageJsonLd,
   toJsonLd,
 } from "@/lib/seo";
+import { ReviewsSection } from "@/components/ReviewsSection";
 
 // Types inchangés...
 type CityPageParams = Promise<{ cities?: string }> | { cities?: string };
@@ -148,303 +149,286 @@ export default async function CityPage({ params }: CityPageProps) {
   };
 
   return (
-    <div className="bg-white font-sans antialiased">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
-      />
-      {/* SECTION 1 : HERO ÉDITORIAL & INTRO */}
-      <section className="relative pt-24 pb-16 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-8">
-            <div className="space-y-4">
-              <span className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
-                {city.name} • Expertise de proximité
-              </span>
-              <h1 className="font-heading text-4xl md:text-6xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
-                {content?.introTitle}
-              </h1>
-            </div>
-
-            <div className="space-y-6 text-lg text-zinc-600 leading-relaxed font-light max-w-2xl">
-              {content?.introParagraphs?.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
-            </div>
-
-            {/* Grille de points forts avec icônes */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-              {content?.introBullets?.map((item) => (
-                <div
-                  key={item.title}
-                  className="flex gap-4 p-4 rounded-xl border border-zinc-100 bg-zinc-50/50"
-                >
-                  <div className="mt-1 h-5 w-5 rounded-full bg-orange-600 flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="h-3 w-3 text-white" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="font-mono text-[11px] font-bold uppercase text-zinc-900">
-                      {item.title}
-                    </p>
-                    <p className="text-sm text-zinc-500">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* EMPLACEMENT IMAGE 1 : FOCUS TECHNIQUE */}
-          <div className="lg:col-span-5 relative group">
-            <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-zinc-100 shadow-2xl">
-              <div className="absolute inset-0 bg-zinc-900/10 group-hover:bg-transparent transition-colors duration-500" />
-              {/* Remplacer par src="/img/votre-image.jpg" */}
-              <div className="flex items-center justify-center h-full text-zinc-300 font-mono text-xs italic uppercase">
-                <img
-                  src="/img/vertical.png"
-                  alt="Atelier LC Carrosserie"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
-                />
-              </div>
-            </div>
-            {/* Badge flottant */}
-            <div className="absolute -bottom-6 -left-6 bg-zinc-950 text-white p-6 rounded-2xl shadow-xl hidden md:block max-w-[200px]">
-              <p className="font-heading text-2xl font-black leading-none">
-                120+
-              </p>
-              <p className="font-mono text-[9px] uppercase tracking-widest mt-2 text-zinc-400">
-                Avis clients vérifiés sur le secteur
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 2 : LE PROCESSUS (FULL WIDTH DARK) */}
-      <section className="bg-zinc-950 py-24 text-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 border-b border-zinc-800 pb-12">
-            <div className="max-w-2xl space-y-4">
-              <h2 className="font-heading text-3xl md:text-5xl font-black uppercase tracking-tight italic">
-                {content?.processTitle}
-              </h2>
-              <p className="text-zinc-400 font-light text-lg">
-                Organisation optimisée pour les automobilistes de {city.name}.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] border border-zinc-800 px-6 py-4 rounded-full">
-              <MapPin className="h-4 w-4 text-orange-600" />
-              Logistique {city.name} incluse
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800 border border-zinc-800 overflow-hidden rounded-3xl">
-            {content?.processSteps?.map((step, index) => (
-              <div
-                key={index}
-                className="bg-zinc-950 p-10 space-y-6 hover:bg-zinc-900 transition-colors group"
-              >
-                <span className="font-heading text-6xl font-black text-zinc-800 group-hover:text-orange-600 transition-colors leading-none">
-                  {String(index + 1).padStart(2, "0")}
+    <>
+      <div className="bg-white font-sans antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
+        />
+        {/* SECTION 1 : HERO ÉDITORIAL & INTRO */}
+        <section className="relative pt-24 pb-16 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7 space-y-8">
+              <div className="space-y-4">
+                <span className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
+                  {city.name} • Expertise de proximité
                 </span>
-                <div className="space-y-2">
-                  <h3 className="font-mono text-xs font-black uppercase tracking-widest text-white">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed">
-                    {step.text}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3 : ÉTUDE DE CAS (NOUVELLE SECTION VISUELLE) */}
-      {content?.example && (
-        <section className="py-24 bg-white overflow-hidden">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-              {/* EMPLACEMENT IMAGE 2 : AVANT/APRÈS OU DETAIL PEINTURE */}
-              <div className="lg:col-span-6 order-2 lg:order-1 relative">
-                <div className="relative aspect-video rounded-3xl bg-zinc-100 overflow-hidden shadow-inner">
-                  <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-mono text-[10px] uppercase">
-                    Visuel Étude de Cas
-                  </div>
-                </div>
-                {/* Decorative element */}
-                <div className="absolute -top-10 -right-10 h-40 w-40 border-r-2 border-t-2 border-zinc-100 rounded-tr-[4rem] -z-10" />
+                <h1 className="font-heading text-4xl md:text-6xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
+                  {content?.introTitle}
+                </h1>
               </div>
 
-              <div className="lg:col-span-6 order-1 lg:order-2 space-y-8">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-orange-600">
-                    <Zap size={16} fill="currentColor" />
-                    <span className="font-mono text-[10px] font-black uppercase tracking-widest">
-                      Focus Réalisation
-                    </span>
-                  </div>
-                  <h2 className="font-heading text-4xl font-black uppercase tracking-tighter">
-                    {content.exampleTitle}
-                  </h2>
-                </div>
+              <div className="space-y-6 text-lg text-zinc-600 leading-relaxed font-light max-w-2xl">
+                {content?.introParagraphs?.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
 
-                <div className="grid grid-cols-1 gap-6">
-                  {[
-                    { label: "Problématique", text: content.example.situation },
-                    {
-                      label: "Solution Logistique",
-                      text: content.example.contact,
-                    },
-                    {
-                      label: "Intervention",
-                      text: content.example.organization,
-                    },
-                    { label: "Résultat Final", text: content.example.result },
-                  ].map((item) => (
-                    <div
-                      key={item.label}
-                      className="group border-l-2 border-zinc-100 pl-6 py-1 hover:border-orange-600 transition-colors"
-                    >
-                      <p className="font-mono text-[10px] font-black uppercase text-zinc-400 mb-1">
-                        {item.label}
-                      </p>
-                      <p className="text-zinc-700 leading-relaxed font-medium">
-                        {item.text}
-                      </p>
+              {/* Grille de points forts avec icônes */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                {content?.introBullets?.map((item) => (
+                  <div
+                    key={item.title}
+                    className="flex gap-4 p-4 rounded-xl border border-zinc-100 bg-zinc-50/50"
+                  >
+                    <div className="mt-1 h-5 w-5 rounded-full bg-orange-600 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="h-3 w-3 text-white" />
                     </div>
-                  ))}
+                    <div className="space-y-1">
+                      <p className="font-mono text-[11px] font-bold uppercase text-zinc-900">
+                        {item.title}
+                      </p>
+                      <p className="text-sm text-zinc-500">{item.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* EMPLACEMENT IMAGE 1 : FOCUS TECHNIQUE */}
+            <div className="lg:col-span-5 relative group">
+              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-zinc-100 shadow-2xl">
+                <div className="absolute inset-0 bg-zinc-900/10 group-hover:bg-transparent transition-colors duration-500" />
+                {/* Remplacer par src="/img/votre-image.jpg" */}
+                <div className="flex items-center justify-center h-full text-zinc-300 font-mono text-xs italic uppercase">
+                  <img
+                    src="/img/vertical.png"
+                    alt="Atelier LC Carrosserie"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
+                  />
                 </div>
+              </div>
+              {/* Badge flottant */}
+              <div className="absolute -bottom-6 -left-6 bg-zinc-950 text-white p-6 rounded-2xl shadow-xl hidden md:block max-w-[200px]">
+                <p className="font-heading text-2xl font-black leading-none">
+                  120+
+                </p>
+                <p className="font-mono text-[9px] uppercase tracking-widest mt-2 text-zinc-400">
+                  Avis clients vérifiés sur le secteur
+                </p>
               </div>
             </div>
           </div>
         </section>
-      )}
 
-      {/* TESTIMONIALS & FAQ - Sections existantes conservées mais stylisées */}
-      <section className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
-        {/* Témoignages Style Grid Moderne */}
-        {testimonials.length > 0 && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {testimonials.map((review, i) => (
-              <div
-                key={i}
-                className="p-8 rounded-3xl bg-zinc-50 border border-zinc-100 space-y-6 relative"
-              >
-                <div className="flex text-orange-600 gap-1">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} size={12} fill="currentColor" />
-                  ))}
-                </div>
-                <p className="text-zinc-600 italic leading-relaxed text-sm">
-                  “{review.text}”
+        {/* SECTION 2 : LE PROCESSUS (FULL WIDTH DARK) */}
+        <section className="bg-zinc-950 py-24 text-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 border-b border-zinc-800 pb-12">
+              <div className="max-w-2xl space-y-4">
+                <h2 className="font-heading text-3xl md:text-5xl font-black uppercase tracking-tight italic">
+                  {content?.processTitle}
+                </h2>
+                <p className="text-zinc-400 font-light text-lg">
+                  Organisation optimisée pour les automobilistes de {city.name}.
                 </p>
-                <div className="pt-4 border-t border-zinc-200/60 flex items-center justify-between">
-                  <div>
-                    <p className="font-bold text-sm text-zinc-950">
-                      {review.name}
-                    </p>
-                    <p className="text-[10px] font-mono uppercase text-zinc-400">
-                      {review.location}
+              </div>
+              <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.2em] border border-zinc-800 px-6 py-4 rounded-full">
+                <MapPin className="h-4 w-4 text-orange-600" />
+                Logistique {city.name} incluse
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-zinc-800 border border-zinc-800 overflow-hidden rounded-3xl">
+              {content?.processSteps?.map((step, index) => (
+                <div
+                  key={index}
+                  className="bg-zinc-950 p-10 space-y-6 hover:bg-zinc-900 transition-colors group"
+                >
+                  <span className="font-heading text-6xl font-black text-zinc-800 group-hover:text-orange-600 transition-colors leading-none">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="space-y-2">
+                    <h3 className="font-mono text-xs font-black uppercase tracking-widest text-white">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm text-zinc-400 leading-relaxed">
+                      {step.text}
                     </p>
                   </div>
-                  <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center text-[10px] font-bold border border-zinc-100 shadow-sm">
-                    {review.name.charAt(0)}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SECTION 3 : ÉTUDE DE CAS (NOUVELLE SECTION VISUELLE) */}
+        {content?.example && (
+          <section className="py-24 bg-white overflow-hidden">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                {/* EMPLACEMENT IMAGE 2 : AVANT/APRÈS OU DETAIL PEINTURE */}
+                <div className="lg:col-span-6 order-2 lg:order-1 relative">
+                  <div className="relative aspect-video rounded-3xl bg-zinc-100 overflow-hidden shadow-inner">
+                    <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-mono text-[10px] uppercase">
+                      Visuel Étude de Cas
+                    </div>
+                  </div>
+                  {/* Decorative element */}
+                  <div className="absolute -top-10 -right-10 h-40 w-40 border-r-2 border-t-2 border-zinc-100 rounded-tr-[4rem] -z-10" />
+                </div>
+
+                <div className="lg:col-span-6 order-1 lg:order-2 space-y-8">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-orange-600">
+                      <Zap size={16} fill="currentColor" />
+                      <span className="font-mono text-[10px] font-black uppercase tracking-widest">
+                        Focus Réalisation
+                      </span>
+                    </div>
+                    <h2 className="font-heading text-4xl font-black uppercase tracking-tighter">
+                      {content.exampleTitle}
+                    </h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-6">
+                    {[
+                      {
+                        label: "Problématique",
+                        text: content.example.situation,
+                      },
+                      {
+                        label: "Solution Logistique",
+                        text: content.example.contact,
+                      },
+                      {
+                        label: "Intervention",
+                        text: content.example.organization,
+                      },
+                      { label: "Résultat Final", text: content.example.result },
+                    ].map((item) => (
+                      <div
+                        key={item.label}
+                        className="group border-l-2 border-zinc-100 pl-6 py-1 hover:border-orange-600 transition-colors"
+                      >
+                        <p className="font-mono text-[10px] font-black uppercase text-zinc-400 mb-1">
+                          {item.label}
+                        </p>
+                        <p className="text-zinc-700 leading-relaxed font-medium">
+                          {item.text}
+                        </p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          </section>
         )}
 
-        {/* FAQ - Accordéon Minimaliste */}
-        <div className="max-w-3xl mx-auto space-y-8">
-          <h2 className="font-heading text-3xl font-black uppercase text-center">
-            {content?.faqTitle}
-          </h2>
-          <div className="space-y-3">
-            {content?.faq?.map((item) => (
-              <details
-                key={item.question}
-                className="group border border-zinc-100 rounded-2xl overflow-hidden transition-all hover:border-zinc-200"
-              >
-                <summary className="flex items-center justify-between p-6 cursor-pointer bg-white list-none">
-                  <span className="font-bold text-sm text-zinc-900">
-                    {item.question}
-                  </span>
-                  <ArrowRight
-                    size={16}
-                    className="text-orange-600 group-open:rotate-90 transition-transform"
-                  />
-                </summary>
-                <div className="px-6 pb-6 text-sm text-zinc-500 leading-relaxed font-light">
-                  {item.answer}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
+        {/* TESTIMONIALS & FAQ - Sections existantes conservées mais stylisées */}
+        <section className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
+          {/* Témoignages Style Grid Moderne */}
+          <ReviewsSection
+            title={`Avis clients a ${city.name}`}
+            reviews={testimonials.map((review) => ({
+              name: review.name,
+              location: review.location,
+              text: review.text,
+            }))}
+            className="py-0 bg-transparent border-0"
+            containerClassName="px-0"
+          />
 
-        {/* CONTACT SECTION (CONVERSION FOCUS) */}
-        <div
-          id="contact-form"
-          className="relative p-1 lg:p-12 rounded-[2.5rem] bg-zinc-950 overflow-hidden"
-        >
-          {/* Background pattern */}
-          <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_top_right,#ea580c_0%,transparent_50%)]" />
-
-          <div className="relative bg-white rounded-[2rem] p-8 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <h2 className="font-heading text-4xl lg:text-5xl font-black uppercase leading-none tracking-tighter text-zinc-950">
-                Prêt à retrouver <br />
-                <span className="text-orange-600 italic">
-                  votre véhicule neuf ?
-                </span>
-              </h2>
-              <p className="text-zinc-600 text-lg font-light leading-relaxed">
-                Indiquez que vous êtes à{" "}
-                <span className="font-bold text-zinc-950">{city.name}</span>,
-                joignez vos photos. Nous gérons le reste.
-              </p>
-
-              <div className="space-y-4">
-                {[
-                  "Dossier assurance géré à 100%",
-                  "Véhicule de prêt premium",
-                  "Restitution à domicile sur " + city.name,
-                ].map((t) => (
-                  <div
-                    key={t}
-                    className="flex items-center gap-3 font-mono text-[10px] font-black uppercase tracking-widest text-zinc-900"
-                  >
-                    <CheckCircle2 size={14} className="text-orange-600" />
-                    {t}
-                  </div>
-                ))}
-              </div>
-
-              <div className="pt-4 border-t border-zinc-100">
-                <a
-                  href={phoneLink}
-                  className="inline-flex items-center gap-4 bg-zinc-950 text-white px-8 py-4 rounded-full font-mono text-xs font-black uppercase tracking-widest hover:bg-orange-600 transition-colors group"
+          {/* FAQ - Accordéon Minimaliste */}
+          <div className="max-w-3xl mx-auto space-y-8">
+            <h2 className="font-heading text-3xl font-black uppercase text-center">
+              {content?.faqTitle}
+            </h2>
+            <div className="space-y-3">
+              {content?.faq?.map((item) => (
+                <details
+                  key={item.question}
+                  className="group border border-zinc-100 rounded-2xl overflow-hidden transition-all hover:border-zinc-200"
                 >
-                  <Phone size={14} />
-                  Appeler l'expert
-                  <ArrowRight
-                    size={14}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                </a>
-              </div>
-            </div>
-
-            <div className="bg-zinc-50 p-6 rounded-3xl border border-zinc-100 shadow-inner">
-              <ContactForm />
+                  <summary className="flex items-center justify-between p-6 cursor-pointer bg-white list-none">
+                    <span className="font-bold text-sm text-zinc-900">
+                      {item.question}
+                    </span>
+                    <ArrowRight
+                      size={16}
+                      className="text-orange-600 group-open:rotate-90 transition-transform"
+                    />
+                  </summary>
+                  <div className="px-6 pb-6 text-sm text-zinc-500 leading-relaxed font-light">
+                    {item.answer}
+                  </div>
+                </details>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+
+          {/* CONTACT SECTION (CONVERSION FOCUS) */}
+          <div
+            id="contact-form"
+            className="relative p-1 lg:p-12 rounded-[2.5rem] bg-zinc-950 overflow-hidden"
+          >
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-10 pointer-events-none bg-[radial-gradient(circle_at_top_right,#ea580c_0%,transparent_50%)]" />
+
+            <div className="relative bg-white rounded-[2rem] p-8 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <h2 className="font-heading text-4xl lg:text-5xl font-black uppercase leading-none tracking-tighter text-zinc-950">
+                  Prêt à retrouver <br />
+                  <span className="text-orange-600 italic">
+                    votre véhicule neuf ?
+                  </span>
+                </h2>
+                <p className="text-zinc-600 text-lg font-light leading-relaxed">
+                  Indiquez que vous êtes à{" "}
+                  <span className="font-bold text-zinc-950">{city.name}</span>,
+                  joignez vos photos. Nous gérons le reste.
+                </p>
+
+                <div className="space-y-4">
+                  {[
+                    "Dossier assurance géré à 100%",
+                    "Véhicule de prêt premium",
+                    "Restitution à domicile sur " + city.name,
+                  ].map((t) => (
+                    <div
+                      key={t}
+                      className="flex items-center gap-3 font-mono text-[10px] font-black uppercase tracking-widest text-zinc-900"
+                    >
+                      <CheckCircle2 size={14} className="text-orange-600" />
+                      {t}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-4 border-t border-zinc-100">
+                  <a
+                    href={phoneLink}
+                    className="inline-flex items-center gap-4 bg-zinc-950 text-white px-8 py-4 rounded-full font-mono text-xs font-black uppercase tracking-widest hover:bg-orange-600 transition-colors group"
+                  >
+                    <Phone size={14} />
+                    Appeler l'expert
+                    <ArrowRight
+                      size={14}
+                      className="group-hover:translate-x-1 transition-transform"
+                    />
+                  </a>
+                </div>
+              </div>
+
+              <div className="bg-zinc-50 p-6 rounded-3xl border border-zinc-100 shadow-inner">
+                <ContactForm />
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
   );
 }
 
