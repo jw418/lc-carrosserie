@@ -1,3 +1,4 @@
+"use client";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -21,7 +22,11 @@ import {
   toJsonLd,
 } from "@/lib/seo";
 import { ReviewsSection } from "@/components/ReviewsSection";
-
+import { MicroTypeForm } from "@/components/MicroTypeForm";
+import { Button } from "@/components/ui/button";
+import { Clock } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
+import { Truck } from "lucide-react";
 // Types inchangés...
 type CityPageParams = Promise<{ cities?: string }> | { cities?: string };
 type CityPageProps = { params: CityPageParams };
@@ -34,54 +39,54 @@ async function resolveSlug(params: CityPageParams) {
   return (awaited?.cities || "").toString().toLowerCase();
 }
 
-export async function generateMetadata({
-  params,
-}: CityPageProps): Promise<Metadata> {
-  const slug = await resolveSlug(params);
-  const city = slug
-    ? (cities as City[]).find((item) => item.id === slug)
-    : undefined;
+// export async function generateMetadata({
+//   params,
+// }: CityPageProps): Promise<Metadata> {
+//   const slug = await resolveSlug(params);
+//   const city = slug
+//     ? (cities as City[]).find((item) => item.id === slug)
+//     : undefined;
 
-  if (!city) {
-    return {
-      title: `Zone d'intervention | ${siteConfig.name}`,
-      description:
-        "Carrosserie et peinture auto. Contactez-nous pour verifier la prise en charge dans votre ville.",
-    };
-  }
+//   if (!city) {
+//     return {
+//       title: `Zone d'intervention | ${siteConfig.name}`,
+//       description:
+//         "Carrosserie et peinture auto. Contactez-nous pour verifier la prise en charge dans votre ville.",
+//     };
+//   }
 
-  const title = `Carrosserie ${city.name} | ${siteConfig.name}`;
-  const description = `Carrosserie et peinture auto a ${city.name}. Atelier a Eguilles, gestion assurance et vehicule de pret.`;
-  const pageUrl = `${siteConfig.websiteUrl}/${city.id}`;
+//   const title = `Carrosserie ${city.name} | ${siteConfig.name}`;
+//   const description = `Carrosserie et peinture auto a ${city.name}. Atelier a Eguilles, gestion assurance et vehicule de pret.`;
+//   const pageUrl = `${siteConfig.websiteUrl}/${city.id}`;
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: pageUrl,
-    },
-    openGraph: {
-      title,
-      description,
-      url: pageUrl,
-      siteName: siteConfig.name,
-      locale: "fr_FR",
-      type: "article",
-      images: [
-        {
-          url: siteConfig.ogImage,
-          alt: siteConfig.name,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [siteConfig.ogImage],
-    },
-  };
-}
+//   return {
+//     title,
+//     description,
+//     alternates: {
+//       canonical: pageUrl,
+//     },
+//     openGraph: {
+//       title,
+//       description,
+//       url: pageUrl,
+//       siteName: siteConfig.name,
+//       locale: "fr_FR",
+//       type: "article",
+//       images: [
+//         {
+//           url: siteConfig.ogImage,
+//           alt: siteConfig.name,
+//         },
+//       ],
+//     },
+//     twitter: {
+//       card: "summary_large_image",
+//       title,
+//       description,
+//       images: [siteConfig.ogImage],
+//     },
+//   };
+// }
 
 export default async function CityPage({ params }: CityPageProps) {
   const slug = await resolveSlug(params);
@@ -154,7 +159,144 @@ export default async function CityPage({ params }: CityPageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
-        />
+        />{" "}
+        <section className="relative pt-20 pb-32 overflow-hidden bg-white">
+          {/* Background Decor */}
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-50 -skew-x-12 translate-x-1/4 z-0" />
+
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              {/* LEFT COLUMN: CONTENT */}
+              <div className="space-y-10">
+                {/* Google Notes & Badge */}
+                <div className="flex flex-wrap items-center gap-6">
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 rounded-full">
+                    <div className="flex -space-x-1">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star
+                          key={s}
+                          size={14}
+                          className="fill-orange-600 text-orange-600"
+                        />
+                      ))}
+                    </div>
+                    <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+                      4.9/5 Google Maps
+                    </span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 text-emerald-600 font-mono text-[10px] font-bold uppercase tracking-widest">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    Atelier Ouvert
+                  </div>
+                </div>
+
+                {/* Title & Chapo */}
+                <div className="space-y-6">
+                  <h1 className="font-heading text-5xl md:text-7xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
+                    Carrosserie à Marseille, <br />
+                    <span className="text-orange-600 italic">
+                      Sans vous déplacer.
+                    </span>
+                  </h1>
+                  <p className="text-lg text-zinc-500 leading-relaxed font-light max-w-xl">
+                    Que vous soyez dans le centre de Marseille ou à La
+                    Valentine, il n’est pas toujours simple de se libérer pour
+                    faire réparer votre voiture. Nous organisons la récupération
+                    du véhicule, la gestion de votre dossier assurance et la
+                    restitution, pour une prise en charge clé en main.
+                  </p>
+                </div>
+
+                {/* Labels de réassurance */}
+                <div className="grid sm:grid-cols-2 gap-y-4 gap-x-8 pt-4">
+                  {[
+                    { icon: <ShieldCheck size={18} />, text: "0 € à avancer" },
+                    {
+                      icon: <Clock size={18} />,
+                      text: "Véhicule de prêt gratuit",
+                    },
+                    {
+                      icon: <Truck size={18} />,
+                      text: "Récupération à Marseille",
+                    },
+                    {
+                      icon: <CheckCircle2 size={18} />,
+                      text: "Dossier géré de A à Z",
+                    },
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 group">
+                      <div className="text-orange-600 group-hover:scale-110 transition-transform">
+                        {item.icon}
+                      </div>
+                      <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-100 pb-1 w-full">
+                        {item.text}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Quick Actions */}
+                <div className="flex flex-wrap items-center gap-4 pt-6">
+                  <Button
+                    size="lg"
+                    className="h-16 px-8 rounded-2xl bg-zinc-950 hover:bg-zinc-800 text-white gap-3 group"
+                  >
+                    <Phone size={20} className="text-orange-600" />
+                    <div className="flex flex-col items-start leading-none">
+                      <span className="font-mono text-[10px] uppercase opacity-60">
+                        Appel d'urgence
+                      </span>
+                      <span className="font-heading text-lg font-black tracking-tight">
+                        04 42 XX XX XX
+                      </span>
+                    </div>
+                  </Button>
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: FORM */}
+              <div className="lg:sticky lg:top-32">
+                <MicroTypeForm
+                  firstStep={{
+                    question:
+                      "Souhaitez-vous une prise en charge à Marseille ?",
+                    yesLabel: "Oui, estimer mes travaux",
+                  }}
+                  secondStep={{
+                    question: "Quel est votre besoin ?",
+                    options: [
+                      { value: "sinistre", label: "Sinistre (Assurance)" },
+                      {
+                        value: "esthetique",
+                        label: "Remise en état esthétique",
+                      },
+                      { value: "loa", label: "Retour LOA / LLD" },
+                      { value: "autre", label: "Autre prestation" },
+                    ],
+                    selectLabel: "Type d'intervention",
+                  }}
+                  contactInfo={{
+                    title: "Atelier Éguilles",
+                    lines: ["Zone Artisanale", "13510 Éguilles"],
+                    phone: "04 42 XX XX XX",
+                    email: "contact@carrosserie-eguilles.fr",
+                  }}
+                  onSubmit={(data) => {
+                    console.log("Form data:", data);
+                    // Intégrez votre logique d'envoi ici
+                  }}
+                />
+
+                <p className="mt-6 text-center font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+                  Garantie constructeur préservée • Toutes assurances
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* SECTION 1 : HERO ÉDITORIAL & INTRO */}
         <section className="relative pt-24 pb-16 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -220,7 +362,6 @@ export default async function CityPage({ params }: CityPageProps) {
             </div>
           </div>
         </section>
-
         {/* SECTION 2 : LE PROCESSUS (FULL WIDTH DARK) */}
         <section className="bg-zinc-950 py-24 text-white">
           <div className="max-w-7xl mx-auto px-6">
@@ -261,7 +402,6 @@ export default async function CityPage({ params }: CityPageProps) {
             </div>
           </div>
         </section>
-
         {/* SECTION 3 : ÉTUDE DE CAS (NOUVELLE SECTION VISUELLE) */}
         {content?.example && (
           <section className="py-24 bg-white overflow-hidden">
@@ -325,7 +465,6 @@ export default async function CityPage({ params }: CityPageProps) {
             </div>
           </section>
         )}
-
         {/* TESTIMONIALS & FAQ - Sections existantes conservées mais stylisées */}
         <section className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
           {/* Témoignages Style Grid Moderne */}

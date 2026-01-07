@@ -2,8 +2,6 @@ import { FadeIn } from "@/components/animations/FadeIn";
 import {
   Scale,
   FileText,
-  Car,
-  ShieldCheck,
   Gavel,
   ArrowRight,
   Phone,
