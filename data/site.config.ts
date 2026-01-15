@@ -8,7 +8,7 @@ export const siteConfig = {
   baseline: "Atelier de carrosserie et peinture automobile",
   websiteUrl: "https://www.lc-carrosserie.fr",
   logoUrl: "/img/logo.png",
-  ogImage: "/img/hero.png",
+  ogImage: "/img/meta.png",
   mapLink: "https://share.google/zH02U5Zcs90rSb23W",
   secondAddress: "1459 avenue Victor Hugo, 13122 Ventabren",
   secondStreetAddress: "1459 avenue Victor Hugo",
