@@ -32,6 +32,7 @@ import { motion } from "framer-motion";
 import { CreditCard, Gift, ArrowUpRight } from "lucide-react";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import Link from "next/link";
+import Image from "next/image";
 
 const title =
   "Carrosserie générale : services, prix et assurance | LC Carrosserie";
@@ -196,7 +197,7 @@ const MAIN_SERVICES = [
       "Remplacement des pièces trop endommagées pour être réparées",
       "Remise en état des pare-chocs, bas de caisse et boucliers",
     ],
-    image: "/img/services/service-tolerie.jpg",
+    image: "/img/services/tolerie.png",
   },
   {
     title: "Peinture de carrosserie",
@@ -207,19 +208,19 @@ const MAIN_SERVICES = [
       "Peinture partielle d’un élément",
       "Peinture complète de plusieurs éléments pour harmoniser la teinte",
     ],
-    image: "/img/services/service-peinture.jpg",
+    image: "/img/services/peinture.png",
   },
   {
     title: "Débosselage sans peinture",
     description:
       "Lorsque la peinture n’est pas abîmée, le débosselage sans peinture permet de corriger certaines bosses (grêle, coups de portière, petits enfoncements) sans repeindre la pièce. C’est une solution plus rapide et plus économique, tout en conservant la peinture d’origine du véhicule. Nous vous indiquons si cette technique est possible ou si une réparation classique est plus adaptée.",
-    image: "/img/services/service-dsp.jpg",
+    image: "/img/services/debosselage.png",
   },
   {
     title: "Remise en état LOA / LLD",
     description:
       "Avant la restitution d’un véhicule en LOA ou LLD, les rayures, chocs de stationnement, jantes abîmées ou petits défauts de carrosserie peuvent entraîner des frais importants. Nous proposons une remise en état ciblée pour limiter au maximum les surcoûts de fin de contrat : traitement des impacts, retouches de peinture, correction des bosses légères et remise en état des éléments visibles. L’objectif : rendre un véhicule propre, conforme aux attentes du loueur, sans travaux inutiles.",
-    image: "/img/services/service-loa.jpg",
+    image: "/img/services/restitution.png",
   },
 ];
 
@@ -263,7 +264,7 @@ const COMPLEMENTARY_SERVICES = [
       "Ponçage et polissage des optiques",
       "Protection pour limiter le re-jaunissement",
     ],
-    image: "/img/optiques-renov.jpg",
+    image: "/img/services/phares.png",
   },
   {
     title: "Réparation de jantes alu",
@@ -273,7 +274,7 @@ const COMPLEMENTARY_SERVICES = [
       "Rattrapage des bords frottés",
       "Correction des éclats et marques légères",
     ],
-    image: "/img/jantes-repair.jpg",
+    image: "/img/services/jantes-2.png",
   },
   {
     title: "Rénovation du cuir",
@@ -283,7 +284,7 @@ const COMPLEMENTARY_SERVICES = [
       "Nettoyage et traitement du cuir",
       "Réparation de zones marquées ou abîmées",
     ],
-    image: "/img/cuir-renov.jpg",
+    image: "/img/services/cuir.png",
   },
   {
     title: "Covering esthétique",
@@ -293,7 +294,7 @@ const COMPLEMENTARY_SERVICES = [
       "Toit, rétroviseurs, éléments spécifiques",
       "Projet global sur plusieurs éléments de carrosserie",
     ],
-    image: "/img/covering.jpg",
+    image: "/img/services/covering.png",
   },
   {
     title: "Dépannage & Mécanique",
@@ -303,7 +304,7 @@ const COMPLEMENTARY_SERVICES = [
       "Organisation de rapatriement véhicule",
       "Interventions de mécanique légère",
     ],
-    image: "/img/depannage.jpg",
+    image: "/img/services/mecanique.png",
   },
 ];
 
@@ -387,7 +388,7 @@ export default function CarrosserieGeneralePage() {
                     ))}
                   </div>
                   <span className="font-mono text-xs font-black uppercase tracking-widest border-l border-border pl-4">
-                    4.9/5 • 120+ Avis Google
+                    5/5 • 80 Avis Google
                   </span>
                 </motion.div>
 
@@ -483,7 +484,14 @@ export default function CarrosserieGeneralePage() {
               >
                 <div className="aspect-[3/4] rounded-3xl bg-zinc-200 overflow-hidden border border-border relative">
                   {/* Image placeholder - à remplacer par votre image réelle */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
+                    <Image
+                      src="/img/services/restitution.png"
+                      alt="Atelier de carrosserie"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="flex items-center gap-2 text-white/80 font-mono text-[10px] uppercase tracking-widest">
                       <MapPin size={12} className="text-primary" />
@@ -903,7 +911,10 @@ export default function CarrosserieGeneralePage() {
           </div>
         </section>
 
-        <section className="py-24 bg-background border-t border-border overflow-hidden">
+        <section
+          className="py-24 bg-background border-t border-border overflow-hidden"
+          id="tarifs"
+        >
           <div className="max-w-7xl mx-auto px-6 lg:px-12">
             {/* HEADER */}
             <div className="max-w-3xl mb-16">
@@ -1290,107 +1301,6 @@ export default function CarrosserieGeneralePage() {
                   <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <p className="font-mono text-[9px] text-zinc-400 uppercase tracking-[0.2em]">
                     Atelier centralisé à Éguilles (13510)
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section className="relative overflow-hidden border-b bg-gradient-to-b from-zinc-50 to-white">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-gray-200/40 to-transparent blur-3xl" />
-        </div>
-        <div className="mx-auto max-w-6xl px-6 py-20 lg:py-24 relative space-y-8">
-          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-700">
-            <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white">
-              Services de carrosserie
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-medium text-gray-800 shadow-sm ring-1 ring-gray-200">
-              <span className="flex text-amber-500">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-4 w-4 fill-current"
-                    strokeWidth={1.2}
-                  />
-                ))}
-              </span>
-              4.9/5
-              <span className="text-gray-500">• Avis Google</span>
-            </span>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-            <div className="space-y-6">
-              <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
-                Services de carrosserie : réparation et assurance auto
-              </h1>
-              <p className="text-lg leading-relaxed text-gray-700">
-                Choc, rayure ou élément à reprendre : on diagnostique, chiffre
-                et répare dans notre atelier à Éguilles. Nous vous expliquons ce
-                que votre assurance peut couvrir, préparons le dossier, puis
-                planifions l’intervention pour remettre votre véhicule en état
-                rapidement. Intervention dans les Bouches-du-Rhône, autour
-                d’Aix-en-Provence et de Marseille.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {HERO_LABELS.map((label) => (
-                  <span
-                    key={label}
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-gray-200"
-                  >
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                    {label}
-                  </span>
-                ))}
-              </div>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a
-                  href={phoneLink}
-                  className="inline-flex items-center justify-center rounded-full bg-black px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:shadow-xl"
-                >
-                  <Phone className="mr-2 h-4 w-4" />
-                  Appeler l’atelier
-                </a>
-                <span className="text-sm text-gray-600">
-                  Devis gratuit, dossier assurance géré de A à Z.
-                </span>
-              </div>
-            </div>
-            <div className="relative rounded-3xl border border-gray-100 bg-gradient-to-br from-gray-900 to-gray-700 p-8 text-white shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_35%)]" />
-              <div className="relative space-y-4">
-                <p className="text-sm uppercase tracking-wide text-gray-300">
-                  Atelier à Éguilles
-                </p>
-                <p className="text-3xl font-bold leading-tight">
-                  Gestion assurance, <br />
-                  véhicule de prêt, <br />
-                  restitution planifiée.
-                </p>
-                <div className="flex items-center gap-2 text-sm font-semibold text-emerald-200">
-                  <Sparkles className="h-4 w-4" />
-                  Libre choix du réparateur (toutes assurances)
-                </div>
-                <div className="rounded-xl bg-white/10 p-4 text-sm leading-relaxed text-gray-100 ring-1 ring-white/10">
-                  <p>
-                    Vous êtes à Aix ou à Marseille ? Consultez nos pages locales
-                    :
-                    <br />
-                    <a
-                      href="/aix-en-provence/carrosserie"
-                      className="font-semibold underline"
-                    >
-                      Carrosserie à Aix-en-Provence
-                    </a>{" "}
-                    •{" "}
-                    <a
-                      href="/marseille/carrosserie"
-                      className="font-semibold underline"
-                    >
-                      Carrosserie à Marseille
-                    </a>
                   </p>
                 </div>
               </div>

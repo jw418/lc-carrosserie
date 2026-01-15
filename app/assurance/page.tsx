@@ -262,11 +262,14 @@ export default function AssurancePage() {
                 immédiate.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <button className="bg-orange-600 hover:bg-orange-700 text-white font-mono px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3">
-                  Prendre RDV <ArrowRight size={14} />
-                </button>
                 <a
-                  href="tel:0442XXXXXX"
+                  href="/contact"
+                  className="bg-orange-600 hover:bg-orange-700 text-white font-mono px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3"
+                >
+                  Prendre RDV <ArrowRight size={14} />
+                </a>
+                <a
+                  href="tel:0612710945"
                   className="border border-zinc-800 hover:border-zinc-600 text-white font-mono px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-3"
                 >
                   <Phone size={14} /> Appeler l'atelier

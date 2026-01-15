@@ -1,4 +1,3 @@
-"use client";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -181,7 +180,7 @@ export default async function CityPage({ params }: CityPageProps) {
                       ))}
                     </div>
                     <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
-                      4.9/5 Google Maps
+                      5/5 Google Maps
                     </span>
                   </div>
                   <div className="inline-flex items-center gap-2 text-emerald-600 font-mono text-[10px] font-bold uppercase tracking-widest">
@@ -242,7 +241,7 @@ export default async function CityPage({ params }: CityPageProps) {
                 <div className="flex flex-wrap items-center gap-4 pt-6">
                   <Button
                     size="lg"
-                    className="h-16 px-8 rounded-2xl bg-zinc-950 hover:bg-zinc-800 text-white gap-3 group"
+                    className="hover: cursor-pointer h-16 px-8 rounded-2xl bg-zinc-950 hover:bg-zinc-800 text-white gap-3 group"
                   >
                     <Phone size={20} className="text-orange-600" />
                     <div className="flex flex-col items-start leading-none">
@@ -250,7 +249,7 @@ export default async function CityPage({ params }: CityPageProps) {
                         Appel d'urgence
                       </span>
                       <span className="font-heading text-lg font-black tracking-tight">
-                        04 42 XX XX XX
+                        06 12 71 09 45
                       </span>
                     </div>
                   </Button>
@@ -274,6 +273,12 @@ export default async function CityPage({ params }: CityPageProps) {
                         label: "Remise en état esthétique",
                       },
                       { value: "loa", label: "Retour LOA / LLD" },
+                      { value: "peinture", label: "Travaux de peinture" },
+                      { value: "tolerie", label: "Réparation de tôlerie" },
+                      {
+                        value: "debosselage",
+                        label: "Débosselage sans peinture",
+                      },
                       { value: "autre", label: "Autre prestation" },
                     ],
                     selectLabel: "Type d'intervention",
@@ -281,12 +286,8 @@ export default async function CityPage({ params }: CityPageProps) {
                   contactInfo={{
                     title: "Atelier Éguilles",
                     lines: ["Zone Artisanale", "13510 Éguilles"],
-                    phone: "04 42 XX XX XX",
+                    phone: "06 12 71 09 45",
                     email: "contact@carrosserie-eguilles.fr",
-                  }}
-                  onSubmit={(data) => {
-                    console.log("Form data:", data);
-                    // Intégrez votre logique d'envoi ici
                   }}
                 />
 
@@ -344,7 +345,7 @@ export default async function CityPage({ params }: CityPageProps) {
                 {/* Remplacer par src="/img/votre-image.jpg" */}
                 <div className="flex items-center justify-center h-full text-zinc-300 font-mono text-xs italic uppercase">
                   <img
-                    src="/img/vertical.png"
+                    src="/img/AxelleEtLudovic.jpg"
                     alt="Atelier LC Carrosserie"
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000"
                   />
@@ -353,7 +354,7 @@ export default async function CityPage({ params }: CityPageProps) {
               {/* Badge flottant */}
               <div className="absolute -bottom-6 -left-6 bg-zinc-950 text-white p-6 rounded-2xl shadow-xl hidden md:block max-w-[200px]">
                 <p className="font-heading text-2xl font-black leading-none">
-                  120+
+                  80+
                 </p>
                 <p className="font-mono text-[9px] uppercase tracking-widest mt-2 text-zinc-400">
                   Avis clients vérifiés sur le secteur
@@ -551,7 +552,7 @@ export default async function CityPage({ params }: CityPageProps) {
                     className="inline-flex items-center gap-4 bg-zinc-950 text-white px-8 py-4 rounded-full font-mono text-xs font-black uppercase tracking-widest hover:bg-orange-600 transition-colors group"
                   >
                     <Phone size={14} />
-                    Appeler l'expert
+                    Appeler pour une prise en charge
                     <ArrowRight
                       size={14}
                       className="group-hover:translate-x-1 transition-transform"

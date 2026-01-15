@@ -56,7 +56,7 @@ export default function ContactPage() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                 </span>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-primary">
-                  Ouvert : 08h30 - 18h00
+                  Ouvert : 24h/24, 7j/7
                 </span>
               </div>
 
@@ -111,9 +111,6 @@ export default function ContactPage() {
                     Horaires d'accueil
                   </p>
                   <p className="text-sm mt-1">{openingHours.weekdays}</p>
-                  <p className="text-sm text-muted-foreground italic">
-                    {openingHours.weekend}
-                  </p>
                 </div>
               </div>
             </div>
@@ -134,21 +131,29 @@ export default function ContactPage() {
                 </span>
               </div>
               <p className="text-zinc-400 text-sm leading-relaxed">
-                <strong className="text-white">Rappel Loi Hamon :</strong> Vous
-                êtes libre de choisir votre carrossier. Nous gérons le dossier
-                avec toutes les assurances, sans que vous n'ayez d'avance de
-                frais à prévoir.
+                <strong className="text-white">
+                  Rappel Loi Article L211-5-1 du Code des assurances :
+                </strong>{" "}
+                Vous êtes libre de choisir votre carrossier. Nous gérons le
+                dossier avec toutes les assurances, sans que vous n'ayez
+                d'avance de frais à prévoir.
               </p>
             </div>
           </div>
 
           {/* --- COLONNE DROITE : LE FORMULAIRE --- */}
           <div className="lg:col-span-7">
+            <div className="mb-6 rounded-2xl border border-primary/30 bg-primary/10 px-6 py-4 shadow-sm">
+              <p className="font-heading text-base md:text-lg font-black uppercase tracking-tight text-primary">
+                Service de récupération et restitution de véhicule gratuit et à
+                domicile
+              </p>
+            </div>
             <div className="relative rounded-3xl border border-border bg-card p-8 md:p-12 shadow-2xl overflow-hidden">
               {/* Accent décoratif orange sur le formulaire */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl" />
 
-              <div className="mb-8">
+              <div className="mb-8 space-y-3">
                 <h2 className="font-heading text-3xl font-black uppercase tracking-tighter italic">
                   Demande de devis express
                 </h2>
@@ -162,9 +167,6 @@ export default function ContactPage() {
                 <span className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   Réponse sous 24h maximum
-                </span>
-                <span className="flex items-center gap-2 font-bold text-foreground">
-                  Données sécurisées 256-bit
                 </span>
               </div>
             </div>

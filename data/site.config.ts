@@ -35,12 +35,11 @@ export const siteConfig = {
   phoneFr: "06 12 71 09 45",
   email: "lccarrosserie13@gmail.com",
   privacyEmail: "dpo@lc-carrosserie.fr",
-  hostName: "OVHcloud",
-  hostWebsite: "https://www.ovhcloud.com",
-  hostAddress: "2 rue Kellermann, 59100 Roubaix, France",
+  hostName: "Vercel",
+  hostWebsite: "https://www.vercel.com",
+  hostAddress: "San Francisco, CA, USA",
   openingHours: {
-    weekdays: "Lundi - Vendredi : 9h00 - 18h00",
-    weekend: "Samedi : sur rendez-vous",
+    weekdays: "24h/24, 7j/7",
   },
   social: {
     instagram: "https://www.instagram.com/lccarrosserie/",

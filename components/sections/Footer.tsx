@@ -176,7 +176,8 @@ export default function Footer() {
                 <div className="text-xs space-y-1">
                   <p>{siteConfig.openingHours.weekdays}</p>
                   <p className="text-zinc-500">
-                    Joignables 7j/7, reponse rapide meme hors horaires.
+                    Peut importe l'heure de votre sinistre, nous sommes là pour
+                    vous aider.
                   </p>
                 </div>
               </div>

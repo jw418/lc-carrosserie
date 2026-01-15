@@ -60,17 +60,47 @@ export function MicroTypeForm({
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [message, setMessage] = React.useState("");
-  const [status, setStatus] = React.useState<"idle" | "loading" | "success">(
-    "idle"
-  );
+  const [status, setStatus] = React.useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const canGoNext = step === 1 && choice.trim().length > 0;
+
+  const submitToEmail = async (payload: MicroTypeFormAnswer) => {
+    const selectedOption = secondStep.options.find(
+      (option) => option.value === payload.choice
+    );
+    const choiceLabel = selectedOption?.label ?? payload.choice;
+    const messageParts = [
+      `Assurance deja contactee: ${payload.answeredYes ? "oui" : "non"}`,
+      `Type d'intervention: ${choiceLabel}`,
+      payload.phone ? `Telephone: ${payload.phone}` : null,
+      payload.message ? `Message: ${payload.message}` : null,
+    ].filter(Boolean);
+
+    const response = await fetch("/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        message: messageParts.join("\n"),
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => null);
+      throw new Error(data?.error || "Echec de l'envoi");
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (status === "loading") return;
 
     setStatus("loading");
+    setErrorMessage(null);
     const payload: MicroTypeFormAnswer = {
       answeredYes,
       choice,
@@ -81,10 +111,14 @@ export function MicroTypeForm({
     };
 
     try {
-      await onSubmit?.(payload);
+      const submit = onSubmit ?? submitToEmail;
+      await submit(payload);
       setStatus("success");
-    } catch {
-      setStatus("idle");
+    } catch (error) {
+      setStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Echec de l'envoi"
+      );
     }
   };
 
@@ -264,6 +298,9 @@ export function MicroTypeForm({
                   <CheckCircle2 className="ml-3 h-4 w-4" />
                 )}
               </Button>
+              {status === "error" && errorMessage && (
+                <p className="text-xs text-red-600">{errorMessage}</p>
+              )}
             </div>
           </form>
 

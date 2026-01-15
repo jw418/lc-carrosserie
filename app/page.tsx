@@ -64,7 +64,7 @@ const CONTACT_INFO = {
   phoneDisplay: siteConfig.phoneFr ?? siteConfig.phone,
   address: siteConfig.full_address,
   mapLink: siteConfig.mapLink,
-  hours: `${siteConfig.openingHours.weekdays} | ${siteConfig.openingHours.weekend}`,
+  hours: `${siteConfig.openingHours.weekdays}`,
 };
 
 const PROCESS_STEPS = [
@@ -170,6 +170,9 @@ const MICROFORM_CHOICES = [
   { value: "peinture", label: "Peinture carrosserie" },
   { value: "jantes", label: "Reparation jantes" },
   { value: "covering", label: "Covering / esthetique" },
+  { value: "loa-lld", label: "Fin de location LOA / LLD" },
+  { value: "litige", label: "Un litige avec votre assurance" },
+  { value: "autre", label: "Autre prestation" },
 ];
 
 // --- COMPONENTS ---
@@ -355,7 +358,7 @@ export default function LCCarrosserieHome() {
                     ))}
                   </div>
                   <span className="font-mono text-[11px] font-bold tracking-tighter text-zinc-900 uppercase">
-                    4.9/5{" "}
+                    5/5{" "}
                     <span className="text-zinc-400 font-medium ml-1">
                       sur Google (80+ avis)
                     </span>
@@ -547,7 +550,7 @@ export default function LCCarrosserieHome() {
 
                 <ul className="space-y-3 mb-8">
                   {[
-                    "0€ d'avance de frais)",
+                    "0€ d'avance de frais",
                     "Franchise offerte",
                     "Véhicule de prêt",
                   ].map((item, i) => (
@@ -865,7 +868,7 @@ export default function LCCarrosserieHome() {
 
             {/* Lien vers réseaux ou galerie complète */}
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/lccarrosserie/"
               target="_blank"
               className="group flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors"
             >
@@ -918,7 +921,7 @@ export default function LCCarrosserieHome() {
                 <MicroTypeForm
                   className="mt-2 lg:mt-0"
                   firstStep={{
-                    question: "Avez-vous deja contacte votre assurance ?",
+                    question: "Souhaitez-vous prendre rendez-vous ?",
                     yesLabel: "Oui",
                   }}
                   secondStep={{
@@ -1004,14 +1007,14 @@ export default function LCCarrosserieHome() {
                     <div className="grid grid-cols-1 gap-4">
                       <Button
                         variant="primary"
-                        className="w-full justify-center"
+                        className="w-full justify-center hover:cursor-pointer"
                         icon={Phone}
                       >
                         Appeler l'atelier
                       </Button>
                       <Button
                         variant="outline"
-                        className="w-full justify-center"
+                        className="w-full justify-center hover:cursor-pointer"
                       >
                         Envoyer une photo (MMS/WhatsApp)
                       </Button>
