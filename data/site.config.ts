@@ -6,7 +6,7 @@ export const siteConfig = {
   seoDescription:
     "Atelier de carrosserie et peinture automobile a Eguilles. Reparations toutes assurances, zero avance de frais, vehicule de pret et franchise offerte.",
   baseline: "Atelier de carrosserie et peinture automobile",
-  websiteUrl: "https://www.lc-carrosserie.fr",
+  websiteUrl: "https://www.lc-carrosserie.com",
   logoUrl: "/img/logo.png",
   ogImage: "/img/meta.png",
   mapLink: "https://share.google/zH02U5Zcs90rSb23W",
