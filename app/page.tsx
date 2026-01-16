@@ -907,19 +907,19 @@ export default function LCCarrosserieHome() {
       <section id="contact" className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-16">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
+            <div className="grid grid-cols-1 min-[1150px]:grid-cols-[1.2fr_0.8fr] gap-10 items-start">
               {/* FAQ */}
               <div>
                 <h2 className="text-3xl font-bold mb-8 text-foreground">
                   Questions frequentes de nos clients
                 </h2>
-                <Faq items={FAQ_ITEMS_HOME} allowMultiple />
+                <Faq items={FAQ_ITEMS_HOME} />
               </div>
 
               {/* MICRO TYPEFORM */}
-              <div className="lg:pt-12">
+              <div className="min-[1150px]:pt-12">
                 <MicroTypeForm
-                  className="mt-2 lg:mt-0"
+                  className="mt-2 min-[1150px]:mt-0"
                   firstStep={{
                     question: "Souhaitez-vous prendre rendez-vous ?",
                     yesLabel: "Oui",

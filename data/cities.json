@@ -19,7 +19,10 @@
       "13013",
       "13014"
     ],
-    "coordinates": { "lat": 43.2965, "lng": 5.3698 },
+    "coordinates": {
+      "lat": 43.2965,
+      "lng": 5.3698
+    },
     "population": 861635,
     "info": "Carrosserie à Marseille, réparations toutes assurances sans déplacement, récupération du véhicule et véhicule de prêt.",
     "seo": {
@@ -28,7 +31,7 @@
     },
     "hero": {
       "title": "Carrosserie à Marseille, réparations toutes assurances sans vous déplacer",
-      "chapo": "Que vous soyez dans le centre de Marseille ou à La Valentine, il n’est pas toujours simple de se libérer pour faire réparer votre voiture. Nous organisons la récupération du véhicule, la gestion de votre dossier avec l’assurance et la restitution après réparation, pour une prise en charge clé en main.",
+      "chapo": "Que vous soyez dans le centre de Marseille ou à La Valentine, il n'est pas toujours simple de se libérer pour faire réparer votre voiture. Nous organisons la récupération du véhicule, la gestion de votre dossier avec l'assurance et la restitution après réparation, pour une prise en charge clé en main.",
       "labels": [
         "0 € à avancer",
         "Véhicule de prêt pendant la réparation",
@@ -92,9 +95,52 @@
         "situation": "Un client qui habite à proximité du boulevard Rabatau utilise sa voiture tous les jours pour aller travailler. En sortant d’un parking, il accroche un muret : pare choc arrière enfoncé et aile rayée. Sa voiture est récente et il craint d’avoir des frais importants, sans trop savoir comment son assurance va réagir ni quand il pourra s’en occuper.",
         "contact": "Il nous appelle en fin de journée, nous envoie quelques photos des dégâts et nous donne les références de son contrat d’assurance. Nous vérifions rapidement ce qui peut être pris en charge, l’aidons à cadrer la déclaration du sinistre et lui proposons une solution simple : récupération de la voiture à Marseille avec mise à disposition d’un véhicule de prêt.",
         "organization": "Nous convenons d’une date de récupération qui colle avec ses horaires de travail, récupérons le véhicule à Marseille et lui laissons la voiture de prêt. L’expertise est organisée, le devis validé avec l’assurance, puis la réparation est réalisée dans notre atelier : démontage des éléments touchés, réparation, préparation, peinture, vernis et contrôle final.",
-        "result": "Quelques jours plus tard, le client récupère sa voiture réparée, avec un pare choc et une aile comme neufs. De son côté, il n’a pas eu besoin de se déplacer plusieurs fois, n’a pas avancé les travaux dans le cadre de ce dossier pris en charge, et la question de la franchise a été clarifiée dès le départ pour éviter les mauvaises surprises."
+        "result": "Quelques jours plus tard, le client récupère sa voiture réparée, avec un pare choc et une aile comme neufs. De son côté, il n’a pas eu besoin de se déplacer plusieurs fois, n’a pas avancé les travaux dans le cadre de ce dossier pris en charge, et la question de la franchise a été clarifiée dès le départ pour éviter les mauvaises surprises.",
+        "images": [
+          {
+            "src": "/img/cas-etude/marseille/dommage-1.jpg",
+            "alt": "Dommage carrosserie avant r?paration"
+          },
+          {
+            "src": "/img/cas-etude/marseille/dommage-2.jpg",
+            "alt": "Dommage carrosserie avant r?paration (2)"
+          },
+          {
+            "src": "/img/cas-etude/marseille/repare-1.jpg",
+            "alt": "R?paration carrosserie termin?e"
+          },
+          {
+            "src": "/img/cas-etude/marseille/repare-2.jpg",
+            "alt": "R?paration carrosserie termin?e (2)"
+          }
+        ],
+        "review": {
+          "author": "shooting flash studio",
+          "meta": "Local Guide ? 52 avis ? 37 photos",
+          "dateLabel": "il y a 4 mois",
+          "text": "Une personne de confiance, intervention rapide et soign?e ! Cela para?t incroyable en 2025, et pourtant LC carrosserie est ? recommander sans h?sitation",
+          "visitLabel": "Visit? en ao?t"
+        }
       },
       "testimonialsTitle": "Ils ont fait réparer leur voiture depuis Marseille",
+      "testimonialsIntro": "Plusieurs automobilistes marseillais nous ont déjà confié leur voiture après un accrochage, un frottement de pare choc ou un sinistre plus important. Voici le type de retours que nous recevons une fois la réparation terminée.",
+      "testimonials": [
+        {
+          "name": "Lamia R.",
+          "location": "Marseille 13008",
+          "text": "Ils ont tout géré avec l'assurance, j'ai eu un véhicule de prêt et la voiture est revenue impeccable."
+        },
+        {
+          "name": "Hugo S.",
+          "location": "Boulevard Rabatau",
+          "text": "Réparation rapide et aucune avance de frais. Je n'ai pas eu besoin de me déplacer plusieurs fois."
+        },
+        {
+          "name": "Claire P.",
+          "location": "Marseille 13005",
+          "text": "Très pro : prise de photos, explications claires sur la franchise et restitution nickel."
+        }
+      ],
       "finalCta": {
         "title": "Votre voiture a besoin d’une réparation de carrosserie à Marseille ?",
         "text": "Que votre véhicule soit légèrement abîmé ou qu’il s’agisse d’un sinistre plus important, nous pouvons étudier votre situation, regarder ce que votre assurance peut prendre en charge et vous proposer une organisation simple, sans déplacements inutiles.",
@@ -156,8 +202,14 @@
     "id": "aix-en-provence",
     "name": "Aix-en-Provence",
     "department": "Bouches-du-Rhône",
-    "postalCodes": ["13080", "13100"],
-    "coordinates": { "lat": 43.5297, "lng": 5.4474 },
+    "postalCodes": [
+      "13080",
+      "13100"
+    ],
+    "coordinates": {
+      "lat": 43.5297,
+      "lng": 5.4474
+    },
     "population": 145000,
     "info": "Carrosserie et peinture pour les automobilistes d’Aix-en-Provence, avec un atelier à Éguilles qui gère le dossier assurance et propose un véhicule de prêt.",
     "seo": {
@@ -165,16 +217,16 @@
       "description": "Depuis Aix-en-Provence, confiez votre voiture à notre atelier d’Éguilles : récupération possible, gestion complète avec l’assurance, véhicule de prêt et réparation soignée."
     },
     "hero": {
-      "title": "Carrosserie à Aix-en-Provence et Pays d’Aix",
-      "chapo": "Situé à Éguilles à quelques minutes d’Aix, l’atelier gère votre dossier avec l’assurance, met à disposition un véhicule de prêt et planifie la restitution selon vos contraintes.",
+      "title": "Carrosserie à Aix-en-Provence, réparations toutes assurances sans vous déplacer",
+      "chapo": "Que vous soyez dans le centre d'Aix-en-Provence ou dans les environs, il n'est pas toujours simple de se libérer pour faire réparer votre voiture. Nous organisons la récupération du véhicule, la gestion de votre dossier avec l'assurance et la restitution après réparation, pour une prise en charge clé en main.",
       "labels": [
-        "Aucune avance de travaux",
-        "Véhicule de prêt disponible",
-        "Libre choix du réparateur",
-        "Atelier proche d’Aix-en-Provence"
+        "0 € à avancer",
+        "Véhicule de prêt pendant la réparation",
+        "Récupération de votre voiture à Aix-en-Provence",
+        "Dossier assurance géré de A à Z"
       ],
       "googleRating": {
-        "note": "4.9/5",
+        "note": "5/5",
         "count": "Avis Google"
       }
     },
@@ -223,12 +275,44 @@
       ],
       "exampleTitle": "Exemple client du centre d’Aix",
       "example": {
-        "situation": "Aile froissée et pare choc rayé après un accrochage dans un parking du centre d’Aix.",
-        "contact": "Envoi de photos par formulaire, vérification des garanties et cadrage de la déclaration de sinistre.",
-        "organization": "Dépôt à Éguilles tôt le matin, prêt d’un véhicule pour la journée. Devis validé avec l’assurance, réparation carrosserie/peinture, puis contrôle final.",
-        "result": "Véhicule restitué en fin de semaine, sans avance de travaux, franchise clarifiée dès le départ."
+        "situation": "Client d'Aix-en-Provence nous contacte après un accrochage : un tiers lui est rentré dedans. Nous l'aidons pour le constat, prenons la franchise en charge et ne demandons aucune avance de frais.",
+        "contact": "Après la déclaration, l'assurance mandate un cabinet d'expertise. Nous prenons en charge les démarches et la coordination avec ce cabinet.",
+        "organization": "Rendez-vous d'expertise planifié (en général une matinée) avec véhicule de prêt. Le rapport est établi sous 24 à 48 heures, puis les travaux démarrent rapidement. Sur ce cas, les réparations ont duré cinq jours et le véhicule a été rendu le vendredi.",
+        "result": "Un véhicule de prêt a été mis à disposition tout le long des travaux. Suivi complet avec l'assurance pour toutes les démarches administratives : le client a déboursé zéro euro et n'a rien eu à faire de son côté, à part la déclaration.",
+        "images": [
+          {
+            "src": "/img/cas-etude/aix/dommage-1.jpg",
+            "alt": "Dommage carrosserie avant réparation à Aix-en-Provence"
+          },
+          {
+            "src": "/img/cas-etude/aix/dommage-2.jpg",
+            "alt": "Dommage carrosserie avant réparation à Aix-en-Provence (2)"
+          },
+          {
+            "src": "/img/cas-etude/aix/repare-1.jpg",
+            "alt": "R?paration carrosserie termin?e ? Aix-en-Provence"
+          }
+        ]
       },
       "testimonialsTitle": "Ils nous recommandent depuis Aix-en-Provence",
+      "testimonialsIntro": "Des automobilistes d'Aix-en-Provence et des environs nous ont déjà confié leur voiture après un accrochage ou un sinistre. Voici le type de retours que nous recevons une fois la réparation terminée.",
+      "testimonials": [
+        {
+          "name": "Sophie M.",
+          "location": "Aix-en-Provence 13100",
+          "text": "Pare choc frotté en sortie de parking, prise en charge simple et restitution impeccable."
+        },
+        {
+          "name": "Nicolas D.",
+          "location": "Les Milles",
+          "text": "Dossier assurance géré de A à Z, aucune avance et un véhicule de prêt pour rester mobile."
+        },
+        {
+          "name": "Camille P.",
+          "location": "Puyricard",
+          "text": "Peinture et ajustements nickels, délais respectés et suivi clair du début à la fin."
+        }
+      ],
       "finalCta": {
         "title": "Besoin d’une carrosserie autour d’Aix-en-Provence ?",
         "text": "Expliquez-nous la situation, envoyez quelques photos et nous préparons une organisation simple : dépôt ou récupération, véhicule de prêt et gestion assurance.",

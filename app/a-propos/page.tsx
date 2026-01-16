@@ -102,7 +102,7 @@ export default function AboutPage() {
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <div className="p-10 space-y-6">
+                <div className="p-10 space-y-6 pl-3 sm:pl-6 lg:pl-10">
                   <div className="space-y-2">
                     <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight">
                       Ludovic
@@ -133,7 +133,7 @@ export default function AboutPage() {
                     className="h-full w-full object-cover"
                   />
                 </div>
-                <div className="p-10 space-y-6">
+                <div className="p-10 space-y-6 pl-3 sm:pl-6 lg:pl-10">
                   <div className="space-y-2">
                     <h3 className="font-heading text-2xl font-black uppercase italic tracking-tight">
                       Axelle

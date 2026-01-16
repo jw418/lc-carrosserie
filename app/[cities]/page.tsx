@@ -97,26 +97,6 @@ export default async function CityPage({ params }: CityPageProps) {
 
   const content = city.content;
   const phoneLink = `tel:${formatPhoneForTel(siteConfig.phone)}`;
-  const testimonials =
-    slug === "marseille"
-      ? [
-          {
-            name: "Lamia R.",
-            location: "Marseille 13008",
-            text: "Ils ont tout géré avec l'assurance, j'ai eu un véhicule de prêt et la voiture est revenue impeccable.",
-          },
-          {
-            name: "Hugo S.",
-            location: "Boulevard Rabatau",
-            text: "Réparation rapide et aucune avance de frais. Je n'ai pas eu besoin de me déplacer plusieurs fois.",
-          },
-          {
-            name: "Claire P.",
-            location: "Marseille 13005",
-            text: "Très pro : prise de photos, explications claires sur la franchise et restitution nickel.",
-          },
-        ]
-      : [];
   const pageTitle = `Carrosserie ${city.name} | ${siteConfig.name}`;
   const pageDescription = `Carrosserie et peinture auto a ${city.name}. Atelier a Eguilles, gestion assurance et vehicule de pret.`;
   const pageUrl = `${siteConfig.websiteUrl}/${city.id}`;
@@ -125,6 +105,26 @@ export default async function CityPage({ params }: CityPageProps) {
       question: item.question,
       answer: item.answer,
     })) ?? [];
+  const testimonials = content?.testimonials ?? [];
+  const caseStudy = content?.example;
+  const caseStudyImages = caseStudy?.images ?? [];
+  const caseStudyReview = caseStudy?.review;
+  const hero = city.hero;
+  const heroTitle = hero?.title ?? `Carrosserie à ${city.name}`;
+  const heroTitleParts = heroTitle.split(",");
+  const heroTitleLead = heroTitleParts[0]?.trim();
+  const heroTitleAccent = heroTitleParts.slice(1).join(",").trim();
+  const heroChapo = hero?.chapo ?? content?.introParagraphs?.[0] ?? "";
+  const heroLabels = hero?.labels?.length
+    ? hero.labels
+    : [
+        "0 € à avancer",
+        "Véhicule de prêt pendant la réparation",
+        `Récupération de votre voiture à ${city.name}`,
+        "Dossier assurance géré de A à Z",
+      ];
+  const heroRating = hero?.googleRating;
+  const heroLabelIcons = [ShieldCheck, Clock, Truck, CheckCircle2];
   const jsonLdGraph: Record<string, unknown>[] = [
     buildBusinessJsonLd(),
     buildWebPageJsonLd({
@@ -164,7 +164,7 @@ export default async function CityPage({ params }: CityPageProps) {
           <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-50 -skew-x-12 translate-x-1/4 z-0" />
 
           <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-16 items-start">
+            <div className="grid min-[1200px]:grid-cols-2 gap-16 items-start">
               {/* LEFT COLUMN: CONTENT */}
               <div className="space-y-10">
                 {/* Google Notes & Badge */}
@@ -180,7 +180,8 @@ export default async function CityPage({ params }: CityPageProps) {
                       ))}
                     </div>
                     <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
-                      5/5 Google Maps
+                      {heroRating?.note ?? "5/5"}{" "}
+                      {heroRating?.count ?? "Google Maps"}
                     </span>
                   </div>
                   <div className="inline-flex items-center gap-2 text-emerald-600 font-mono text-[10px] font-bold uppercase tracking-widest">
@@ -195,46 +196,39 @@ export default async function CityPage({ params }: CityPageProps) {
                 {/* Title & Chapo */}
                 <div className="space-y-6">
                   <h1 className="font-heading text-5xl md:text-7xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
-                    Carrosserie à Marseille, <br />
-                    <span className="text-orange-600 italic">
-                      Sans vous déplacer.
-                    </span>
+                    {heroTitleLead}
+                    {heroTitleAccent ? (
+                      <>
+                        , <br />
+                        <span className="text-orange-600 italic">
+                          {heroTitleAccent}
+                        </span>
+                      </>
+                    ) : null}
                   </h1>
                   <p className="text-lg text-zinc-500 leading-relaxed font-light max-w-xl">
-                    Que vous soyez dans le centre de Marseille ou à La
-                    Valentine, il n’est pas toujours simple de se libérer pour
-                    faire réparer votre voiture. Nous organisons la récupération
-                    du véhicule, la gestion de votre dossier assurance et la
-                    restitution, pour une prise en charge clé en main.
+                    {heroChapo}
                   </p>
                 </div>
 
                 {/* Labels de réassurance */}
                 <div className="grid sm:grid-cols-2 gap-y-4 gap-x-8 pt-4">
-                  {[
-                    { icon: <ShieldCheck size={18} />, text: "0 € à avancer" },
-                    {
-                      icon: <Clock size={18} />,
-                      text: "Véhicule de prêt gratuit",
-                    },
-                    {
-                      icon: <Truck size={18} />,
-                      text: "Récupération à Marseille",
-                    },
-                    {
-                      icon: <CheckCircle2 size={18} />,
-                      text: "Dossier géré de A à Z",
-                    },
-                  ].map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3 group">
-                      <div className="text-orange-600 group-hover:scale-110 transition-transform">
-                        {item.icon}
+                  {heroLabels.map((label, idx) => {
+                    const Icon = heroLabelIcons[idx] ?? CheckCircle2;
+                    return (
+                      <div
+                        key={`${label}-${idx}`}
+                        className="flex items-center gap-3 group"
+                      >
+                        <div className="text-orange-600 group-hover:scale-110 transition-transform">
+                          <Icon size={18} />
+                        </div>
+                        <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-100 pb-1 w-full">
+                          {label}
+                        </span>
                       </div>
-                      <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-100 pb-1 w-full">
-                        {item.text}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {/* Quick Actions */}
@@ -249,7 +243,7 @@ export default async function CityPage({ params }: CityPageProps) {
                         Appel d'urgence
                       </span>
                       <span className="font-heading text-lg font-black tracking-tight">
-                        06 12 71 09 45
+                        {siteConfig.phoneFr ?? siteConfig.phone}
                       </span>
                     </div>
                   </Button>
@@ -257,11 +251,10 @@ export default async function CityPage({ params }: CityPageProps) {
               </div>
 
               {/* RIGHT COLUMN: FORM */}
-              <div className="lg:sticky lg:top-32">
+              <div className="min-[1200px]:sticky min-[1200px]:top-32">
                 <MicroTypeForm
                   firstStep={{
-                    question:
-                      "Souhaitez-vous une prise en charge à Marseille ?",
+                    question: `Souhaitez-vous une prise en charge à ${city.name} ?`,
                     yesLabel: "Oui, estimer mes travaux",
                   }}
                   secondStep={{
@@ -404,17 +397,77 @@ export default async function CityPage({ params }: CityPageProps) {
           </div>
         </section>
         {/* SECTION 3 : ÉTUDE DE CAS (NOUVELLE SECTION VISUELLE) */}
-        {content?.example && (
+        {caseStudy && (
           <section className="py-24 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                 {/* EMPLACEMENT IMAGE 2 : AVANT/APRÈS OU DETAIL PEINTURE */}
                 <div className="lg:col-span-6 order-2 lg:order-1 relative">
-                  <div className="relative aspect-video rounded-3xl bg-zinc-100 overflow-hidden shadow-inner">
-                    <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-mono text-[10px] uppercase">
-                      Visuel Étude de Cas
-                    </div>
+                  {caseStudyImages.length ? (
+                    <div className="grid grid-cols-2 gap-4">
+                      {caseStudyImages.map((image, index) => (
+                        <div
+                          key={`${image.src}-${index}`}
+                          className="relative aspect-[4/3] rounded-2xl bg-zinc-100 overflow-hidden shadow-sm border border-zinc-100"
+                        >
+                          <Image
+                            src={image.src}
+                            alt={image.alt ?? `Visuel étude de cas ${index + 1}`}
+                            fill
+                            sizes="(min-width: 1024px) 25vw, 50vw"
+                            className="object-cover"
+                          />
+                      </div>
+                    ))}
                   </div>
+                  ) : (
+                    <div className="relative aspect-video rounded-3xl bg-zinc-100 overflow-hidden shadow-inner">
+                      <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-mono text-[10px] uppercase">
+                        Visuel étude de cas
+                      </div>
+                    </div>
+                  )}
+                  {caseStudyReview && (
+                    <div className="mt-8 rounded-2xl border border-zinc-100 bg-zinc-50/70 p-6 shadow-sm">
+                      <div className="flex items-start gap-4">
+                        <div className="h-12 w-12 rounded-full bg-white border border-zinc-100 flex items-center justify-center font-bold text-zinc-700">
+                          {caseStudyReview.author?.charAt(0) ?? "A"}
+                        </div>
+                        <div className="space-y-2">
+                          <div>
+                            <p className="font-semibold text-zinc-900">
+                              {caseStudyReview.author}
+                            </p>
+                            {caseStudyReview.meta && (
+                              <p className="text-xs text-zinc-500">
+                                {caseStudyReview.meta}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-3 text-orange-600">
+                            <div className="flex gap-1">
+                              {[...Array(5)].map((_, i) => (
+                                <Star key={i} className="h-4 w-4 fill-current" />
+                              ))}
+                            </div>
+                            {caseStudyReview.dateLabel && (
+                              <span className="text-xs text-zinc-400">
+                                {caseStudyReview.dateLabel}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <p className="mt-4 text-zinc-700 leading-relaxed italic">
+                        "{caseStudyReview.text}"
+                      </p>
+                      {caseStudyReview.visitLabel && (
+                        <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-zinc-400">
+                          {caseStudyReview.visitLabel}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   {/* Decorative element */}
                   <div className="absolute -top-10 -right-10 h-40 w-40 border-r-2 border-t-2 border-zinc-100 rounded-tr-[4rem] -z-10" />
                 </div>
@@ -436,17 +489,17 @@ export default async function CityPage({ params }: CityPageProps) {
                     {[
                       {
                         label: "Problématique",
-                        text: content.example.situation,
+                        text: caseStudy.situation,
                       },
                       {
                         label: "Solution Logistique",
-                        text: content.example.contact,
+                        text: caseStudy.contact,
                       },
                       {
                         label: "Intervention",
-                        text: content.example.organization,
+                        text: caseStudy.organization,
                       },
-                      { label: "Résultat Final", text: content.example.result },
+                      { label: "Résultat Final", text: caseStudy.result },
                     ].map((item) => (
                       <div
                         key={item.label}
@@ -461,6 +514,7 @@ export default async function CityPage({ params }: CityPageProps) {
                       </div>
                     ))}
                   </div>
+
                 </div>
               </div>
             </div>
@@ -470,7 +524,8 @@ export default async function CityPage({ params }: CityPageProps) {
         <section className="max-w-7xl mx-auto px-6 pb-24 space-y-24">
           {/* Témoignages Style Grid Moderne */}
           <ReviewsSection
-            title={`Avis clients a ${city.name}`}
+            title={content?.testimonialsTitle ?? `Avis clients a ${city.name}`}
+            description={content?.testimonialsIntro}
             reviews={testimonials.map((review) => ({
               name: review.name,
               location: review.location,

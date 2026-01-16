@@ -219,9 +219,7 @@ export function MicroTypeForm({
       )}
 
       {step === 2 && (
-        <section
-          className={cn(containerStyles, "grid lg:grid-cols-[1fr_300px] gap-0")}
-        >
+        <section className={cn(containerStyles, "flex flex-col gap-0")}>
           <form className="p-8 md:p-10 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2 mb-6">
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-orange-600 font-bold">

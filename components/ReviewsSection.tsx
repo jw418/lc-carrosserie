@@ -14,6 +14,7 @@ export type ReviewItem = {
 type ReviewsSectionProps = {
   title: string
   reviews: ReviewItem[]
+  description?: string
   rating?: {
     value: string
     label?: string
@@ -26,6 +27,7 @@ type ReviewsSectionProps = {
 export function ReviewsSection({
   title,
   reviews,
+  description,
   rating,
   actions,
   className,
@@ -58,6 +60,11 @@ export function ReviewsSection({
                   </span>
                 )}
               </div>
+            )}
+            {description && (
+              <p className="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+                {description}
+              </p>
             )}
           </div>
           {actions}

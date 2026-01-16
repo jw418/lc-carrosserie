@@ -33,6 +33,7 @@ import { CreditCard, Gift, ArrowUpRight } from "lucide-react";
 import { ImageCarousel } from "@/components/ImageCarousel";
 import Link from "next/link";
 import Image from "next/image";
+import ElectricVehicleSection from "@/components/sections/ElectricCar";
 
 const title =
   "Carrosserie générale : services, prix et assurance | LC Carrosserie";
@@ -821,6 +822,7 @@ export default function CarrosserieGeneralePage() {
                 services pour la sécurité, le confort et l’esthétique.
               </p>
             </div>
+            <ElectricVehicleSection />
 
             {/* GRILLE DE SERVICES (Même style que services principaux) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200 shadow-2xl">
