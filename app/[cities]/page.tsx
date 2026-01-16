@@ -26,6 +26,9 @@ import { Button } from "@/components/ui/button";
 import { Clock } from "lucide-react";
 import { ShieldCheck } from "lucide-react";
 import { Truck } from "lucide-react";
+import { CarFront } from "lucide-react";
+import Link from "next/link";
+
 // Types inchangés...
 type CityPageParams = Promise<{ cities?: string }> | { cities?: string };
 type CityPageProps = { params: CityPageParams };
@@ -159,138 +162,236 @@ export default async function CityPage({ params }: CityPageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }}
         />{" "}
-        <section className="relative pt-20 pb-32 overflow-hidden bg-white">
-          {/* Background Decor */}
-          <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-50 -skew-x-12 translate-x-1/4 z-0" />
+        <div className="bg-white">
+          <section className="relative pt-12 pb-20 sm:pt-16 sm:pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
+            {/* Background Decor - Hidden on mobile for cleaner look, visible from lg */}
+            <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-50 -skew-x-12 translate-x-1/4 z-0 hidden lg:block" />
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="grid min-[1200px]:grid-cols-2 gap-16 items-start">
-              {/* LEFT COLUMN: CONTENT */}
-              <div className="space-y-10">
-                {/* Google Notes & Badge */}
-                <div className="flex flex-wrap items-center gap-6">
-                  <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 rounded-full">
-                    <div className="flex -space-x-1">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star
-                          key={s}
-                          size={14}
-                          className="fill-orange-600 text-orange-600"
-                        />
-                      ))}
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+                {/* LEFT COLUMN: CONTENT */}
+                <div className="space-y-8 sm:space-y-10 w-full lg:max-w-none">
+                  {/* Google Notes & Badge */}
+                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 rounded-full">
+                      <div className="flex -space-x-1">
+                        {[1, 2, 3, 4, 5].map((s) => (
+                          <Star
+                            key={s}
+                            size={14}
+                            className="fill-orange-600 text-orange-600"
+                          />
+                        ))}
+                      </div>
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+                        {heroRating?.note ?? "5/5"}{" "}
+                        {heroRating?.count ?? "Google Maps"}
+                      </span>
                     </div>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
-                      {heroRating?.note ?? "5/5"}{" "}
-                      {heroRating?.count ?? "Google Maps"}
-                    </span>
+                    <div className="inline-flex items-center gap-2 text-emerald-600 font-mono text-[10px] font-bold uppercase tracking-widest">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                      Atelier Ouvert
+                    </div>
                   </div>
-                  <div className="inline-flex items-center gap-2 text-emerald-600 font-mono text-[10px] font-bold uppercase tracking-widest">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                    </span>
-                    Atelier Ouvert
-                  </div>
-                </div>
 
-                {/* Title & Chapo */}
-                <div className="space-y-6">
-                  <h1 className="font-heading text-5xl md:text-7xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
-                    {heroTitleLead}
-                    {heroTitleAccent ? (
-                      <>
-                        , <br />
-                        <span className="text-orange-600 italic">
-                          {heroTitleAccent}
+                  {/* Title & Chapo */}
+                  <div className="space-y-6">
+                    <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
+                      {heroTitleLead}
+                      {heroTitleAccent ? (
+                        <>
+                          , <br />
+                          <span className="text-orange-600 italic">
+                            {heroTitleAccent}
+                          </span>
+                        </>
+                      ) : null}
+                    </h1>
+                    <p className="text-base sm:text-lg text-zinc-500 leading-relaxed font-light max-w-xl">
+                      {heroChapo}
+                    </p>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div className="flex flex-wrap items-center gap-4 pt-4 sm:pt-6">
+                    <Button
+                      size="lg"
+                      className="hover:cursor-pointer h-16 w-full sm:w-auto px-8 rounded-2xl bg-zinc-950 hover:bg-zinc-800 text-white gap-3 group transition-all"
+                    >
+                      <Phone size={20} className="text-orange-600" />
+                      <div className="flex flex-col items-start leading-none">
+                        <span className="font-mono text-[10px] uppercase opacity-60">
+                          Appel d'urgence
                         </span>
-                      </>
-                    ) : null}
-                  </h1>
-                  <p className="text-lg text-zinc-500 leading-relaxed font-light max-w-xl">
-                    {heroChapo}
-                  </p>
-                </div>
-
-                {/* Labels de réassurance */}
-                <div className="grid sm:grid-cols-2 gap-y-4 gap-x-8 pt-4">
-                  {heroLabels.map((label, idx) => {
-                    const Icon = heroLabelIcons[idx] ?? CheckCircle2;
-                    return (
-                      <div
-                        key={`${label}-${idx}`}
-                        className="flex items-center gap-3 group"
-                      >
-                        <div className="text-orange-600 group-hover:scale-110 transition-transform">
-                          <Icon size={18} />
-                        </div>
-                        <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-100 pb-1 w-full">
-                          {label}
+                        <span className="font-heading text-lg font-black tracking-tight">
+                          {siteConfig.phoneFr ?? siteConfig.phone}
                         </span>
                       </div>
-                    );
-                  })}
+                    </Button>
+                  </div>
                 </div>
 
-                {/* Quick Actions */}
-                <div className="flex flex-wrap items-center gap-4 pt-6">
-                  <Button
-                    size="lg"
-                    className="hover: cursor-pointer h-16 px-8 rounded-2xl bg-zinc-950 hover:bg-zinc-800 text-white gap-3 group"
-                  >
-                    <Phone size={20} className="text-orange-600" />
-                    <div className="flex flex-col items-start leading-none">
-                      <span className="font-mono text-[10px] uppercase opacity-60">
-                        Appel d'urgence
-                      </span>
-                      <span className="font-heading text-lg font-black tracking-tight">
-                        {siteConfig.phoneFr ?? siteConfig.phone}
+                {/* RIGHT COLUMN: FORM & LABELS */}
+                <div className="lg:sticky lg:top-32 w-full space-y-8">
+                  {/* Grid of Labels */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+                    {heroLabels.map((label, idx) => {
+                      const Icon = heroLabelIcons[idx] ?? CheckCircle2;
+                      return (
+                        <div
+                          key={`${label}-${idx}`}
+                          className="flex items-center gap-3 group"
+                        >
+                          <div className="text-orange-600 group-hover:scale-110 transition-transform shrink-0">
+                            <Icon size={18} />
+                          </div>
+                          <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-100 pb-1 w-full">
+                            {label}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* TypeForm Container */}
+                  <div className="w-full bg-white rounded-3xl shadow-xl shadow-zinc-200/50 pt-8">
+                    <MicroTypeForm
+                      firstStep={{
+                        question: `Souhaitez-vous une prise en charge à ${city.name} ?`,
+                        yesLabel: "Oui, estimer mes travaux",
+                      }}
+                      secondStep={{
+                        question: "Quel est votre besoin ?",
+                        options: [
+                          { value: "sinistre", label: "Sinistre (Assurance)" },
+                          {
+                            value: "esthetique",
+                            label: "Remise en état esthétique",
+                          },
+                          { value: "loa", label: "Retour LOA / LLD" },
+                          { value: "peinture", label: "Travaux de peinture" },
+                          { value: "tolerie", label: "Réparation de tôlerie" },
+                          {
+                            value: "debosselage",
+                            label: "Débosselage sans peinture",
+                          },
+                          { value: "autre", label: "Autre prestation" },
+                        ],
+                        selectLabel: "Type d'intervention",
+                      }}
+                      contactInfo={{
+                        title: "Atelier Éguilles",
+                        lines: ["Zone Artisanale", "13510 Éguilles"],
+                        phone: "06 12 71 09 45",
+                        email: "contact@carrosserie-eguilles.fr",
+                      }}
+                    />
+                  </div>
+
+                  <p className="text-center font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+                    Garantie constructeur préservée • Toutes assurances
+                  </p>
+                </div>
+              </div>
+
+              {/* LOWER SECTION: SERVICES CARDS */}
+              <div className="mt-16 sm:mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+                {/* Card 1: Assurance */}
+                <div className="rounded-3xl border border-zinc-100 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="p-8 sm:p-10 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-6">
+                      <ShieldCheck className="w-6 h-6 text-orange-600" />
+                      <span className="text-orange-600 font-bold tracking-widest uppercase text-xs font-mono">
+                        Assurance
                       </span>
                     </div>
-                  </Button>
+                    <h3 className="text-2xl sm:text-3xl font-heading font-black uppercase italic mb-4 text-zinc-950">
+                      Gestion du dossier sans effort
+                    </h3>
+                    <p className="text-zinc-500 mb-8 font-light leading-relaxed text-sm sm:text-base">
+                      Nous gérons les échanges avec l'expert et l'assurance,
+                      avec zéro avance de frais et franchise offerte selon votre
+                      dossier.
+                    </p>
+                    <ul className="space-y-4 mb-10">
+                      {[
+                        "0€ d'avance de frais",
+                        "Franchise offerte",
+                        "Véhicule de prêt",
+                      ].map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-center text-zinc-900 font-bold text-sm uppercase tracking-tight"
+                        >
+                          <CheckCircle2 className="w-5 h-5 mr-3 text-orange-600 shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto">
+                      <Link href="/assurance" className="w-full sm:w-auto">
+                        <Button className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white rounded-xl px-8 h-12 uppercase font-bold text-xs tracking-widest transition-colors">
+                          Découvrir la gestion assurance
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card 2: Carrosserie */}
+                <div className="rounded-3xl border border-zinc-100 bg-white shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+                  <div className="p-8 sm:p-10 flex flex-col h-full">
+                    <div className="flex items-center gap-2 mb-6">
+                      <CarFront className="w-6 h-6 text-orange-600" />
+                      <span className="text-orange-600 font-bold tracking-widest uppercase text-xs font-mono">
+                        Carrosserie
+                      </span>
+                    </div>
+                    <h3 className="text-2xl sm:text-3xl font-heading font-black uppercase italic mb-4 text-zinc-950">
+                      Carrosserie générale & finitions
+                    </h3>
+                    <p className="text-zinc-500 mb-8 font-light leading-relaxed text-sm sm:text-base">
+                      Tôlerie, peinture, redressage, débosselage et finitions.
+                      Découvrez l'ensemble des prestations proposées par
+                      l'atelier.
+                    </p>
+                    <ul className="space-y-4 mb-10">
+                      {[
+                        "Peinture & vernis cabine",
+                        "Réparation tôle et pare-chocs",
+                        "Finitions & polissage",
+                      ].map((item, i) => (
+                        <li
+                          key={i}
+                          className="flex items-center text-zinc-900 font-bold text-sm uppercase tracking-tight"
+                        >
+                          <CheckCircle2 className="w-5 h-5 mr-3 text-orange-600 shrink-0" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-auto">
+                      <Link
+                        href="/services/carrosserie-generale"
+                        className="w-full sm:w-auto"
+                      >
+                        <Button
+                          variant="outline"
+                          className="w-full sm:w-auto border-zinc-200 hover:bg-zinc-50 text-zinc-900 rounded-xl px-8 h-12 uppercase font-bold text-xs tracking-widest transition-colors"
+                        >
+                          Voir les services
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* RIGHT COLUMN: FORM */}
-              <div className="min-[1200px]:sticky min-[1200px]:top-32">
-                <MicroTypeForm
-                  firstStep={{
-                    question: `Souhaitez-vous une prise en charge à ${city.name} ?`,
-                    yesLabel: "Oui, estimer mes travaux",
-                  }}
-                  secondStep={{
-                    question: "Quel est votre besoin ?",
-                    options: [
-                      { value: "sinistre", label: "Sinistre (Assurance)" },
-                      {
-                        value: "esthetique",
-                        label: "Remise en état esthétique",
-                      },
-                      { value: "loa", label: "Retour LOA / LLD" },
-                      { value: "peinture", label: "Travaux de peinture" },
-                      { value: "tolerie", label: "Réparation de tôlerie" },
-                      {
-                        value: "debosselage",
-                        label: "Débosselage sans peinture",
-                      },
-                      { value: "autre", label: "Autre prestation" },
-                    ],
-                    selectLabel: "Type d'intervention",
-                  }}
-                  contactInfo={{
-                    title: "Atelier Éguilles",
-                    lines: ["Zone Artisanale", "13510 Éguilles"],
-                    phone: "06 12 71 09 45",
-                    email: "contact@carrosserie-eguilles.fr",
-                  }}
-                />
-
-                <p className="mt-6 text-center font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
-                  Garantie constructeur préservée • Toutes assurances
-                </p>
-              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
         {/* SECTION 1 : HERO ÉDITORIAL & INTRO */}
         <section className="relative pt-24 pb-16 overflow-hidden">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -412,14 +513,16 @@ export default async function CityPage({ params }: CityPageProps) {
                         >
                           <Image
                             src={image.src}
-                            alt={image.alt ?? `Visuel étude de cas ${index + 1}`}
+                            alt={
+                              image.alt ?? `Visuel étude de cas ${index + 1}`
+                            }
                             fill
                             sizes="(min-width: 1024px) 25vw, 50vw"
                             className="object-cover"
                           />
-                      </div>
-                    ))}
-                  </div>
+                        </div>
+                      ))}
+                    </div>
                   ) : (
                     <div className="relative aspect-video rounded-3xl bg-zinc-100 overflow-hidden shadow-inner">
                       <div className="absolute inset-0 flex items-center justify-center text-zinc-400 font-mono text-[10px] uppercase">
@@ -447,7 +550,10 @@ export default async function CityPage({ params }: CityPageProps) {
                           <div className="flex items-center gap-3 text-orange-600">
                             <div className="flex gap-1">
                               {[...Array(5)].map((_, i) => (
-                                <Star key={i} className="h-4 w-4 fill-current" />
+                                <Star
+                                  key={i}
+                                  className="h-4 w-4 fill-current"
+                                />
                               ))}
                             </div>
                             {caseStudyReview.dateLabel && (
@@ -514,7 +620,6 @@ export default async function CityPage({ params }: CityPageProps) {
                       </div>
                     ))}
                   </div>
-
                 </div>
               </div>
             </div>
@@ -1032,3 +1137,211 @@ export default async function CityPage({ params }: CityPageProps) {
 //     </div>
 //   );
 // }
+
+//  <section className="relative pt-16 pb-24 sm:pt-20 sm:pb-28 min-[1200px]:pb-32 overflow-hidden bg-white">
+//         {/* Background Decor */}
+//         <div className="absolute top-0 right-0 w-1/3 h-full bg-zinc-50 -skew-x-12 translate-x-1/4 z-0" />
+
+//         <div className="max-w-7xl mx-auto px-6 relative z-10">
+//           <div className="grid min-[1200px]:grid-cols-2 gap-12 min-[1200px]:gap-16 items-start">
+//             {/* LEFT COLUMN: CONTENT */}
+//             <div className="space-y-8 sm:space-y-10 max-w-2xl mx-auto min-[1200px]:mx-0 min-[1200px]:max-w-none">
+//               {/* Google Notes & Badge */}
+//               <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+//                 <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-100 rounded-full">
+//                   <div className="flex -space-x-1">
+//                     {[1, 2, 3, 4, 5].map((s) => (
+//                       <Star
+//                         key={s}
+//                         size={14}
+//                         className="fill-orange-600 text-orange-600"
+//                       />
+//                     ))}
+//                   </div>
+//                   <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-600">
+//                     {heroRating?.note ?? "5/5"}{" "}
+//                     {heroRating?.count ?? "Google Maps"}
+//                   </span>
+//                 </div>
+//                 <div className="inline-flex items-center gap-2 text-emerald-600 font-mono text-[10px] font-bold uppercase tracking-widest">
+//                   <span className="relative flex h-2 w-2">
+//                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+//                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+//                   </span>
+//                   Atelier Ouvert
+//                 </div>
+//               </div>
+
+//               {/* Title & Chapo */}
+//               <div className="space-y-6">
+//                 <h1 className="font-heading text-5xl md:text-7xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
+//                   {heroTitleLead}
+//                   {heroTitleAccent ? (
+//                     <>
+//                       , <br />
+//                       <span className="text-orange-600 italic">
+//                         {heroTitleAccent}
+//                       </span>
+//                     </>
+//                   ) : null}
+//                 </h1>
+//                 <p className="text-lg text-zinc-500 leading-relaxed font-light max-w-xl">
+//                   {heroChapo}
+//                 </p>
+//               </div>
+
+//               {/* Quick Actions */}
+//               <div className="flex flex-wrap items-center gap-4 pt-6">
+//                 <Button
+//                   size="lg"
+//                   className="hover: cursor-pointer h-16 w-full sm:w-auto px-8 rounded-2xl bg-zinc-950 hover:bg-zinc-800 text-white gap-3 group"
+//                 >
+//                   <Phone size={20} className="text-orange-600" />
+//                   <div className="flex flex-col items-start leading-none">
+//                     <span className="font-mono text-[10px] uppercase opacity-60">
+//                       Appel d'urgence
+//                     </span>
+//                     <span className="font-heading text-lg font-black tracking-tight">
+//                       {siteConfig.phoneFr ?? siteConfig.phone}
+//                     </span>
+//                   </div>
+//                 </Button>
+//               </div>
+//             </div>
+
+//             {/* RIGHT COLUMN: FORM */}
+//             <div className="min-[1200px]:sticky min-[1200px]:top-32 w-full max-w-xl mx-auto min-[1200px]:mx-0 min-[1200px]:max-w-none">
+//               <div className="grid sm:grid-cols-2 gap-y-4 gap-x-6 mb-8">
+//                 {heroLabels.map((label, idx) => {
+//                   const Icon = heroLabelIcons[idx] ?? CheckCircle2;
+//                   return (
+//                     <div
+//                       key={`${label}-${idx}`}
+//                       className="flex items-center gap-3 group"
+//                     >
+//                       <div className="text-orange-600 group-hover:scale-110 transition-transform">
+//                         <Icon size={18} />
+//                       </div>
+//                       <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-zinc-900 border-b border-zinc-100 pb-1 w-full">
+//                         {label}
+//                       </span>
+//                     </div>
+//                   );
+//                 })}
+//               </div>
+//               <MicroTypeForm
+//                 firstStep={{
+//                   question: `Souhaitez-vous une prise en charge à ${city.name} ?`,
+//                   yesLabel: "Oui, estimer mes travaux",
+//                 }}
+//                 secondStep={{
+//                   question: "Quel est votre besoin ?",
+//                   options: [
+//                     { value: "sinistre", label: "Sinistre (Assurance)" },
+//                     {
+//                       value: "esthetique",
+//                       label: "Remise en état esthétique",
+//                     },
+//                     { value: "loa", label: "Retour LOA / LLD" },
+//                     { value: "peinture", label: "Travaux de peinture" },
+//                     { value: "tolerie", label: "Réparation de tôlerie" },
+//                     {
+//                       value: "debosselage",
+//                       label: "Débosselage sans peinture",
+//                     },
+//                     { value: "autre", label: "Autre prestation" },
+//                   ],
+//                   selectLabel: "Type d'intervention",
+//                 }}
+//                 contactInfo={{
+//                   title: "Atelier Éguilles",
+//                   lines: ["Zone Artisanale", "13510 Éguilles"],
+//                   phone: "06 12 71 09 45",
+//                   email: "contact@carrosserie-eguilles.fr",
+//                 }}
+//               />
+
+//               <p className="mt-6 text-center font-mono text-[10px] text-zinc-400 uppercase tracking-widest">
+//                 Garantie constructeur préservée • Toutes assurances
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </section>
+//       <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+//         <div className="rounded-2xl border border-border bg-card shadow-sm">
+//           <div className="p-8 md:p-10 flex flex-col h-full">
+//             <div className="flex items-center gap-2 mb-4">
+//               <ShieldCheck className="w-6 h-6 text-primary" />
+//               <span className="text-primary font-bold tracking-wide uppercase text-sm">
+//                 Assurance
+//               </span>
+//             </div>
+//             <h3 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
+//               Gestion du dossier sans effort
+//             </h3>
+//             <p className="text-muted-foreground mb-6">
+//               Nous gérons les échanges avec l'expert et l'assurance, avec zéro
+//               avance de frais et franchise offerte selon votre dossier.
+//             </p>
+//             <ul className="space-y-3 mb-8">
+//               {[
+//                 "0€ d'avance de frais",
+//                 "Franchise offerte",
+//                 "Véhicule de prêt",
+//               ].map((item, i) => (
+//                 <li
+//                   key={i}
+//                   className="flex items-center text-foreground font-medium"
+//                 >
+//                   <CheckCircle2 className="w-5 h-5 mr-3 text-primary" />
+//                   {item}
+//                 </li>
+//               ))}
+//             </ul>
+//             <div className="mt-auto">
+//               <Link href="/assurance">
+//                 <Button>Découvrir la gestion assurance</Button>
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="rounded-2xl border border-border bg-card shadow-sm">
+//           <div className="p-8 md:p-10 flex flex-col h-full">
+//             <div className="flex items-center gap-2 mb-4">
+//               <CarFront className="w-6 h-6 text-primary" />
+//               <span className="text-primary font-bold tracking-wide uppercase text-sm">
+//                 Carrosserie
+//               </span>
+//             </div>
+//             <h3 className="text-2xl md:text-3xl font-bold mb-4 text-foreground">
+//               Carrosserie générale & finitions
+//             </h3>
+//             <p className="text-muted-foreground mb-6">
+//               Tôlerie, peinture, redressage, débosselage et finitions.
+//               Découvrez l'ensemble des prestations proposées par l'atelier.
+//             </p>
+//             <ul className="space-y-3 mb-8">
+//               {[
+//                 "Peinture & vernis cabine",
+//                 "Réparation tôle et pare-chocs",
+//                 "Finitions & polissage",
+//               ].map((item, i) => (
+//                 <li
+//                   key={i}
+//                   className="flex items-center text-foreground font-medium"
+//                 >
+//                   <CheckCircle2 className="w-5 h-5 mr-3 text-primary" />
+//                   {item}
+//                 </li>
+//               ))}
+//             </ul>
+//             <div className="mt-auto">
+//               <Link href="/services/carrosserie-generale">
+//                 <Button variant="outline">Voir les services</Button>
+//               </Link>
+//             </div>
+//           </div>
+//         </div>
+//       </div>

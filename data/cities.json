@@ -116,10 +116,10 @@
         ],
         "review": {
           "author": "shooting flash studio",
-          "meta": "Local Guide ? 52 avis ? 37 photos",
+          "meta": "Local Guide 52 avis",
           "dateLabel": "il y a 4 mois",
-          "text": "Une personne de confiance, intervention rapide et soign?e ! Cela para?t incroyable en 2025, et pourtant LC carrosserie est ? recommander sans h?sitation",
-          "visitLabel": "Visit? en ao?t"
+          "text": "Une personne de confiance, intervention rapide et soignée ! Cela paraît incroyable en 2025, et pourtant LC carrosserie est à recommander sans hésitation",
+          "visitLabel": "Visité en août"
         }
       },
       "testimonialsTitle": "Ils ont fait réparer leur voiture depuis Marseille",
@@ -202,10 +202,7 @@
     "id": "aix-en-provence",
     "name": "Aix-en-Provence",
     "department": "Bouches-du-Rhône",
-    "postalCodes": [
-      "13080",
-      "13100"
-    ],
+    "postalCodes": ["13080", "13100"],
     "coordinates": {
       "lat": 43.5297,
       "lng": 5.4474
@@ -290,7 +287,7 @@
           },
           {
             "src": "/img/cas-etude/aix/repare-1.jpg",
-            "alt": "R?paration carrosserie termin?e ? Aix-en-Provence"
+            "alt": "Réparation carrosserie terminée ? Aix-en-Provence"
           }
         ]
       },
