@@ -13,7 +13,17 @@ import {
   Mail,
   MapPin,
   Send,
+  Paperclip,
+  Upload,
+  X,
 } from "lucide-react";
+
+type AttachmentPayload = {
+  filename: string;
+  content: string;
+  contentType?: string;
+  size?: number;
+};
 
 export type MicroTypeFormAnswer = {
   answeredYes: boolean;
@@ -22,6 +32,7 @@ export type MicroTypeFormAnswer = {
   email: string;
   phone?: string;
   message?: string;
+  attachments?: AttachmentPayload[];
 };
 
 type MicroTypeFormProps = {
@@ -45,6 +56,18 @@ type MicroTypeFormProps = {
 };
 
 const DEFAULT_CONTACT_TITLE = "Notre Atelier";
+const MAX_ATTACHMENTS = 4;
+const MAX_FILE_SIZE = 6 * 1024 * 1024;
+
+const formatFileSize = (size: number) => {
+  if (size < 1024) return `${size} o`;
+  const kb = size / 1024;
+  if (kb < 1024) return `${kb.toFixed(1)} Ko`;
+  return `${(kb / 1024).toFixed(1)} Mo`;
+};
+
+const isAcceptedFile = (file: File) =>
+  file.type.startsWith("image/") || file.type === "application/pdf";
 
 export function MicroTypeForm({
   className,
@@ -60,6 +83,14 @@ export function MicroTypeForm({
   const [email, setEmail] = React.useState("");
   const [phone, setPhone] = React.useState("");
   const [message, setMessage] = React.useState("");
+  const [attachments, setAttachments] = React.useState<File[]>([]);
+  const [attachmentsError, setAttachmentsError] = React.useState<string | null>(
+    null
+  );
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [isProcessingAttachments, setIsProcessingAttachments] =
+    React.useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   const [status, setStatus] = React.useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -86,6 +117,9 @@ export function MicroTypeForm({
         name: payload.name,
         email: payload.email,
         message: messageParts.join("\n"),
+        attachments: payload.attachments?.length
+          ? payload.attachments
+          : undefined,
       }),
     });
 
@@ -101,6 +135,38 @@ export function MicroTypeForm({
 
     setStatus("loading");
     setErrorMessage(null);
+    setAttachmentsError(null);
+
+    let attachmentsPayload: AttachmentPayload[] = [];
+    if (attachments.length) {
+      setIsProcessingAttachments(true);
+      try {
+        attachmentsPayload = await Promise.all(
+          attachments.map(async (file) => ({
+            filename: file.name,
+            content: await new Promise<string>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                if (typeof reader.result === "string") {
+                  const [, base64] = reader.result.split(",");
+                  resolve(base64 ?? "");
+                } else {
+                  reject(new Error("Format de fichier invalide"));
+                }
+              };
+              reader.onerror = () =>
+                reject(new Error("Lecture du fichier impossible"));
+              reader.readAsDataURL(file);
+            }),
+            contentType: file.type,
+            size: file.size,
+          }))
+        );
+      } finally {
+        setIsProcessingAttachments(false);
+      }
+    }
+
     const payload: MicroTypeFormAnswer = {
       answeredYes,
       choice,
@@ -108,12 +174,14 @@ export function MicroTypeForm({
       email,
       phone: phone || undefined,
       message: message || undefined,
+      attachments: attachmentsPayload.length ? attachmentsPayload : undefined,
     };
 
     try {
       const submit = onSubmit ?? submitToEmail;
       await submit(payload);
       setStatus("success");
+      setAttachments([]);
     } catch (error) {
       setStatus("error");
       setErrorMessage(
@@ -272,6 +340,140 @@ export function MicroTypeForm({
               />
             </div>
 
+            <div className="space-y-3">
+              <LabelLight>Pièces jointes (optionnel)</LabelLight>
+              <div
+                className={cn(
+                  "rounded-xl border border-dashed p-5 text-center transition-colors",
+                  isDragging
+                    ? "border-orange-600 bg-orange-50"
+                    : "border-zinc-200 bg-white"
+                )}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setIsDragging(true);
+                }}
+                onDragLeave={() => setIsDragging(false)}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  setIsDragging(false);
+                  if (event.dataTransfer.files.length) {
+                    setAttachments((prev) => {
+                      const next = [...prev];
+                      let error: string | null = null;
+                      for (const file of Array.from(event.dataTransfer.files)) {
+                        if (next.length >= MAX_ATTACHMENTS) {
+                          error = `Limite de ${MAX_ATTACHMENTS} fichiers atteinte.`;
+                          break;
+                        }
+                        if (!isAcceptedFile(file)) {
+                          error = `Format non supporte: ${file.name}`;
+                          continue;
+                        }
+                        if (file.size > MAX_FILE_SIZE) {
+                          error = `Fichier trop lourd (${formatFileSize(
+                            file.size
+                          )}).`;
+                          continue;
+                        }
+                        next.push(file);
+                      }
+                      setAttachmentsError(error);
+                      return next;
+                    });
+                  }
+                }}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*,application/pdf"
+                  multiple
+                  className="hidden"
+                  onChange={(event) => {
+                    if (!event.target.files?.length) return;
+                    setAttachments((prev) => {
+                      const next = [...prev];
+                      let error: string | null = null;
+                      for (const file of Array.from(event.target.files ?? [])) {
+                        if (next.length >= MAX_ATTACHMENTS) {
+                          error = `Limite de ${MAX_ATTACHMENTS} fichiers atteinte.`;
+                          break;
+                        }
+                        if (!isAcceptedFile(file)) {
+                          error = `Format non supporte: ${file.name}`;
+                          continue;
+                        }
+                        if (file.size > MAX_FILE_SIZE) {
+                          error = `Fichier trop lourd (${formatFileSize(
+                            file.size
+                          )}).`;
+                          continue;
+                        }
+                        next.push(file);
+                      }
+                      setAttachmentsError(error);
+                      return next;
+                    });
+                    event.target.value = "";
+                  }}
+                />
+                <div className="flex flex-col items-center gap-2">
+                  <Upload className="h-5 w-5 text-zinc-400" />
+                  <p className="text-xs text-zinc-500">
+                    Glissez-deposez vos fichiers ici
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="text-xs"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    Selectionner sur l'appareil
+                  </Button>
+                  <p className="text-[10px] text-zinc-400">
+                    JPG, PNG ou PDF • {MAX_ATTACHMENTS} fichiers max •{" "}
+                    {formatFileSize(MAX_FILE_SIZE)} chacun
+                  </p>
+                </div>
+              </div>
+
+              {attachmentsError && (
+                <p className="text-xs text-red-600">{attachmentsError}</p>
+              )}
+
+              {attachments.length > 0 && (
+                <ul className="space-y-2">
+                  {attachments.map((file, index) => (
+                    <li
+                      key={`${file.name}-${index}`}
+                      className="flex items-center justify-between rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs"
+                    >
+                      <span className="flex items-center gap-2 text-zinc-700">
+                        <Paperclip className="h-4 w-4 text-zinc-400" />
+                        {file.name}
+                        <span className="text-[10px] text-zinc-400">
+                          ({formatFileSize(file.size)})
+                        </span>
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setAttachments((prev) =>
+                            prev.filter((_, idx) => idx !== index)
+                          )
+                        }
+                        className="text-zinc-400 hover:text-zinc-600"
+                        aria-label={`Supprimer ${file.name}`}
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
               <Button
                 type="button"
@@ -284,7 +486,11 @@ export function MicroTypeForm({
               <Button
                 type="submit"
                 className="w-full sm:flex-1 h-14 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-mono text-xs uppercase tracking-widest shadow-lg shadow-orange-200 transition-all"
-                disabled={status === "loading" || status === "success"}
+                disabled={
+                  status === "loading" ||
+                  status === "success" ||
+                  isProcessingAttachments
+                }
               >
                 {status === "loading"
                   ? "Envoi..."

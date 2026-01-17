@@ -3,10 +3,18 @@ import { Resend } from "resend";
 import { z } from "zod";
 import { siteConfig } from "@/data/site.config";
 
+const attachmentSchema = z.object({
+  filename: z.string().min(1, "Nom de fichier requis"),
+  content: z.string().min(1, "Contenu requis"),
+  contentType: z.string().optional(),
+  size: z.number().int().positive().optional(),
+});
+
 const contactSchema = z.object({
   name: z.string().min(1, "Nom requis"),
   email: z.email("Email invalide"),
   message: z.string().min(1, "Message requis"),
+  attachments: z.array(attachmentSchema).max(4).optional(),
 });
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -195,12 +203,26 @@ export async function POST(request: Request) {
     );
   }
 
-  const { name, email, message } = parsed.data;
+  const { name, email, message, attachments } = parsed.data;
 
   try {
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
     const messageHtml = formatMessageHtml(message);
+    const attachmentItems =
+      attachments?.map((attachment) => escapeHtml(attachment.filename)) ?? [];
+    const attachmentsHtml = attachmentItems.length
+      ? `
+          <tr>
+            <td style="padding:6px 0;color:#52525b;vertical-align:top;">Pieces jointes</td>
+            <td style="padding:6px 0;color:#18181b;">
+              <ul style="margin:0;padding-left:18px;">
+                ${attachmentItems.map((item) => `<li>${item}</li>`).join("")}
+              </ul>
+            </td>
+          </tr>
+        `
+      : "";
 
     const adminHtml = buildEmailLayout({
       title: "Nouveau message recu",
@@ -221,6 +243,7 @@ export async function POST(request: Request) {
             <td style="padding:6px 0;color:#52525b;vertical-align:top;">Message</td>
             <td style="padding:6px 0;color:#18181b;">${messageHtml}</td>
           </tr>
+          ${attachmentsHtml}
         </table>
         <p style="margin:16px 0 0;color:#52525b;font-size:12px;">
           Vous pouvez repondre directement a cet email pour contacter la personne.
@@ -228,6 +251,14 @@ export async function POST(request: Request) {
       `,
       preheader: `Nouveau message de ${name}`,
     });
+
+    const attachmentsText = attachments?.length
+      ? [
+          "",
+          "Pieces jointes:",
+          ...attachments.map((attachment) => `- ${attachment.filename}`),
+        ]
+      : [];
 
     const adminText = [
       "Nouveau message via le formulaire LC Carrosserie.",
@@ -237,6 +268,7 @@ export async function POST(request: Request) {
       "",
       "Message:",
       message,
+      ...attachmentsText,
       "",
       "Vous pouvez repondre directement a cet email pour contacter la personne.",
     ].join("\n");
@@ -278,6 +310,12 @@ export async function POST(request: Request) {
       `Site: ${baseUrl}`,
     ].join("\n");
 
+    const resendAttachments =
+      attachments?.map((attachment) => ({
+        filename: attachment.filename,
+        content: attachment.content,
+      })) ?? [];
+
     await Promise.all([
       resend.emails.send({
         from: "LC Carrosserie <ne-pas-repondre@msg-lccarrosserie.fr>",
@@ -286,6 +324,7 @@ export async function POST(request: Request) {
         subject: `Nouveau message de ${name}`,
         html: adminHtml,
         text: adminText,
+        attachments: resendAttachments.length ? resendAttachments : undefined,
       }),
       resend.emails.send({
         from: "LC Carrosserie <ne-pas-repondre@msg-lccarrosserie.fr>",
