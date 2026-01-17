@@ -31,7 +31,7 @@ export default function AboutPage() {
               <span className="font-mono text-[10px] font-black uppercase tracking-[0.4em] text-orange-600 mb-6 block">
                 L'Excellence Visible
               </span>
-              <h1 className="font-heading text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.8] mb-8">
+              <h1 className="font-heading text-4xl md:text-7xl font-black uppercase tracking-tighter leading-[0.8] mb-8">
                 À propos de notre <br />
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-zinc-950 to-zinc-500">
                   carrosserie.

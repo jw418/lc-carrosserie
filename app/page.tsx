@@ -455,7 +455,7 @@ export default function LCCarrosserieHome() {
                   <span className="font-mono text-[10px] font-black uppercase tracking-[0.4em] text-orange-600 mb-6 block">
                     Nos Expertises
                   </span>
-                  <h2 className="font-heading text-5xl md:text-7xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
+                  <h2 className="font-heading text-4xl md:text-7xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
                     Services <br />
                     <span className="text-zinc-400">Haute Précision.</span>
                   </h2>
@@ -686,7 +686,7 @@ export default function LCCarrosserieHome() {
                     <MapPin size={16} />
                   </div>
                   <h3 className="font-heading text-2xl font-black uppercase tracking-tight text-zinc-950">
-                    Carrosserie pour Aix-en-Provence
+                    Découvrir l'offre Aix-en-Provence
                   </h3>
                 </div>
                 <p className="text-sm text-zinc-500 font-light leading-relaxed mb-8">
@@ -695,10 +695,10 @@ export default function LCCarrosserieHome() {
                   dossier assurance simplifiée. Véhicule de prêt possible.
                 </p>
                 <Link
-                  href="/aix-en-provence/carrosserie"
+                  href="/aix-en-provence"
                   className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-950 group-hover:text-orange-600 transition-colors"
                 >
-                  Découvrir l'offre Aix-en-Provence{" "}
+                  Carrosserie pour Aix-en-Provence{" "}
                   <ArrowRight
                     size={14}
                     className="transition-transform group-hover:translate-x-1"
@@ -713,7 +713,7 @@ export default function LCCarrosserieHome() {
                     <MapPin size={16} />
                   </div>
                   <h3 className="font-heading text-2xl font-black uppercase tracking-tight text-zinc-950">
-                    Carrosserie pour Marseille
+                    Découvrir l'offre Marseille
                   </h3>
                 </div>
                 <p className="text-sm text-zinc-500 font-light leading-relaxed mb-8">
@@ -722,10 +722,10 @@ export default function LCCarrosserieHome() {
                   restitution contrôlée, avec une organisation flexible.
                 </p>
                 <Link
-                  href="/marseille/carrosserie"
+                  href="/marseille"
                   className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-950 group-hover:text-orange-600 transition-colors"
                 >
-                  Découvrir l'offre Marseille{" "}
+                  Carrosserie pour Marseille{" "}
                   <ArrowRight
                     size={14}
                     className="transition-transform group-hover:translate-x-1"

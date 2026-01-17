@@ -2,9 +2,9 @@ import { Zap, ShieldCheck, Gauge } from "lucide-react";
 
 const ElectricVehicleSection = () => {
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="relative overflow-hidden bg-zinc-950 rounded-[2.5rem] p-8 md:p-16 shadow-2xl">
+    <section className="py-2 sm:py-4 md:py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-0 sm:px-4 md:px-6">
+        <div className="relative overflow-hidden bg-zinc-950 rounded-[2.5rem] p-4 md:p-16 shadow-2xl">
           {/* Décoration subtile en arrière-plan */}
           <div className="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
             <Zap
@@ -20,7 +20,7 @@ const ElectricVehicleSection = () => {
                   <Zap size={14} className="fill-current" /> Expertise Haute
                   Tension
                 </div>
-                <h2 className="text-4xl md:text-5xl font-heading font-black text-white uppercase italic tracking-tighter leading-none">
+                <h2 className="text-3xl md:text-5xl font-heading font-black text-white uppercase italic tracking-tighter leading-none">
                   Spécialiste <br />
                   <span className="text-orange-600">Tesla & Électrique.</span>
                 </h2>

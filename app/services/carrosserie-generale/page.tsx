@@ -350,7 +350,7 @@ export default function CarrosserieGeneralePage() {
         />
 
         {/* --- HERO SECTION --- */}
-        <section className="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-24 overflow-hidden bg-background">
+        <section className="relative min-h-[90vh] flex flex-col justify-center px-3 sm:px-6 pt-32 pb-24 overflow-hidden bg-background">
           {/* Background architectural : Lignes de précision et gradient */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full border-x border-border/40 max-w-7xl" />
@@ -358,7 +358,7 @@ export default function CarrosserieGeneralePage() {
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--primary)_0%,transparent_70%)] opacity-[0.03]" />
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
+          <div className="max-w-7xl mx-auto px-0 sm:px-4 md:px-6 relative z-10 w-full">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               {/* COLONNE GAUCHE : TEXTE EDITORIAL */}
               <div className="lg:col-span-8 space-y-8">
@@ -368,7 +368,7 @@ export default function CarrosserieGeneralePage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
                 >
-                  <h1 className="font-heading text-6xl md:text-8xl font-black tracking-tighter text-foreground uppercase leading-[0.85]">
+                  <h1 className="font-heading text-4xl md:text-7xl font-black tracking-tighter text-foreground uppercase leading-[0.85]">
                     Services de carrosserie :<br />
                     <span className="text-primary italic">
                       Réparation & Assurance.
@@ -803,15 +803,15 @@ export default function CarrosserieGeneralePage() {
           </div>
         </section>
 
-        <section className="py-24 bg-white font-sans border-t border-zinc-200">
-          <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <section className="ppy-24 bg-white font-sans border-t border-zinc-200">
+          <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 md:px-12">
             {/* HEADER SECTION */}
             <div className="flex flex-col md:flex-row justify-between items-end gap-12 mb-20">
               <div className="max-w-3xl">
                 <span className="font-mono text-[10px] font-black uppercase tracking-[0.4em] text-orange-600 mb-6 block">
                   Valeur Ajoutée
                 </span>
-                <h2 className="font-heading text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
+                <h2 className="font-heading text-2xl md:text-6xl lg:text-7xl font-black tracking-tighter text-zinc-950 uppercase leading-[0.9]">
                   Services complémentaires <br />
                   <span className="text-zinc-400">pour votre véhicule.</span>
                 </h2>

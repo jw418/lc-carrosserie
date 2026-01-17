@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.bagel-coffee.fr/sitemap.xml
+Sitemap: https://www.lc-carrosserie.com/sitemap.xml
