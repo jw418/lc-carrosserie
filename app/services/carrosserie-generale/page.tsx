@@ -661,8 +661,8 @@ export default function CarrosserieGeneralePage() {
 
                   <div className="grid gap-3 relative z-10">
                     {/* Lien Aix-en-Provence */}
-                    <a
-                      href="/aix-en-provence/carrosserie"
+                    <Link
+                      href="/aix-en-provence"
                       className="group flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-primary transition-all duration-300"
                     >
                       <div className="flex items-center gap-4">
@@ -678,11 +678,11 @@ export default function CarrosserieGeneralePage() {
                         size={18}
                         className="text-zinc-500 group-hover:text-white group-hover:translate-x-2 transition-all"
                       />
-                    </a>
+                    </Link>
 
                     {/* Lien Marseille */}
-                    <a
-                      href="/marseille/carrosserie"
+                    <Link
+                      href="/marseille"
                       className="group flex items-center justify-between p-6 bg-white/5 border border-white/10 rounded-2xl hover:bg-primary transition-all duration-300"
                     >
                       <div className="flex items-center gap-4">
@@ -698,7 +698,7 @@ export default function CarrosserieGeneralePage() {
                         size={18}
                         className="text-zinc-500 group-hover:text-white group-hover:translate-x-2 transition-all"
                       />
-                    </a>
+                    </Link>
                   </div>
 
                   <p className="text-xs text-zinc-400 font-light italic">
@@ -1132,7 +1132,7 @@ export default function CarrosserieGeneralePage() {
 
               {/* Lien vers réseaux ou galerie complète */}
               <Link
-                href="https://instagram.com"
+                href="https://www.instagram.com/lccarrosserie/"
                 target="_blank"
                 className="group flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-zinc-950 hover:text-orange-600 transition-colors"
               >
