@@ -199,7 +199,7 @@ export default async function CityPage({ params }: CityPageProps) {
 
                   {/* Title & Chapo */}
                   <div className="space-y-6">
-                    <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
+                    <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter text-zinc-950 leading-[0.9]">
                       {heroTitleLead}
                       {heroTitleAccent ? (
                         <>
@@ -509,7 +509,7 @@ export default async function CityPage({ params }: CityPageProps) {
                       {caseStudyImages.map((image, index) => (
                         <div
                           key={`${image.src}-${index}`}
-                          className="relative aspect-[4/3] rounded-2xl bg-zinc-100 overflow-hidden shadow-sm border border-zinc-100"
+                          className="relative aspect-4/3 rounded-2xl bg-zinc-100 overflow-hidden shadow-sm border border-zinc-100"
                         >
                           <Image
                             src={image.src}

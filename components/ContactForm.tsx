@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useId, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -12,6 +12,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -25,6 +26,9 @@ const formSchema = z.object({
   email: z.string().email("Email invalide"),
   phone: z.string().optional(),
   message: z.string().min(10, "Message trop court"),
+  consent: z.literal(true, {
+    errorMap: () => ({ message: "Consentement requis." }),
+  }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -58,7 +62,7 @@ export function ContactForm() {
   const [attachmentsError, setAttachmentsError] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessingAttachments, setIsProcessingAttachments] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const fileInputId = useId();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -67,8 +71,12 @@ export function ContactForm() {
       email: "",
       phone: "",
       message: "",
+      consent: false,
     },
   });
+  const watchedFields = form.watch(["name", "email", "phone", "message"]);
+  const showConsent =
+    watchedFields.some((value) => value?.trim()) || attachments.length > 0;
 
   const addFiles = (files: File[]) => {
     setAttachments((prev) => {
@@ -113,6 +121,7 @@ export function ContactForm() {
 
   const removeAttachment = (index: number) => {
     setAttachments((prev) => prev.filter((_, idx) => idx !== index));
+    setAttachmentsError(null);
   };
 
   const toBase64 = (file: File) =>
@@ -165,6 +174,7 @@ export function ContactForm() {
           email: values.email,
           message: messageWithPhone,
           attachments: attachmentsPayload.length ? attachmentsPayload : undefined,
+          consent: values.consent,
         }),
       });
 
@@ -266,30 +276,28 @@ export function ContactForm() {
             onDrop={handleDrop}
           >
             <input
-              ref={fileInputRef}
+              id={fileInputId}
               type="file"
               accept="image/*,application/pdf"
               multiple
-              className="hidden"
+              className="sr-only"
               onChange={handleFileChange}
             />
-            <div className="flex flex-col items-center gap-2">
-              <Upload className="h-6 w-6 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                Glissez-deposez vos fichiers ici
-              </p>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => fileInputRef.current?.click()}
-              >
+          <div className="flex flex-col items-center gap-2">
+            <Upload className="h-6 w-6 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">
+              Glissez-deposez vos fichiers ici
+            </p>
+            <Button variant="outline" asChild>
+              <label htmlFor={fileInputId} className="cursor-pointer">
                 Selectionner sur l'appareil
-              </Button>
-              <p className="text-xs text-muted-foreground">
-                JPG, PNG ou PDF • {MAX_ATTACHMENTS} fichiers max • {formatFileSize(MAX_FILE_SIZE)} chacun
-              </p>
-            </div>
+              </label>
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              JPG, PNG ou PDF • {MAX_ATTACHMENTS} fichiers max • {formatFileSize(MAX_FILE_SIZE)} chacun
+            </p>
           </div>
+        </div>
 
           {attachmentsError && (
             <p className="text-xs text-destructive">{attachmentsError}</p>
@@ -322,6 +330,36 @@ export function ContactForm() {
             </ul>
           )}
         </div>
+
+        {showConsent && (
+          <FormField
+            control={form.control}
+            name="consent"
+            render={({ field }) => (
+              <FormItem className="rounded-lg border border-border p-4">
+                <div className="flex items-start gap-3">
+                  <FormControl>
+                    <input
+                      type="checkbox"
+                      checked={field.value}
+                      onChange={(event) => field.onChange(event.target.checked)}
+                      className="mt-1 h-4 w-4 rounded border-border"
+                    />
+                  </FormControl>
+                  <div className="space-y-1">
+                    <FormLabel className="text-sm font-medium">
+                      J'accepte que mes informations soient utilisees pour etre recontacte.
+                    </FormLabel>
+                    <FormDescription className="text-xs">
+                      Vos donnees sont traitees uniquement pour repondre a votre demande.
+                    </FormDescription>
+                    <FormMessage />
+                  </div>
+                </div>
+              </FormItem>
+            )}
+          />
+        )}
 
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <Button

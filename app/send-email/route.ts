@@ -3,18 +3,80 @@ import { Resend } from "resend";
 import { z } from "zod";
 import { siteConfig } from "@/data/site.config";
 
-const attachmentSchema = z.object({
-  filename: z.string().min(1, "Nom de fichier requis"),
-  content: z.string().min(1, "Contenu requis"),
-  contentType: z.string().optional(),
-  size: z.number().int().positive().optional(),
-});
+const MAX_ATTACHMENTS = 4;
+const MAX_ATTACHMENT_SIZE = 6 * 1024 * 1024;
+const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "pdf"];
+
+const estimateBase64Size = (content: string) => {
+  const normalized = content.trim();
+  const padding = normalized.endsWith("==")
+    ? 2
+    : normalized.endsWith("=")
+    ? 1
+    : 0;
+  return Math.floor((normalized.length * 3) / 4) - padding;
+};
+
+const hasAllowedExtension = (filename: string) => {
+  const ext = filename.split(".").pop()?.toLowerCase();
+  return ext ? ALLOWED_EXTENSIONS.includes(ext) : false;
+};
+
+const isAllowedContentType = (contentType?: string) => {
+  if (!contentType) return false;
+  return contentType.startsWith("image/") || contentType === "application/pdf";
+};
+
+const base64Pattern = /^[A-Za-z0-9+/]+={0,2}$/;
+
+const attachmentSchema = z
+  .object({
+    filename: z.string().min(1, "Nom de fichier requis"),
+    content: z.string().min(1, "Contenu requis"),
+    contentType: z.string().optional(),
+    size: z.number().int().positive().optional(),
+  })
+  .superRefine((attachment, ctx) => {
+    const contentTypeAllowed = isAllowedContentType(attachment.contentType);
+    const extensionAllowed = hasAllowedExtension(attachment.filename);
+    if (!contentTypeAllowed && !extensionAllowed) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Type de fichier non supporte.",
+        path: ["contentType"],
+      });
+    }
+
+    if (!base64Pattern.test(attachment.content)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Contenu de fichier invalide.",
+        path: ["content"],
+      });
+    }
+
+    const computedSize = estimateBase64Size(attachment.content);
+    const declaredSize = attachment.size ?? computedSize;
+    if (
+      computedSize > MAX_ATTACHMENT_SIZE ||
+      declaredSize > MAX_ATTACHMENT_SIZE
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Fichier trop volumineux.",
+        path: ["size"],
+      });
+    }
+  });
 
 const contactSchema = z.object({
   name: z.string().min(1, "Nom requis"),
   email: z.email("Email invalide"),
   message: z.string().min(1, "Message requis"),
-  attachments: z.array(attachmentSchema).max(4).optional(),
+  consent: z.literal(true).refine((val) => val === true, {
+    message: "Consentement requis.",
+  }),
+  attachments: z.array(attachmentSchema).max(MAX_ATTACHMENTS).optional(),
 });
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -274,27 +336,67 @@ export async function POST(request: Request) {
     ].join("\n");
 
     const confirmationHtml = buildEmailLayout({
-      title: "Votre demande a bien ete envoyee",
-      intro:
-        "Merci pour votre message. Notre equipe revient vers vous rapidement.",
+      title: "Demande bien reçue",
+      intro: `Bonjour ${safeName}, merci de nous avoir contactés. Voici le récapitulatif de votre dossier.`,
       bodyHtml: `
-        <p style="margin:0 0 12px;">Bonjour ${safeName},</p>
-        <p style="margin:0 0 12px;color:#52525b;">
-          Nous avons bien recu votre demande. Un conseiller vous recontacte sous 24h.
-        </p>
-        <div style="background:#f4f4f5;border:1px solid #e4e4e7;border-radius:12px;padding:12px;">
-          <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:${accentColor};font-weight:700;margin-bottom:8px;">
-            Recapitulatif
-          </div>
-          <div style="font-size:13px;color:#18181b;line-height:1.6;">${messageHtml}</div>
+        <div style="margin-bottom: 24px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="background:#09090b; border-radius:12px; padding:20px; color:#ffffff;">
+                <div style="font-family:Arial, sans-serif; font-size:10px; text-transform:uppercase; letter-spacing:0.2em; color:${accentColor}; font-weight:700; margin-bottom:12px;">
+                  Statut de votre demande
+                </div>
+                <div style="font-family:Arial, sans-serif; font-size:16px; font-weight:800; text-transform:uppercase; font-style:italic;">
+                  En cours de traitement <span style="color:${accentColor};">.</span>
+                </div>
+                <p style="margin:12px 0 0; font-size:13px; color:#a1a1aa; line-height:1.5;">
+                  Notre équipe a bien reçu vos informations. Un conseiller de l'atelier analyse votre dossier et reviendra vers vous par téléphone ou par email sous 24h ouvrées.
+                </p>
+              </td>
+            </tr>
+          </table>
         </div>
-        <p style="margin:12px 0 0;color:#52525b;font-size:12px;">
-          Si vous souhaitez ajouter des informations, repondez a ce mail ou appelez-nous directement.
-        </p>
+
+        <div style="border:1px solid #e4e4e7; border-radius:12px; padding:20px;">
+          <div style="font-family:Arial, sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:0.15em; color:#71717a; font-weight:700; margin-bottom:16px; border-bottom:1px solid #f4f4f5; padding-bottom:8px;">
+            Récapitulatif de votre message
+          </div>
+          
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px; line-height:1.6;">
+            <tr>
+              <td style="padding:4px 0; color:#71717a; width:100px;">Référence</td>
+              <td style="padding:4px 0; color:#18181b; font-weight:700;">#${Math.random()
+                .toString(36)
+                .substr(2, 6)
+                .toUpperCase()}</td>
+            </tr>
+            <tr>
+              <td style="padding:4px 0; color:#71717a; vertical-align:top;">Votre message</td>
+              <td style="padding:4px 0; color:#18181b;">${messageHtml}</td>
+            </tr>
+            ${
+              attachmentItems.length > 0
+                ? `
+            <tr>
+              <td style="padding:4px 0; color:#71717a; vertical-align:top;">Fichiers joints</td>
+              <td style="padding:4px 0; color:#18181b; font-size:12px;">
+                ${attachmentItems.map((item) => `• ${item}`).join("<br/>")}
+              </td>
+            </tr>`
+                : ""
+            }
+          </table>
+        </div>
+
+        <div style="margin-top:24px; padding:0 10px;">
+           <p style="margin:0; font-size:12px; color:#71717a; font-style:italic;">
+            Une précision à apporter ? Vous pouvez répondre directement à cet email pour compléter votre demande.
+           </p>
+        </div>
       `,
       ctaLabel: "Appeler l'atelier",
       ctaUrl: `tel:${phoneLink}`,
-      preheader: "Confirmation de votre demande LC Carrosserie",
+      preheader: "Confirmation de votre demande - LC Carrosserie",
     });
 
     const confirmationText = [

@@ -33,6 +33,7 @@ export type MicroTypeFormAnswer = {
   phone?: string;
   message?: string;
   attachments?: AttachmentPayload[];
+  consent: boolean;
 };
 
 type MicroTypeFormProps = {
@@ -91,12 +92,55 @@ export function MicroTypeForm({
   const [isProcessingAttachments, setIsProcessingAttachments] =
     React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
+  const [consentChecked, setConsentChecked] = React.useState(false);
+  const [consentError, setConsentError] = React.useState<string | null>(null);
   const [status, setStatus] = React.useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+  const fileInputId = React.useId();
 
   const canGoNext = step === 1 && choice.trim().length > 0;
+  const shouldShowConsent =
+    Boolean(name || email || phone || message) || attachments.length > 0;
+
+  const addFiles = React.useCallback((files: File[]) => {
+    setAttachments((prev) => {
+      const next = [...prev];
+      let error: string | null = null;
+      for (const file of files) {
+        if (next.length >= MAX_ATTACHMENTS) {
+          error = `Limite de ${MAX_ATTACHMENTS} fichiers atteinte.`;
+          break;
+        }
+        if (!isAcceptedFile(file)) {
+          error = `Format non supporte: ${file.name}`;
+          continue;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+          error = `Fichier trop lourd (${formatFileSize(file.size)}).`;
+          continue;
+        }
+        next.push(file);
+      }
+      setAttachmentsError(error);
+      return next;
+    });
+  }, []);
+
+  const resetForm = React.useCallback(() => {
+    setStep(0);
+    setAnsweredYes(false);
+    setChoice("");
+    setName("");
+    setEmail("");
+    setPhone("");
+    setMessage("");
+    setAttachments([]);
+    setAttachmentsError(null);
+    setConsentChecked(false);
+    setConsentError(null);
+  }, []);
 
   const submitToEmail = async (payload: MicroTypeFormAnswer) => {
     const selectedOption = secondStep.options.find(
@@ -120,6 +164,7 @@ export function MicroTypeForm({
         attachments: payload.attachments?.length
           ? payload.attachments
           : undefined,
+        consent: payload.consent,
       }),
     });
 
@@ -133,9 +178,15 @@ export function MicroTypeForm({
     event.preventDefault();
     if (status === "loading") return;
 
+    if (shouldShowConsent && !consentChecked) {
+      setConsentError("Veuillez accepter la politique de confidentialite.");
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage(null);
     setAttachmentsError(null);
+    setConsentError(null);
 
     let attachmentsPayload: AttachmentPayload[] = [];
     if (attachments.length) {
@@ -175,6 +226,7 @@ export function MicroTypeForm({
       phone: phone || undefined,
       message: message || undefined,
       attachments: attachmentsPayload.length ? attachmentsPayload : undefined,
+      consent: consentChecked,
     };
 
     try {
@@ -182,6 +234,10 @@ export function MicroTypeForm({
       await submit(payload);
       setStatus("success");
       setAttachments([]);
+      setTimeout(() => {
+        setStatus("idle");
+        resetForm();
+      }, 1200);
     } catch (error) {
       setStatus("error");
       setErrorMessage(
@@ -358,63 +414,20 @@ export function MicroTypeForm({
                   event.preventDefault();
                   setIsDragging(false);
                   if (event.dataTransfer.files.length) {
-                    setAttachments((prev) => {
-                      const next = [...prev];
-                      let error: string | null = null;
-                      for (const file of Array.from(event.dataTransfer.files)) {
-                        if (next.length >= MAX_ATTACHMENTS) {
-                          error = `Limite de ${MAX_ATTACHMENTS} fichiers atteinte.`;
-                          break;
-                        }
-                        if (!isAcceptedFile(file)) {
-                          error = `Format non supporte: ${file.name}`;
-                          continue;
-                        }
-                        if (file.size > MAX_FILE_SIZE) {
-                          error = `Fichier trop lourd (${formatFileSize(
-                            file.size
-                          )}).`;
-                          continue;
-                        }
-                        next.push(file);
-                      }
-                      setAttachmentsError(error);
-                      return next;
-                    });
+                    addFiles(Array.from(event.dataTransfer.files));
                   }
                 }}
               >
                 <input
                   ref={fileInputRef}
+                  id={fileInputId}
                   type="file"
                   accept="image/*,application/pdf"
                   multiple
-                  className="hidden"
+                  className="sr-only"
                   onChange={(event) => {
                     if (!event.target.files?.length) return;
-                    setAttachments((prev) => {
-                      const next = [...prev];
-                      let error: string | null = null;
-                      for (const file of Array.from(event.target.files ?? [])) {
-                        if (next.length >= MAX_ATTACHMENTS) {
-                          error = `Limite de ${MAX_ATTACHMENTS} fichiers atteinte.`;
-                          break;
-                        }
-                        if (!isAcceptedFile(file)) {
-                          error = `Format non supporte: ${file.name}`;
-                          continue;
-                        }
-                        if (file.size > MAX_FILE_SIZE) {
-                          error = `Fichier trop lourd (${formatFileSize(
-                            file.size
-                          )}).`;
-                          continue;
-                        }
-                        next.push(file);
-                      }
-                      setAttachmentsError(error);
-                      return next;
-                    });
+                    addFiles(Array.from(event.target.files ?? []));
                     event.target.value = "";
                   }}
                 />
@@ -423,13 +436,10 @@ export function MicroTypeForm({
                   <p className="text-xs text-zinc-500">
                     Glissez-deposez vos fichiers ici
                   </p>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="text-xs"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    Selectionner sur l'appareil
+                  <Button variant="outline" className="text-xs" asChild>
+                    <label htmlFor={fileInputId} className="cursor-pointer">
+                      Selectionner sur l'appareil
+                    </label>
                   </Button>
                   <p className="text-[10px] text-zinc-400">
                     JPG, PNG ou PDF • {MAX_ATTACHMENTS} fichiers max •{" "}
@@ -458,11 +468,12 @@ export function MicroTypeForm({
                       </span>
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           setAttachments((prev) =>
                             prev.filter((_, idx) => idx !== index)
-                          )
-                        }
+                          );
+                          setAttachmentsError(null);
+                        }}
                         className="text-zinc-400 hover:text-zinc-600"
                         aria-label={`Supprimer ${file.name}`}
                       >
@@ -473,6 +484,35 @@ export function MicroTypeForm({
                 </ul>
               )}
             </div>
+
+            {shouldShowConsent && (
+              <div className="space-y-2">
+                <div className="flex items-start gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3">
+                  <input
+                    id={`${fileInputId}-consent`}
+                    type="checkbox"
+                    checked={consentChecked}
+                    onChange={(event) => {
+                      setConsentChecked(event.target.checked);
+                      if (event.target.checked) {
+                        setConsentError(null);
+                      }
+                    }}
+                    className="mt-1 h-4 w-4 rounded border-zinc-300"
+                  />
+                  <label
+                    htmlFor={`${fileInputId}-consent`}
+                    className="text-xs text-zinc-600"
+                  >
+                    J'accepte que mes informations soient utilisees pour etre
+                    recontacte.
+                  </label>
+                </div>
+                {consentError && (
+                  <p className="text-xs text-red-600">{consentError}</p>
+                )}
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
               <Button
