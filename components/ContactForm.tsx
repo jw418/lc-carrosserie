@@ -26,8 +26,8 @@ const formSchema = z.object({
   email: z.string().email("Email invalide"),
   phone: z.string().optional(),
   message: z.string().min(10, "Message trop court"),
-  consent: z.literal(true, {
-    errorMap: () => ({ message: "Consentement requis." }),
+  consent: z.boolean().refine((val) => val === true, {
+    message: "Consentement requis.",
   }),
 });
 
@@ -54,9 +54,9 @@ const isAcceptedFile = (file: File) =>
   file.type.startsWith("image/") || file.type === "application/pdf";
 
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [attachments, setAttachments] = useState<File[]>([]);
   const [attachmentsError, setAttachmentsError] = useState<string | null>(null);
@@ -173,7 +173,9 @@ export function ContactForm() {
           name: values.name,
           email: values.email,
           message: messageWithPhone,
-          attachments: attachmentsPayload.length ? attachmentsPayload : undefined,
+          attachments: attachmentsPayload.length
+            ? attachmentsPayload
+            : undefined,
           consent: values.consent,
         }),
       });
@@ -188,7 +190,9 @@ export function ContactForm() {
       setStatus("success");
     } catch (error) {
       setStatus("error");
-      setErrorMessage(error instanceof Error ? error.message : "Erreur inconnue");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Erreur inconnue"
+      );
     }
   };
 
@@ -222,7 +226,11 @@ export function ContactForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="vous@example.com" {...field} />
+                  <Input
+                    type="email"
+                    placeholder="vous@example.com"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -262,11 +270,15 @@ export function ContactForm() {
         />
 
         <div className="space-y-3">
-          <label className="text-sm font-medium">Pieces jointes (optionnel)</label>
+          <label className="text-sm font-medium">
+            Pieces jointes (optionnel)
+          </label>
           <div
             className={cn(
               "rounded-xl border border-dashed p-6 text-center transition-colors",
-              isDragging ? "border-primary bg-primary/5" : "border-border bg-muted/30"
+              isDragging
+                ? "border-primary bg-primary/5"
+                : "border-border bg-muted/30"
             )}
             onDragOver={(event) => {
               event.preventDefault();
@@ -283,21 +295,22 @@ export function ContactForm() {
               className="sr-only"
               onChange={handleFileChange}
             />
-          <div className="flex flex-col items-center gap-2">
-            <Upload className="h-6 w-6 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">
-              Glissez-deposez vos fichiers ici
-            </p>
-            <Button variant="outline" asChild>
-              <label htmlFor={fileInputId} className="cursor-pointer">
-                Selectionner sur l'appareil
-              </label>
-            </Button>
-            <p className="text-xs text-muted-foreground">
-              JPG, PNG ou PDF • {MAX_ATTACHMENTS} fichiers max • {formatFileSize(MAX_FILE_SIZE)} chacun
-            </p>
+            <div className="flex flex-col items-center gap-2">
+              <Upload className="h-6 w-6 text-muted-foreground" />
+              <p className="text-sm text-muted-foreground">
+                Glissez-deposez vos fichiers ici
+              </p>
+              <Button variant="outline" asChild>
+                <label htmlFor={fileInputId} className="cursor-pointer">
+                  Selectionner sur l'appareil
+                </label>
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                JPG, PNG ou PDF • {MAX_ATTACHMENTS} fichiers max •{" "}
+                {formatFileSize(MAX_FILE_SIZE)} chacun
+              </p>
+            </div>
           </div>
-        </div>
 
           {attachmentsError && (
             <p className="text-xs text-destructive">{attachmentsError}</p>
@@ -348,10 +361,12 @@ export function ContactForm() {
                   </FormControl>
                   <div className="space-y-1">
                     <FormLabel className="text-sm font-medium">
-                      J'accepte que mes informations soient utilisees pour etre recontacte.
+                      J'accepte que mes informations soient utilisees pour etre
+                      recontacte.
                     </FormLabel>
                     <FormDescription className="text-xs">
-                      Vos donnees sont traitees uniquement pour repondre a votre demande.
+                      Vos donnees sont traitees uniquement pour repondre a votre
+                      demande.
                     </FormDescription>
                     <FormMessage />
                   </div>
