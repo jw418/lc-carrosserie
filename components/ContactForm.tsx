@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   name: z.string().min(1, "Nom requis"),
-  email: z.string().email("Email invalide"),
+  email: z.email("Email invalide"),
   phone: z.string().optional(),
   message: z.string().min(10, "Message trop court"),
   consent: z.boolean().refine((val) => val === true, {

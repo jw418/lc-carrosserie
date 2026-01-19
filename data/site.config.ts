@@ -6,7 +6,7 @@ export const siteConfig = {
   seoDescription:
     "Atelier de carrosserie et peinture automobile a Eguilles. Reparations toutes assurances, zero avance de frais, vehicule de pret et franchise offerte.",
   baseline: "Atelier de carrosserie et peinture automobile",
-  websiteUrl: "https://www.lc-carrosserie.com",
+  websiteUrl: "https://www.lc-carrosserie.fr",
   logoUrl: "/img/logo.png",
   ogImage: "/img/meta.png",
   mapLink: "https://share.google/zH02U5Zcs90rSb23W",
@@ -34,7 +34,7 @@ export const siteConfig = {
   phone: "+33 6 12 71 09 45",
   phoneFr: "06 12 71 09 45",
   email: "lccarrosserie13@gmail.com",
-  privacyEmail: "dpo@lc-carrosserie.fr",
+  privacyEmail: "lccarrosserie13@gmail.com",
   hostName: "Vercel",
   hostWebsite: "https://www.vercel.com",
   hostAddress: "San Francisco, CA, USA",

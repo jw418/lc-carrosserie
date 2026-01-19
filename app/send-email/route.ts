@@ -420,7 +420,7 @@ export async function POST(request: Request) {
 
     await Promise.all([
       resend.emails.send({
-        from: "LC Carrosserie <ne-pas-repondre@msg-lccarrosserie.fr>",
+        from: "LC Carrosserie <ne-pas-repondre@lc-carrosserie.fr>",
         to: [toEmail],
         replyTo: email,
         subject: `Nouveau message de ${name}`,
@@ -429,7 +429,7 @@ export async function POST(request: Request) {
         attachments: resendAttachments.length ? resendAttachments : undefined,
       }),
       resend.emails.send({
-        from: "LC Carrosserie <ne-pas-repondre@msg-lccarrosserie.fr>",
+        from: "LC Carrosserie <ne-pas-repondre@lc-carrosserie.fr>",
         to: [email],
         replyTo: toEmail,
         subject: `Confirmation de votre demande - ${siteConfig.name}`,
