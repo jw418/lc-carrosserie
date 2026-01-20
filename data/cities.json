@@ -39,7 +39,7 @@
         "Dossier assurance géré de A à Z"
       ],
       "googleRating": {
-        "note": "4.9/5",
+        "note": "5/5",
         "count": "Avis Google"
       }
     },
@@ -99,19 +99,19 @@
         "images": [
           {
             "src": "/img/cas-etude/marseille/dommage-1.jpg",
-            "alt": "Dommage carrosserie avant r?paration"
+            "alt": "Dommage carrosserie avant réparation"
           },
           {
             "src": "/img/cas-etude/marseille/dommage-2.jpg",
-            "alt": "Dommage carrosserie avant r?paration (2)"
+            "alt": "Dommage carrosserie avant réparation (2)"
           },
           {
             "src": "/img/cas-etude/marseille/repare-1.jpg",
-            "alt": "R?paration carrosserie termin?e"
+            "alt": "Réparation carrosserie terminée"
           },
           {
             "src": "/img/cas-etude/marseille/repare-2.jpg",
-            "alt": "R?paration carrosserie termin?e (2)"
+            "alt": "Réparation carrosserie terminée (2)"
           }
         ],
         "review": {
@@ -288,6 +288,10 @@
           {
             "src": "/img/cas-etude/aix/repare-1.jpg",
             "alt": "Réparation carrosserie terminée ? Aix-en-Provence"
+          },
+          {
+            "src": "/img/cas-etude/aix/repare-2.jpg",
+            "alt": "Réparation carrosserie terminée ? Aix-en-Provence (2)"
           }
         ]
       },

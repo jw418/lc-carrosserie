@@ -97,6 +97,10 @@ export default async function CityPage({ params }: CityPageProps) {
     : undefined;
 
   if (!city) return notFound();
+  // À ajouter juste après : if (!city) return notFound();
+
+  // On récupère l'autre ville (puisqu'il n'y en a que deux)
+  const otherCity = (cities as City[]).find((c) => c.id !== city.id);
 
   const content = city.content;
   const phoneLink = `tel:${formatPhoneForTel(siteConfig.phone)}`;
@@ -621,6 +625,44 @@ export default async function CityPage({ params }: CityPageProps) {
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
+          </section>
+        )}
+        {/* SECTION VILLE ALTERNATIVE */}
+        {otherCity && (
+          <section className="py-20 bg-zinc-50">
+            <div className="max-w-7xl mx-auto px-6">
+              <div className="bg-white border border-zinc-200 rounded-[2.5rem] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
+                <div className="space-y-4 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 text-orange-600 font-mono text-[10px] font-bold uppercase tracking-widest">
+                    <MapPin size={14} />
+                    Également disponible
+                  </div>
+                  <h3 className="font-heading text-2xl md:text-3xl font-black uppercase tracking-tight">
+                    Vous n'êtes pas à {city.name} ?
+                  </h3>
+                  <p className="text-zinc-500 font-light max-w-md">
+                    Nous intervenons aussi sur le secteur de{" "}
+                    <strong>{otherCity.name}</strong> avec les mêmes services de
+                    conciergerie et véhicule de prêt.
+                  </p>
+                </div>
+
+                <Link href={`/${otherCity.id}`}>
+                  <Button
+                    variant="outline"
+                    className="h-16 px-10 rounded-2xl border-2 border-zinc-950 hover:bg-zinc-950 hover:text-white transition-all group"
+                  >
+                    <span className="font-heading font-bold uppercase tracking-tight">
+                      Voir Carrosserie {otherCity.name}
+                    </span>
+                    <ArrowRight
+                      size={18}
+                      className="ml-3 group-hover:translate-x-1 transition-transform"
+                    />
+                  </Button>
+                </Link>
               </div>
             </div>
           </section>
